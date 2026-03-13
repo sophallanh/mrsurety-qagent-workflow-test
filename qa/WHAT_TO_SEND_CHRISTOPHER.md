@@ -9,6 +9,10 @@
 
 Everything in the GitHub repo is built and ready. Here is exactly what you send Christopher and what you still need to do yourself on the live app.
 
+> 📋 **Testing Organization Doc (from Christopher):**  
+> https://docs.google.com/document/d/1SDDd29PN9Z9vc6wg1eIAewDJnNhHa_aWGzfs_mqL8dU/edit?usp=sharing  
+> See `qa/PENDING_SYNC_WITH_DOC.md` for a checklist of things to verify/discuss from this doc.
+
 ---
 
 ## 📤 Send Christopher RIGHT NOW
