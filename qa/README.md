@@ -52,6 +52,7 @@ mrsurety-qagent-workflow-test/
         ├── contractor-bidding.spec.ts
         ├── admin-dashboard.spec.ts
         ├── email-docusign-triggers.spec.ts
+        ├── technician-workflow.spec.ts
         └── agent-upload-invite.spec.ts  # ← Agent Upload Invite System
 ```
 

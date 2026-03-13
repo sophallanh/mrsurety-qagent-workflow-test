@@ -2,7 +2,8 @@
 
 **Last Updated:** 2026-03-13
 
-> ⚠️ Use the admin login provided by Christopher: **admin@mrsurety.com / MrSurety2026!**
+> ⚠️ Use the admin login provided by Christopher: **admin@mrsurety.com**  
+> Set the `ADMIN_PASSWORD` environment variable before running tests. Do not commit the password to source code.  
 > All other users should be created by the QA team.
 
 ---
