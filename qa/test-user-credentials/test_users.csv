@@ -8,3 +8,4 @@ contractor,contractor.test1@mrsurety-qa.com,QAtest@123,Bob,Miller,(555) 300-0001
 contractor,contractor.test2@mrsurety-qa.com,QAtest@123,Linda,Chen,(555) 300-0002,Chen Builders Inc,Secondary contractor; test competing bids
 technician,tech.test1@mrsurety-qa.com,QAtest@123,Dave,Torres,(555) 400-0001,Torres Services,Assigned technician; verify work order receipt
 admin,admin.qa@mrsurety-qa.com,QAadmin@123,QA,Admin,(555) 500-0001,MrSurety,Internal admin account for approvals and dashboard review
+insurance_agent,ins.agent.test@mrsurety-qa.com,N/A (no account),Rachel,Kim,(555) 600-0001,Kim Insurance Brokers,External insurance agent; receives secure upload link from contractor.test1; no platform login

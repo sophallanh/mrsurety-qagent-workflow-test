@@ -41,6 +41,12 @@
 | DocuSign Document Verification | ⏳ Pending | |
 | Resale Certificate Flow | ⏳ Pending | |
 | Software Bid / Device Source Scenarios | ⏳ Pending | |
+| **Agent Upload Invite – Contractor Sends Invite** | ⏳ Pending | |
+| **Agent Upload Invite – Insurance Agent Uploads Docs** | ⏳ Pending | |
+| **Agent Upload Invite – Contractor Views & Revokes** | ⏳ Pending | |
+| **Agent Upload Invite – Security Controls** | ⏳ Pending | |
+| **Agent Upload Invite – Doc Type Restrictions** | ⏳ Pending | |
+| **Agent Upload Invite – Edge Cases** | ⏳ Pending | |
 
 **Status Legend:** ✅ Pass | ❌ Fail | ⚠️ Partial | ⏳ Pending | 🔄 In Progress
 
@@ -78,6 +84,10 @@ _Link to `/qa/screenshots/<workflow>/` for full captures._
 | DocuSign completed | Notification to all parties | ⏳ | |
 | Admin approves work | Email notification | ⏳ | |
 | Payment processed | Receipt email | ⏳ | |
+| **Contractor sends upload invite** | **Secure upload link email to insurance agent** | ⏳ | |
+| **Insurance agent uploads documents** | **Confirmation / notification to contractor** | ⏳ | |
+| **Contractor revokes invite** | **Revocation notification email to insurance agent** | ⏳ | |
+| **Upload link expires (7 days)** | **Expiry notification to contractor (if applicable)** | ⏳ | |
 
 ---
 
@@ -94,6 +104,9 @@ _Link to `/qa/screenshots/<workflow>/` for full captures._
 - [ ] Execute homeowner agent-email link flow (Method 2)
 - [ ] Test contractor bidding workflow end-to-end
 - [ ] Verify all email triggers and DocuSign documents
+- [ ] Test Agent Upload Invite System: contractor sends invite, agent uploads, contractor verifies
+- [ ] Validate security controls: revoked link, expired link, no browse access, URL manipulation
+- [ ] Validate upload restrictions: only COI/Endorsement allowed via agent link
 - [ ] Document all findings and upload to Google Drive
 
 ---

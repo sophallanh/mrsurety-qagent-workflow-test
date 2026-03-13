@@ -52,6 +52,20 @@
 
 ---
 
+## Insurance Agent (External – No Platform Account)
+
+> This persona is the contractor's **external insurance agent** who receives a secure one-time upload link via email.
+> They do **not** have a platform account. Access is via the link only.
+
+| Email | Name | Company | Notes |
+|-------|------|---------|-------|
+| ins.agent.test@mrsurety-qa.com | Rachel Kim | Kim Insurance Brokers | Used for Agent Upload Invite System tests; receives secure link from contractor.test1 |
+
+**Environment variable:** `INSURANCE_AGENT_EMAIL=ins.agent.test@mrsurety-qa.com`  
+For end-to-end testing with a real inbox, use a tool like Mailosaur or Mailtrap and set `AGENT_UPLOAD_LINK` to the link extracted from the received email.
+
+---
+
 ## Account Registration Notes
 
 - All accounts should be registered on the **staging** environment only.
@@ -59,3 +73,4 @@
 - Use the **homeowner agent-email method** (homeowner.test1 → enters agent.test1 email) for email-based linking.
 - Contractor accounts require approval before bidding; confirm admin receives and approves contractor registration.
 - After each test cycle, document which accounts were used and any password resets applied.
+- The **Insurance Agent** has no platform account. They access the system only via the secure upload link emailed to them by the contractor. Set `INSURANCE_AGENT_EMAIL` env var if using a real test inbox.

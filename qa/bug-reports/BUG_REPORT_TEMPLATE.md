@@ -34,6 +34,10 @@
 - [ ] Work Order / DocuSign Flow
 - [ ] Admin Dashboard / Approval
 - [ ] Technician Work Order Receipt
+- [ ] Agent Upload Invite System – Contractor Invite Flow
+- [ ] Agent Upload Invite System – Insurance Agent Upload
+- [ ] Agent Upload Invite System – Security / Access Control
+- [ ] Agent Upload Invite System – Document Type Restrictions
 - [ ] Email Trigger
 - [ ] DocuSign Document
 - [ ] Resale Certificate Flow
@@ -43,7 +47,8 @@
 
 ## User Role(s) Affected
 
-- [ ] Agent
+- [ ] Agent (MrSurety Referral Agent)
+- [ ] Insurance Agent (External – no platform account; uses secure upload link)
 - [ ] Homeowner
 - [ ] Contractor
 - [ ] Technician

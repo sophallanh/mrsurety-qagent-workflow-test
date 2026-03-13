@@ -1,7 +1,7 @@
 # MrSurety QA – Automated Test Suite & QA Package
 
 **Repository:** `sophallanh/mrsurety-qagent-workflow-test`  
-**Purpose:** Automated QA for Agent Referral Workflows and all platform workflows for MrSurety  
+**Purpose:** Automated QA for Agent Referral Workflows, Agent Upload Invite System, and all platform workflows for MrSurety  
 **Prepared by:** Sophal Lanh  
 **Last Updated:** 2026-03-13  
 
@@ -22,6 +22,7 @@ mrsurety-qagent-workflow-test/
 │   │   ├── admin-dashboard/
 │   │   ├── technician-workflow/
 │   │   ├── email-docusign-triggers/
+│   │   ├── agent-upload-invite/     # ← Agent Upload Invite System
 │   │   └── edge-cases/
 │   ├── videos/                      # Screen recording captures by workflow
 │   │   ├── agent-referral-workflow/
@@ -29,7 +30,8 @@ mrsurety-qagent-workflow-test/
 │   │   ├── contractor-bidding/
 │   │   ├── admin-dashboard/
 │   │   ├── technician-workflow/
-│   │   └── email-docusign-triggers/
+│   │   ├── email-docusign-triggers/
+│   │   └── agent-upload-invite/     # ← Agent Upload Invite System
 │   └── spec-docs/                   # Platform spec and guide documents (PDFs)
 │       ├── service-form/
 │       ├── email-templates/
@@ -42,12 +44,15 @@ mrsurety-qagent-workflow-test/
     └── playwright/
         ├── fixtures/
         │   ├── test-users.ts
-        │   └── sample-estimate-placeholder.md
+        │   ├── sample-estimate-placeholder.md
+        │   ├── sample-coi-placeholder.md
+        │   └── sample-endorsement-placeholder.md
         ├── agent-referral-workflow.spec.ts
         ├── homeowner-service-request.spec.ts
         ├── contractor-bidding.spec.ts
         ├── admin-dashboard.spec.ts
-        └── email-docusign-triggers.spec.ts
+        ├── email-docusign-triggers.spec.ts
+        └── agent-upload-invite.spec.ts  # ← Agent Upload Invite System
 ```
 
 ---
@@ -68,6 +73,11 @@ npx playwright install chromium
 export MRSURETY_BASE_URL=https://staging.mrsurety.com
 export AGENT_EMAIL=agent.test1@mrsurety-qa.com
 export AGENT_PASSWORD=QAtest@123
+# Agent Upload Invite System – set these when running invite tests:
+export INSURANCE_AGENT_EMAIL=ins.agent.test@mrsurety-qa.com
+export AGENT_UPLOAD_LINK=https://staging.mrsurety.com/agent-upload/<token>
+export REVOKED_UPLOAD_LINK=https://staging.mrsurety.com/agent-upload/<revoked-token>
+export EXPIRED_UPLOAD_LINK=https://staging.mrsurety.com/agent-upload/<expired-token>
 # ... (see qa/test-user-credentials/TEST_USER_CREDENTIALS.md for all accounts)
 ```
 
@@ -107,6 +117,7 @@ MrSurety QA – [Your Name]/
 │   ├── Admin Dashboard/
 │   ├── Technician Workflow/
 │   ├── Email & DocuSign Triggers/
+│   ├── Agent Upload Invite System/
 │   └── Edge Cases/
 ├── Videos/
 └── Spec Docs/

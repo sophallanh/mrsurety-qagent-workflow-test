@@ -46,3 +46,14 @@ export const homeownerNoAgent = {
   name: 'Chris Brown',
   address: '789 Pine Rd, Irvine CA 92604',
 } as const;
+
+/**
+ * Insurance Agent – the contractor's external insurance agent.
+ * This person has NO platform account; they receive a secure upload link via email
+ * and upload COI / endorsement documents on behalf of the contractor.
+ */
+export const insuranceAgent = {
+  email: process.env.INSURANCE_AGENT_EMAIL || 'ins.agent.test@mrsurety-qa.com',
+  name: 'Rachel Kim',
+  company: 'Kim Insurance Brokers',
+} as const;

@@ -20,4 +20,5 @@ See [qa/README.md](qa/README.md) for the full QA package, folder structure, and 
 - Admin Dashboard – Approvals & Job Tracking
 - Technician Work Order Receipt & Sign-off
 - Email & DocuSign Trigger Verification
+- **Agent Upload Invite System** – Contractor sends secure upload link to insurance agent; agent uploads COI/endorsements; security controls and document type restrictions validated
 - Edge Cases & Special Scenarios
