@@ -9,9 +9,21 @@
 
 ## Short Answer
 
-**Yes – all items from your email have been implemented in this QA repository.**  
-The infrastructure, test scripts, documentation, and workflow guides are fully ready.  
-The next step is to run the tests against the live staging environment once access is confirmed.
+**Yes – all items from your email have been implemented in this QA repository.**
+
+**Live App is confirmed:** https://frontend-tan-five-46.vercel.app  
+All tests are now configured to point to this URL by default.
+
+**All account passwords confirmed as `MrSurety2026!`** (from Christopher's workflow document).
+
+The automated test scripts, workflow guides, credentials file, and all documentation have been updated to match the **actual** app workflow as described in Christopher's "MrSurety — Full Workflow" document, including:
+- Combined sign-up + service request form (referral link opens a sign-up page, no separate registration)
+- 10% deposit via credit card
+- Calendar opens immediately after deposit payment
+- "My Requests" dashboard section
+- Actual form fields: Name, Email, Phone, Password, Property Address, Service Type
+
+The next step is to run the tests against the live app from a machine with internet access to vercel.app.
 
 ---
 
@@ -35,18 +47,19 @@ Reference links from your email are documented in `LONG_WORKFLOW_GUIDE.md`.
 ### ✅ 2. User Types & Test Accounts
 
 All three user types you specified (Agent, Contractor, Homeowner) plus Admin and Technician are documented.
+All accounts use password: **`MrSurety2026!`** (confirmed from Christopher's workflow document).
 
 | Role | Email | Password |
 |------|-------|----------|
-| **Agent 1** | agent.test1@mrsurety-qa.com | QAtest@123 |
-| **Agent 2** | agent.test2@mrsurety-qa.com | QAtest@123 |
-| **Homeowner 1** | homeowner.test1@mrsurety-qa.com | QAtest@123 |
-| **Homeowner 2** | homeowner.test2@mrsurety-qa.com | QAtest@123 |
-| **Homeowner 3** | homeowner.test3@mrsurety-qa.com | QAtest@123 |
-| **Contractor 1** | contractor.test1@mrsurety-qa.com | QAtest@123 |
-| **Contractor 2** | contractor.test2@mrsurety-qa.com | QAtest@123 |
-| **Technician** | tech.test1@mrsurety-qa.com | QAtest@123 |
-| **Admin** | admin@mrsurety.com | *(your provided password)* |
+| **Admin** | admin@mrsurety.com | MrSurety2026! |
+| **Agent 1** | agent.test1@mrsurety-qa.com | MrSurety2026! |
+| **Agent 2** | agent.test2@mrsurety-qa.com | MrSurety2026! |
+| **Homeowner 1** | homeowner.test1@mrsurety-qa.com | MrSurety2026! |
+| **Homeowner 2** | homeowner.test2@mrsurety-qa.com | MrSurety2026! |
+| **Homeowner 3** | homeowner.test3@mrsurety-qa.com | MrSurety2026! |
+| **Contractor 1** | contractor.test1@mrsurety-qa.com | MrSurety2026! |
+| **Contractor 2** | contractor.test2@mrsurety-qa.com | MrSurety2026! |
+| **Technician** | tech.test1@mrsurety-qa.com | MrSurety2026! |
 
 > ⚠️ These accounts need to be **created on the staging platform** once access is available.
 > Full credential details: `qa/test-user-credentials/TEST_USER_CREDENTIALS.md`

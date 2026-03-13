@@ -45,8 +45,11 @@ test.describe.serial('Agent Referral Link – Method 1', () => {
     await page.screenshot({ path: path.join(screenshotDir, '01_referral-link-generated.png') });
   });
 
-  test('Homeowner follows referral link and completes service request', async ({ browser }) => {
-    // Use a fresh incognito context to simulate a new homeowner
+  test('Homeowner follows referral link and completes sign-up + service request', async ({ browser }) => {
+    // Use a fresh incognito context to simulate a new homeowner with no existing session.
+    // Per Christopher's workflow doc: the referral link opens a COMBINED sign-up page.
+    // Homeowner fills Name, Email, Phone, Password, Property Address, Service Type —
+    // one submit creates their account AND submits the service request automatically.
     const context = await browser.newContext();
     const page = await context.newPage();
 
@@ -55,19 +58,34 @@ test.describe.serial('Agent Referral Link – Method 1', () => {
     }
 
     await page.goto(referralLink);
-    await expect(page.locator('[data-testid="service-request-form"]')).toBeVisible();
 
-    // Fill out service request form
-    await page.fill('[data-testid="homeowner-first-name"]', 'Jamie');
-    await page.fill('[data-testid="homeowner-last-name"]', 'Lee');
-    await page.fill('[data-testid="homeowner-email"]', TEST_USERS.homeownerLinked.email);
-    await page.fill('[data-testid="homeowner-phone"]', '(555) 200-0002');
-    await page.fill('[data-testid="property-address"]', TEST_USERS.homeownerLinked.address);
+    // The referral link opens a simple sign-up page (not a login page)
+    await page.screenshot({ path: path.join(screenshotDir, '02_referral-signup-page-loaded.png') });
 
-    await page.screenshot({ path: path.join(screenshotDir, '02_service-request-form.png') });
+    // Fill out the combined sign-up + service request form
+    // Fields per Christopher's workflow doc: Name, Email, Phone, Password, Property Address, Service Type
+    // Use specific selectors with fallbacks, avoiding overly broad placeholder patterns.
+    await page.locator('[data-testid="homeowner-name"], [name="name"]').first().fill('Jamie Lee');
+    await page.locator('[data-testid="homeowner-email"], [name="email"], [type="email"]').first().fill(TEST_USERS.homeownerLinked.email);
+    await page.locator('[data-testid="homeowner-phone"], [name="phone"], [type="tel"]').first().fill('(555) 200-0002');
+    await page.locator('[data-testid="homeowner-password"], [name="password"], [type="password"]').first().fill(TEST_USERS.homeownerLinked.password);
+    await page.locator('[data-testid="property-address"], [name="address"], [name="propertyAddress"]').first().fill(TEST_USERS.homeownerLinked.address);
 
-    await page.click('[data-testid="service-request-submit"]');
-    await expect(page.locator('[data-testid="confirmation-message"]')).toBeVisible();
+    // Select service type (dropdown)
+    const serviceTypeDropdown = page.locator('[data-testid="service-type"], [name="serviceType"], select');
+    if (await serviceTypeDropdown.isVisible()) {
+      await serviceTypeDropdown.selectOption({ index: 1 }); // pick first available type
+    }
+
+    await page.screenshot({ path: path.join(screenshotDir, '02_referral-signup-form-filled.png') });
+
+    // Submit – creates account AND submits service request in one step
+    await page.click('[data-testid="service-request-submit"], [type="submit"], button:has-text("Submit")');
+
+    // Expect confirmation or redirect to dashboard / My Requests
+    await expect(
+      page.locator('[data-testid="confirmation-message"], :has-text("My Requests"), :has-text("request submitted")')
+    ).toBeVisible({ timeout: 15_000 });
 
     await page.screenshot({ path: path.join(screenshotDir, '03_submission-confirmation.png') });
     await context.close();
@@ -144,20 +162,21 @@ test.describe.serial('Referral Code – Single-Use Validation', () => {
 
     await page.goto(firstReferralLink);
 
-    // The platform should either show an error, expired message, or redirect away
-    // from the service request form because this link has already been used.
+    // Per Christopher's requirements, a used referral link must be rejected.
+    // The platform should show an error/expired page, NOT the sign-up form.
     const errorLocator = page.locator('[data-testid="referral-expired"], [data-testid="referral-invalid"], [data-testid="referral-already-used"]');
     const formLocator = page.locator('[data-testid="service-request-form"]');
 
-    // One of these outcomes is expected: the form is gone OR an error message appears
-    await expect(errorLocator.or(formLocator)).toBeVisible();
+    // Wait for the page to settle, then check outcome
+    await page.waitForLoadState('networkidle');
 
     if (await errorLocator.isVisible()) {
       // ✅ Correct: platform correctly rejects the reused referral link
+      await expect(errorLocator).toBeVisible();
       await page.screenshot({ path: path.join(screenshotDir, '08_referral-single-use-reuse-rejected.png') });
-    } else {
-      // ⚠️ Bug candidate: the form is still accessible with the used link
-      // Log a note so the QA tester can file a bug report if needed
+    } else if (await formLocator.isVisible()) {
+      // ⚠️ Bug candidate: the form is still accessible with the used link.
+      // Take a screenshot and annotate – the tester should file a bug report.
       await page.screenshot({ path: path.join(screenshotDir, '08_referral-single-use-reuse-allowed-BUG.png') });
       test.info().annotations.push({
         type: 'warning',

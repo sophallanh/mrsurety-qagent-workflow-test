@@ -88,14 +88,15 @@ test.describe('Homeowner Service Request – Method 2 (Agent Email Entry)', () =
     await page.screenshot({ path: path.join(screenshotDir, '04_admin-agent-approved.png') });
   });
 
-  test('Homeowner dashboard shows submitted service request', async ({ page }) => {
+  test('Homeowner dashboard shows submitted service request under My Requests', async ({ page }) => {
     await loginAs(page, TEST_USERS.homeowner.email, TEST_USERS.homeowner.password);
 
-    await page.click('[data-testid="nav-dashboard"]');
+    // Per Christopher's workflow doc: homeowner sees request under 'My Requests'
+    await page.click('[data-testid="nav-my-requests"], a:has-text("My Requests")');
     const request = page.locator('[data-testid="service-request-item"]').first();
     await expect(request).toBeVisible();
 
-    await page.screenshot({ path: path.join(screenshotDir, '05_homeowner-dashboard-request.png') });
+    await page.screenshot({ path: path.join(screenshotDir, '05_homeowner-my-requests.png') });
   });
 });
 

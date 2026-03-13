@@ -1,79 +1,56 @@
-# Service Form – MrSurety QA Reference
+# Service Request / Sign-Up Form – MrSurety QA Reference
 
-**Source:** Service Form – https://docs.google.com/document/d/1jXC_fU0wY3HKzIhmDQpfIiz6h3o0wBzsFMFScWoatis/edit  
+**Live App:** https://frontend-tan-five-46.vercel.app  
+**Source:** Christopher's "MrSurety — Full Workflow" document  
 **Last Updated:** 2026-03-13
 
-> ⚠️ This guide describes the expected fields and behavior of the Service Request Form.
-> The live app may differ. Document any discrepancies and discuss with Christopher.
+> ⚠️ When a homeowner uses a referral link, the form creates their account AND submits
+> the service request in a single step. There is no separate registration flow.
 
 ---
 
-## Service Request Form Fields
+## How the Referral Sign-Up Form Works
 
-### Section 1: Homeowner Information
-| Field | Required | Notes |
-|-------|----------|-------|
-| First Name | ✅ | |
-| Last Name | ✅ | |
-| Email Address | ✅ | Used for account linking and notifications |
-| Phone Number | ✅ | |
-
-### Section 2: Property Information
-| Field | Required | Notes |
-|-------|----------|-------|
-| Property Address (Street) | ✅ | |
-| City | ✅ | |
-| State | ✅ | Default: California |
-| Zip Code | ✅ | |
-| Permit Type | ✅ | See list below |
-
-**Permit Types:**
-- Roofing
-- Electrical
-- Plumbing
-- HVAC
-- General Construction
-- Foundation / Structural
-- Solar Installation
-- Pool / Spa
-- Landscaping / Hardscape
-- Other (with description)
-
-### Section 3: Service Description
-| Field | Required | Notes |
-|-------|----------|-------|
-| Description of Work Needed | ✅ | Minimum 20 characters recommended |
-| Estimated Start Date | Optional | |
-| Urgency Level | Optional | Standard / Urgent / Emergency |
-
-### Section 4: Insurance / Agent Information
-| Field | Required | Notes |
-|-------|----------|-------|
-| Agent Email Address | Optional | Entering this links the homeowner to the agent (Method 2) |
-
-> ℹ️ If the homeowner arrived via a referral link (Method 1), the agent is already linked.
-> The agent email field may be pre-filled or hidden in that case.
+1. Homeowner clicks the agent's referral link.
+2. A **simple sign-up page** opens (no prior account needed).
+3. Homeowner fills in all required fields.
+4. Homeowner clicks **Submit**.
+5. Result: Account is created **and** service request is submitted automatically.
+6. Homeowner is then directed to log in and see their request under **'My Requests'**.
 
 ---
 
-## Form Validation Rules
+## Form Fields (from Christopher's Workflow Document)
 
-- All required fields must be filled before submission.
-- Email address must be valid format.
-- Phone number must be valid US format.
-- Zip code must be 5 digits.
-- If agent email is entered, it should be validated as a real agent in the system (check with Christopher on behavior if email is not found).
+| Field | Required | Type | Notes |
+|-------|----------|------|-------|
+| **Name** | ✅ | Text | Full name of the homeowner |
+| **Email** | ✅ | Email | Used for account login and all notifications |
+| **Phone** | ✅ | Phone | US phone number format |
+| **Password** | ✅ | Password | Creates the homeowner's platform account |
+| **Property Address** | ✅ | Text/Address | The address where work is needed |
+| **Service Type** | ✅ | Dropdown/Select | Type of permit/service (e.g., Roofing, Electrical, Plumbing, HVAC, etc.) |
 
 ---
 
-## Multiple Address Testing
+## Method 2 – Homeowner Enters Agent Email Manually
 
-Homeowners may have multiple addresses in their profile. When testing:
+When NOT using a referral link, the homeowner can enter the agent's email address in the service request form. This creates a pending agent link that admin must approve.
 
-1. Create a homeowner account and add multiple addresses.
-2. Submit separate service requests for each address.
-3. Verify each request appears correctly in the homeowner's dashboard.
-4. Verify each request is independent and does not share referral codes.
+| Field | Required | Notes |
+|-------|----------|-------|
+| Agent Email | Optional | Entering this links the homeowner to the agent (Method 2) |
+
+---
+
+## After Form Submission
+
+| Step | What Happens |
+|------|-------------|
+| Account created | Homeowner can now log in with their email + password |
+| Service request submitted | Appears in admin dashboard and contractor available jobs |
+| Confirmation email | Sent to homeowner |
+| Referral linked | Agent's dashboard shows the new linked homeowner |
 
 ---
 
@@ -81,10 +58,34 @@ Homeowners may have multiple addresses in their profile. When testing:
 
 | Step | Filename |
 |------|----------|
-| Empty form loaded | `serviceform_01_empty-form.png` |
-| Section 1 filled | `serviceform_02_homeowner-info-filled.png` |
-| Section 2 filled (address + permit) | `serviceform_03_property-info-filled.png` |
-| Section 3 filled (description) | `serviceform_04_description-filled.png` |
-| Section 4 filled (agent email) | `serviceform_05_agent-email-filled.png` |
-| Validation error state | `serviceform_06_validation-errors.png` |
-| Submission confirmation | `serviceform_07_submission-confirmed.png` |
+| Referral link opened – sign-up page loaded | `serviceform_01_signup-page-loaded.png` |
+| Form filled – all fields visible | `serviceform_02_form-filled.png` |
+| Service type dropdown open | `serviceform_03_service-type-dropdown.png` |
+| Form submitted – confirmation/redirect | `serviceform_04_submission-confirmed.png` |
+| Homeowner dashboard – My Requests | `serviceform_05_my-requests-dashboard.png` |
+| Estimate received email | `serviceform_06_estimate-email.png` |
+| Estimate review screen | `serviceform_07_estimate-review.png` |
+| Pay Deposit screen (10% of total) | `serviceform_08_pay-deposit.png` |
+| Calendar – schedule installation | `serviceform_09_schedule-calendar.png` |
+
+---
+
+## Validation Rules
+
+- All fields above are required before submit.
+- Email must be valid format and not already registered.
+- Password must meet platform complexity requirements (verify in app).
+- Phone must be valid US format.
+- Property address must be complete (street, city, state, zip).
+- Service type must be selected from the available options.
+
+---
+
+## Multiple Address Testing
+
+Homeowners may have multiple property addresses. After the first request:
+1. Log in to the homeowner dashboard.
+2. Start a new service request from **'My Requests'**.
+3. Enter a different property address and service type.
+4. Verify each request appears independently in the dashboard.
+5. Verify the agent–homeowner link applies to each request separately.

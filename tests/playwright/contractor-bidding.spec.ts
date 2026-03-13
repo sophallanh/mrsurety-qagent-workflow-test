@@ -96,32 +96,54 @@ test.describe('Contractor Bidding Workflow', () => {
     await page.screenshot({ path: path.join(screenshotDir, '06_bid-selected.png') });
   });
 
-  test('Homeowner completes deposit and picks service date', async ({ page }) => {
+  test('Homeowner reviews and approves estimate, pays 10% deposit, and schedules installation', async ({ page }) => {
     await loginAs(page, TEST_USERS.homeowner.email, TEST_USERS.homeowner.password);
 
-    await page.click('[data-testid="nav-my-requests"]');
+    // Per Christopher's workflow doc:
+    //   Step 6: Review and approve the estimate (see price breakdown)
+    //   Step 7: Pay the deposit – 10% of the total via credit card (click 'Pay Deposit')
+    //   Step 8: Schedule your installation – calendar opens right after payment
+
+    await page.click('[data-testid="nav-my-requests"], a:has-text("My Requests")');
     const request = page.locator('[data-testid="service-request-item"]').first();
     await request.click();
 
-    // Deposit flow
-    await page.click('[data-testid="pay-deposit-btn"]');
+    // Step 6 – Review and approve the estimate
+    await expect(page.locator('[data-testid="estimate-review"], [data-testid="price-breakdown"]')).toBeVisible();
+    await page.screenshot({ path: path.join(screenshotDir, '06_estimate-review-price-breakdown.png') });
+
+    // Approve the estimate if there is an approve button
+    const approveBtn = page.locator('[data-testid="approve-estimate-btn"], button:has-text("Approve")');
+    if (await approveBtn.isVisible()) {
+      await approveBtn.click();
+      await page.screenshot({ path: path.join(screenshotDir, '06b_estimate-approved.png') });
+    }
+
+    // Step 7 – Pay the deposit (10% of total via credit card)
+    await page.click('[data-testid="pay-deposit-btn"], button:has-text("Pay Deposit")');
     await expect(page.locator('[data-testid="deposit-form"]')).toBeVisible();
 
-    await page.screenshot({ path: path.join(screenshotDir, '07_deposit-form.png') });
+    // Verify the deposit amount element explicitly contains "10%"
+    await expect(page.locator('[data-testid="deposit-amount"]:has-text("10%"), [data-testid="deposit-summary"]:has-text("10%")')).toBeVisible();
+    await page.screenshot({ path: path.join(screenshotDir, '07_deposit-form-10-percent.png') });
 
     await page.fill('[data-testid="card-number"]', '4111111111111111');
     await page.fill('[data-testid="card-expiry"]', '12/27');
     await page.fill('[data-testid="card-cvc"]', '123');
-    await page.click('[data-testid="deposit-submit"]');
+    await page.click('[data-testid="deposit-submit"], button:has-text("Pay")');
 
     await expect(page.locator('[data-testid="deposit-confirmed"]')).toBeVisible();
+    await page.screenshot({ path: path.join(screenshotDir, '07b_deposit-confirmed.png') });
 
-    // Calendar date selection
-    await expect(page.locator('[data-testid="date-picker"]')).toBeVisible();
+    // Step 8 – Calendar opens right after payment – pick a date
+    // Per Christopher: "The calendar opens right after payment"
+    await expect(page.locator('[data-testid="date-picker"]')).toBeVisible({ timeout: 10_000 });
+    await page.screenshot({ path: path.join(screenshotDir, '08_calendar-opened-after-payment.png') });
+
     await page.click('[data-testid="date-picker-next-available"]');
-    await page.click('[data-testid="confirm-date-btn"]');
+    await page.click('[data-testid="confirm-date-btn"], button:has-text("Confirm")');
 
     await expect(page.locator('[data-testid="date-confirmed"]')).toBeVisible();
-    await page.screenshot({ path: path.join(screenshotDir, '08_date-confirmed.png') });
+    await page.screenshot({ path: path.join(screenshotDir, '08b_installation-date-confirmed.png') });
   });
 });

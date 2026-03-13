@@ -1,86 +1,98 @@
-# MrSurety – Short Version Workflow Guide
+# MrSurety – Full Workflow Guide (Short Version)
 
-**Reference:** Short Version Workflow  
-**Source:** https://docs.google.com/document/d/1CUxJ-ArzwghjGvoZydzT1u9NgQCgjH_1ltBg9P8pJAI/edit?tab=t.0  
+**Live App:** https://frontend-tan-five-46.vercel.app  
+**Source:** Christopher's "MrSurety — Full Workflow / How a job flows from start to finish"  
 **Last Updated:** 2026-03-13  
 
-> ⚠️ This guide summarizes the expected workflow. The live app may differ slightly.
-> If you find discrepancies, document them and discuss with Christopher.
+> ⚠️ This guide reflects the actual app workflow as documented by Christopher.
+> If any step in the app differs from what is written here, document the discrepancy
+> and discuss with Christopher before logging it as a bug.
 
 ---
 
-## User Types
+## User Types & Login Credentials
 
-| Role | Description |
-|------|-------------|
-| **Agent** | Insurance/real estate agent; can generate referral codes and be linked to homeowners |
-| **Homeowner** | Property owner submitting a request for service (permit/surety bond work) |
-| **Contractor** | Licensed contractor who bids on jobs posted by homeowners |
-| **Admin** | MrSurety platform administrator who manages approvals, users, and jobs |
-
----
-
-## Method 1 – Agent Creates a Referral Code
-
-1. Agent logs in to the MrSurety platform.
-2. Agent navigates to the **Referral** section of their dashboard.
-3. Agent generates a **referral code** (unique per request form).
-4. Agent copies and shares the referral code or link with a homeowner.
-5. Homeowner opens the referral link and completes the **Service Request Form**.
-6. The service request is automatically linked to the agent.
-7. The agent's dashboard reflects the linked homeowner under **Referrals**.
-8. Admin is notified and can view the agent–homeowner link.
-
-> ⚠️ **Important:** Each referral code is valid **only for the specific request form** it was created for. It does **not** carry over to future request forms. A new code must be generated for each new request.
+| Role | Email | Password |
+|------|-------|----------|
+| Admin | admin@mrsurety.com | MrSurety2026! |
+| Agent | agent.test1@mrsurety-qa.com | MrSurety2026! |
+| Homeowner | homeowner.test1@mrsurety-qa.com | MrSurety2026! |
+| Contractor | contractor.test1@mrsurety-qa.com | MrSurety2026! |
+| Technician | tech.test1@mrsurety-qa.com | MrSurety2026! |
 
 ---
 
-## Method 2 – Homeowner Adds Agent Email at Sign-Up
+## Phase 1 – Agent Shares Referral Link
 
-1. Homeowner logs in or creates a new account.
-2. Homeowner starts a **new Request for Service**.
-3. In the insurance section of the form, homeowner enters the **agent's email address**.
-4. Homeowner completes and submits the form.
-5. Admin sees a **pending agent** alert in the dashboard.
-6. Admin approves the agent link.
-7. Agent receives a **welcome/notification email** confirming the connection.
+1. Agent logs in at https://frontend-tan-five-46.vercel.app
+2. Agent goes to their **dashboard** and clicks the **Copy** button to copy their referral link.
+3. Agent shares the link with a homeowner — via **text, email, or by showing the QR code**.
+4. That's it — **the link does the rest.**
+
+> ⚠️ Each referral code is valid only for the specific request form it was created for.
+> It does **not** carry over to future request forms. A new link must be generated each time.
 
 ---
 
-## Service Request Flow (Both Methods)
+## Phase 2 – Homeowner Signs Up & Requests Service
 
-1. Homeowner submits service request with property address and permit type.
-2. Platform notifies admin and eligible contractors.
-3. Contractors submit bids with pricing and estimate documents.
-4. Homeowner reviews bids, selects a contractor, and pays a deposit.
-5. Homeowner selects a service date from the calendar.
-6. Work order is created and sent to the selected contractor.
-7. **DocuSign** documents are triggered (work order contract, resale certificate, etc.).
-8. Technician/contractor performs the work and signs off.
-9. Final payment and project close-out.
+1. **Click the referral link** — Opens a simple sign-up page.
+2. **Fill out the form** — Name, email, phone, password, property address, service type.
+3. **Submit** — Account is created and service request is submitted automatically.
+4. **Log in to your dashboard** — You'll see your request under **'My Requests'**.
+5. **Wait for your estimate** — You'll get an email when it's ready.
+6. **Review and approve the estimate** — Click into your request to see the price breakdown.
+7. **Pay the deposit** — Click **'Pay Deposit'** — **10% of the total** via credit card.
+8. **Schedule your installation** — The calendar opens right after payment — pick a date.
+
+> After scheduling, the contractor takes over. You'll get emails at every step.
+
+---
+
+## Phase 3 – Contractor Workflow
+
+*(After homeowner approves estimate and pays deposit)*
+
+1. Contractor receives notification that the job is confirmed.
+2. Contractor reviews job details and schedules work.
+3. **DocuSign** documents are sent (Work Order Contract, etc.).
+4. Contractor signs DocuSign documents.
+5. Contractor performs the work on the scheduled date.
+6. Contractor marks the job complete.
+
+---
+
+## Phase 4 – Admin Oversight
+
+Admin uses **admin@mrsurety.com / MrSurety2026!** to:
+- View all service requests
+- Approve contractor registrations
+- Approve agent–homeowner links (Method 2)
+- Track job status and payments
+- View all signed DocuSign documents
 
 ---
 
 ## Email & DocuSign Triggers (Summary)
 
-| Step | Email Sent To | DocuSign Triggered? |
-|------|--------------|---------------------|
+| Step | Email Sent To | DocuSign? |
+|------|--------------|-----------|
 | Homeowner submits service request | Homeowner (confirmation) | No |
-| Agent linked via referral | Agent (notification) | No |
-| Pending agent via homeowner email | Admin (alert) | No |
-| Agent approved | Agent (welcome email) | No |
-| Contractor bid submitted | Homeowner + Admin | No |
-| Homeowner selects estimate | Contractor | No |
-| Deposit processed | Homeowner + Admin | No |
-| Work order created | Contractor + Technician | Yes – Work Order Contract |
-| Work order completed | All parties | Yes – Completion Sign-off |
+| Agent referral used | Agent (notification) | No |
+| Estimate ready | Homeowner | No |
+| Homeowner approves estimate | Contractor (notification) | No |
+| Deposit paid (10% via credit card) | Homeowner + Admin | No |
+| Service date scheduled | Contractor + Homeowner | No |
+| Work order created | Contractor + Technician | ✅ Work Order Contract |
+| Job complete | All parties | ✅ Completion Sign-off |
 
 ---
 
 ## Key Notes for Testing
 
-- Test **both** linking methods multiple times.
+- Test **both** agent-linking methods multiple times.
+- The referral link opens a **combined sign-up + service request form** – homeowner does NOT need to register separately first.
 - Homeowners may have **multiple property addresses** – test with different addresses and permit types.
 - Email and DocuSign functionality are **legally required** – test these carefully.
 - Screenshot all email content and DocuSign document pages (target: 50+ screenshots).
-- Report any discrepancies between this guide and the actual app.
+- Deposit is **10% of the total estimate** paid by credit card.
