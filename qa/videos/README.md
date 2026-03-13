@@ -11,7 +11,8 @@ videos/
 ├── contractor-bidding/            # Contractor bids, homeowner selects, deposit flow
 ├── admin-dashboard/               # Admin approval, job tracking, user management
 ├── technician-workflow/           # Technician work order receipt and sign-off
-└── email-docusign-triggers/       # Email inbox and DocuSign document verification
+├── email-docusign-triggers/       # Email inbox and DocuSign document verification
+└── agent-upload-invite/           # Contractor invite → agent upload → revoke flow
 ```
 
 ## Naming Convention
