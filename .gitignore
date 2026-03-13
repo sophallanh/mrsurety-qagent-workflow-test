@@ -134,6 +134,13 @@ dist
 !.yarn/sdks
 !.yarn/versions
 
+# Playwright test results and reports
+qa/test-results/
+tests/playwright-report/
+
+# Lock files (not needed in this QA-only repo)
+tests/package-lock.json
+
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
