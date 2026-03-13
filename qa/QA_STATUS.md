@@ -125,14 +125,14 @@ Admin account `admin@mrsurety.com` is configured as the default admin in all tes
 | `technician-workflow.spec.ts` | 8 | Work orders, DocuSign, mark complete, edge cases |
 | `agent-upload-invite.spec.ts` | 16 | Invite, upload, security, restrictions, edge cases |
 
-**Run all tests:**
+**Run all tests (from your Mac, inside the `tests/` folder):**
 ```bash
 cd tests
+cp .env.example .env      # credentials already filled in
 npm install
 npx playwright install chromium
-export MRSURETY_BASE_URL=https://staging.mrsurety.com
-export ADMIN_PASSWORD=<your-admin-password>
-npm test
+npm test                  # runs all 59 tests against https://frontend-tan-five-46.vercel.app
+npm run test:report       # open HTML results report
 ```
 
 ---
@@ -210,20 +210,19 @@ MrSurety QA – Sophal Lanh/
 
 ---
 
-## What Still Needs to Happen (Manual Steps)
+## What Still Needs to Happen (YOUR Manual Steps on the Live App)
 
-These items require the live staging platform and cannot be automated in the repo:
+The app is live at https://frontend-tan-five-46.vercel.app. Everything below must be done **by Sophal manually** on the live site.
 
-| # | Action | Who |
-|---|--------|-----|
-| 1 | Provide Google Drive folder link to insert into `QA_SUMMARY_TEMPLATE.md` | Christopher |
-| 2 | Create all QA test accounts on staging platform once it's live | QA Tester |
-| 3 | Set `MRSURETY_BASE_URL` and `ADMIN_PASSWORD` environment variables | QA Tester |
-| 4 | Run the automated test suite against staging | QA Tester |
-| 5 | Manually capture all 50+ email and DocuSign screenshots | QA Tester |
-| 6 | Record videos for any workflows that need step-by-step visual documentation | QA Tester |
-| 7 | Create real Outlook/test inbox accounts for email receipt verification | QA Tester |
-| 8 | Upload all artifacts (screenshots, videos, bug reports, summary reports) to Google Drive | QA Tester |
+| # | Action | Notes |
+|---|--------|-------|
+| 1 | **Register all QA test accounts** on the live app | Use emails + passwords from `TEST_USER_CREDENTIALS.md`. Start with `agent.test1`, then homeowners, then contractors, then technician. |
+| 2 | **Run the Playwright test suite** from your Mac | `cd tests && npm test` — the `.env.example` has all credentials pre-filled. |
+| 3 | **Manually capture 50+ email & DocuSign screenshots** | See `qa/screenshots/email-docusign-triggers/README.md` for the full 61-item checklist. |
+| 4 | **Record screen videos** for each workflow | See each `qa/videos/<workflow>/README.md` for scenarios to record. |
+| 5 | **Fill out a daily QA summary report** | Copy `qa/summary-reports/QA_SUMMARY_TEMPLATE.md` → save as `QA_SUMMARY_2026-03-13.md` |
+| 6 | **Upload all artifacts to Google Drive** | Screenshots → Videos → Bug reports → Summary reports |
+| 7 | **Share Google Drive link with Christopher** | christopher@mrsurety.com (or c.palmer@mrsurety.com) |
 
 ---
 
