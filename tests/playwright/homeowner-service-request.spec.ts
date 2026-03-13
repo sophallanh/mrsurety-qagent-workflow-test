@@ -46,6 +46,33 @@ test.describe('Homeowner Service Request – Method 2 (Agent Email Entry)', () =
     await page.screenshot({ path: path.join(screenshotDir, '02_submission-confirmation.png') });
   });
 
+  test('Homeowner submits second service request (different address) with agent email', async ({ page }) => {
+    // Tests that Method 2 works for multiple addresses / permit types
+    await loginAs(page, TEST_USERS.homeownerLinked.email, TEST_USERS.homeownerLinked.password);
+
+    await page.click('[data-testid="nav-service-request"]');
+    await expect(page.locator('[data-testid="service-request-form"]')).toBeVisible();
+
+    await page.fill('[data-testid="property-address"]', TEST_USERS.homeownerLinked.address);
+    await page.fill('[data-testid="service-description"]', 'Electrical panel upgrade');
+
+    // Select permit type if dropdown exists
+    const permitDropdown = page.locator('[data-testid="permit-type-select"]');
+    if (await permitDropdown.isVisible()) {
+      await permitDropdown.selectOption({ label: 'Electrical' });
+    }
+
+    // Enter agent email (Method 2)
+    await page.fill('[data-testid="agent-email"]', TEST_USERS.agent.email);
+
+    await page.screenshot({ path: path.join(screenshotDir, '06_second-address-form-with-agent-email.png') });
+
+    await page.click('[data-testid="service-request-submit"]');
+    await expect(page.locator('[data-testid="confirmation-message"]')).toBeVisible();
+
+    await page.screenshot({ path: path.join(screenshotDir, '07_second-address-submission-confirmation.png') });
+  });
+
   test('Admin sees pending agent and approves', async ({ page }) => {
     await loginAs(page, TEST_USERS.admin.email, TEST_USERS.admin.password);
 

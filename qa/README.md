@@ -73,6 +73,9 @@ npx playwright install chromium
 export MRSURETY_BASE_URL=https://staging.mrsurety.com
 export AGENT_EMAIL=agent.test1@mrsurety-qa.com
 export AGENT_PASSWORD=QAtest@123
+# Admin account – provided by Christopher; password MUST be set via env var (never hardcode)
+export ADMIN_EMAIL=admin@mrsurety.com
+export ADMIN_PASSWORD=<admin-password-from-christopher>
 # Agent Upload Invite System – set these when running invite tests:
 export INSURANCE_AGENT_EMAIL=ins.agent.test@mrsurety-qa.com
 export AGENT_UPLOAD_LINK=https://staging.mrsurety.com/agent-upload/<token>

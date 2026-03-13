@@ -35,8 +35,11 @@ export const TEST_USERS = {
     name: 'Dave Torres',
   },
   admin: {
-    email: process.env.ADMIN_EMAIL || 'admin.qa@mrsurety-qa.com',
-    password: process.env.ADMIN_PASSWORD || 'QAadmin@123',
+    email: process.env.ADMIN_EMAIL || 'admin@mrsurety.com',
+    // ⚠️  Never commit the admin password. Always set ADMIN_PASSWORD as an
+    // environment variable before running tests. The admin account was provided
+    // by Christopher; see qa/test-user-credentials/TEST_USER_CREDENTIALS.md.
+    password: process.env.ADMIN_PASSWORD || '',
   },
 } as const;
 

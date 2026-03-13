@@ -48,7 +48,7 @@
 
 | Email | Password | Name | Notes |
 |-------|----------|------|-------|
-| admin.qa@mrsurety-qa.com | QAadmin@123 | QA Admin | Internal admin account for approvals and dashboard review |
+| admin@mrsurety.com | *(set via `ADMIN_PASSWORD` env var)* | Platform Admin | **Official admin account provided by Christopher.** Use for all admin approvals, dashboard review, and job tracking. **Do not commit the password to source code.** |
 
 ---
 

@@ -7,5 +7,5 @@ homeowner,homeowner.test3@mrsurety-qa.com,QAtest@123,Chris,Brown,(555) 200-0003,
 contractor,contractor.test1@mrsurety-qa.com,QAtest@123,Bob,Miller,(555) 300-0001,Miller Construction LLC,Primary contractor; upload bid and estimate
 contractor,contractor.test2@mrsurety-qa.com,QAtest@123,Linda,Chen,(555) 300-0002,Chen Builders Inc,Secondary contractor; test competing bids
 technician,tech.test1@mrsurety-qa.com,QAtest@123,Dave,Torres,(555) 400-0001,Torres Services,Assigned technician; verify work order receipt
-admin,admin.qa@mrsurety-qa.com,QAadmin@123,QA,Admin,(555) 500-0001,MrSurety,Internal admin account for approvals and dashboard review
+admin,admin@mrsurety.com,SET_VIA_ADMIN_PASSWORD_ENV_VAR,,,,MrSurety,Platform admin account provided by Christopher; set ADMIN_PASSWORD env var before running tests; do not commit the password
 insurance_agent,ins.agent.test@mrsurety-qa.com,N/A (no account),Rachel,Kim,(555) 600-0001,Kim Insurance Brokers,External insurance agent; receives secure upload link from contractor.test1; no platform login
