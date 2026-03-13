@@ -1,6 +1,6 @@
 import { test, expect, Page } from '@playwright/test';
 import path from 'path';
-import { TEST_USERS, homeownerNoAgent } from '../fixtures/test-users';
+import { TEST_USERS, homeownerNoAgent } from './fixtures/test-users';
 
 /**
  * MrSurety QA – Homeowner Service Request Workflow Tests
