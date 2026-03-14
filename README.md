@@ -15,11 +15,18 @@ Run each command **one at a time** from the **repo root**:
 ```bash
 git clone https://github.com/sophallanh/mrsurety-qagent-workflow-test.git
 cd mrsurety-qagent-workflow-test
-git pull
 cp .env.example .env
 npm install
 npx playwright install chromium
 npm test
+```
+
+If you already have a clone and want to update it:
+
+```bash
+cd mrsurety-qagent-workflow-test
+git pull
+npm install
 ```
 
 Run a single spec file:
@@ -61,7 +68,6 @@ Run each command **one at a time**:
 ```bash
 git clone https://github.com/sophallanh/mrsurety-qagent-workflow-test.git
 cd mrsurety-qagent-workflow-test
-git pull
 python3 -m venv venv
 ```
 
@@ -94,7 +100,8 @@ Screenshots are saved to `screenshots/` (git-ignored).
 | Error | Cause | Fix |
 |---|---|---|
 | `No tests found` | `npx playwright test` run before `npm install` | Run `npm install` first, then re-run |
-| `npm error: package.json not found` | Repo clone is out of date | Run `git pull` inside the repo folder |
+| `npm error: package.json not found` | Folder was downloaded as a ZIP, not cloned with git | Delete the folder; run `git clone https://github.com/sophallanh/mrsurety-qagent-workflow-test.git` |
+| `fatal: not a git repository` | Folder was downloaded as a ZIP or copied manually, not cloned with git | Delete the folder; run `git clone https://github.com/sophallanh/mrsurety-qagent-workflow-test.git` |
 | `requirements.txt: No such file or directory` | Wrong working directory | `cd mrsurety-qagent-workflow-test` first |
 | `cp: defaults is not a directory` | Pasted a command that had an inline `# comment` attached | Copy and run commands **one line at a time**, not as a pasted block |
 | `dquote>` hang after `export ADMIN_PASSWORD="..."` | `!` in double quotes triggers zsh history expansion | Press **Ctrl+C**, then use single quotes: `export ADMIN_PASSWORD='MrSurety2026!'` |
