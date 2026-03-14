@@ -12,6 +12,7 @@
     "test:contractor": "playwright test contractor-bidding.spec.ts",
     "test:agent": "playwright test agent-referral-workflow.spec.ts agent-upload-invite.spec.ts",
     "test:agent-doc6": "playwright test agent-workflow-guide-doc6.spec.ts",
+    "test:contractor-doc7": "playwright test contractor-workflow-guide-doc7.spec.ts",
     "test:doc5": "playwright test homeowner-workflow-guide-doc5.spec.ts"
   },
   "devDependencies": {

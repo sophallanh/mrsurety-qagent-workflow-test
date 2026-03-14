@@ -136,3 +136,27 @@ export const doc6TestAgent = {
   /** Referral link slug pattern: /r/AG-XXXXXXXX */
   referralLinkPattern: /\/r\/AG-[0-9A-F]{8}/i,
 } as const;
+
+/**
+ * Doc #7 – Contractor Workflow Guide credentials.
+ *
+ * Source: Doc #7 (Contractor Workflow Guide)
+ *   "Login: testpro@mrsurety.com (approved contractor) | Password: MrSurety2026!"
+ *   "New contractor: testnewpro@mrsurety.com"
+ *
+ * Used by contractor-workflow-guide-doc7.spec.ts to test:
+ *   – Getting Approved: new contractor signup, document upload, Pending Review state
+ *   – Working a Job: dashboard action items, accept work order, My Installations
+ *   – Completing the Work: before/after photos, Submit for Review, payment notification
+ */
+export const doc7TestPro = {
+  email: process.env.DOC7_TESTPRO_EMAIL || 'testpro@mrsurety.com',
+  password: process.env.DOC7_TESTPRO_PASSWORD || 'MrSurety2026!',
+  displayName: 'Test Pro (Approved Contractor)',
+} as const;
+
+export const doc7TestNewPro = {
+  email: process.env.DOC7_TESTNEWPRO_EMAIL || 'testnewpro@mrsurety.com',
+  password: process.env.DOC7_TESTNEWPRO_PASSWORD || 'MrSurety2026!',
+  displayName: 'Test New Pro (Unapproved Contractor)',
+} as const;
