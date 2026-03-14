@@ -5,9 +5,11 @@
 
 ---
 
-## 🔒 PRIVACY ANSWER – "Will he see my chats if I send him the link?"
+## 🔒 PRIVACY ANSWERS – "What will he see if I send him the link?"
 
-**No. He will only see the repository — NOT your chats.**
+### Question 1: "Will he see only the repo or my chats too?"
+
+**He will see ONLY the repository — NOT your chats.**
 
 When you share the GitHub repository link (`https://github.com/sophallanh/mrsurety-qagent-workflow-test`), Christopher can see:
 - ✅ All the code files (spec files, configuration, documentation)
@@ -15,11 +17,28 @@ When you share the GitHub repository link (`https://github.com/sophallanh/mrsure
 - ✅ The `qa/` folder with all spec docs, status reports, and this document
 
 He **cannot** see:
-- ❌ Your chat conversations with GitHub Copilot or any AI
-- ❌ Your private GitHub account activity
+- ❌ Your chat conversations with GitHub Copilot, ChatGPT, or any other AI tool
+- ❌ Your private GitHub account messages or activity
 - ❌ Anything outside this repository
 
 **The repository is public** — anyone with the link can view it. No login required.
+
+---
+
+### Question 2: "Can he see what I copy and paste in chats — e.g. texts copied from emails?"
+
+**No. Everything you type or paste into a chat window is private.**
+
+Your chat sessions (e.g. GitHub Copilot Chat, ChatGPT, etc.) are **completely separate** from the GitHub repository. Nothing you type, paste, or copy in a chat is stored in the repository or visible to anyone who has the repo link.
+
+Specifically:
+- ❌ Text you copy from an email and paste into a chat → **NOT visible** to Christopher
+- ❌ Text you type in a chat conversation → **NOT visible** to Christopher
+- ❌ The back-and-forth conversation you had with the AI → **NOT visible** to Christopher
+
+**The only exception:** If you manually copy text from a chat and paste it into a file *that you then commit to the repository*, that text would appear in the repo. But the chat conversation itself would still not be visible — only the specific text you pasted into the file.
+
+**Summary:** Sending Christopher the repo link is safe. He will see only the files and documents in the repository — nothing from your chats.
 
 ---
 
