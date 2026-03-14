@@ -17,7 +17,8 @@
     "test:full-workflow": "playwright test full-workflow-guide.spec.ts",
     "test:doc5": "playwright test homeowner-workflow-guide-doc5.spec.ts",
     "test:homeowner-referral": "playwright test homeowner-referral-workflow.spec.ts",
-    "test:agent-referral-guide": "playwright test agent-referral-workflow-guide.spec.ts"
+    "test:agent-referral-guide": "playwright test agent-referral-workflow-guide.spec.ts",
+    "test:service-request-form": "playwright test service-request-form-spec.spec.ts"
   },
   "devDependencies": {
     "@playwright/test": "^1.42.0"
