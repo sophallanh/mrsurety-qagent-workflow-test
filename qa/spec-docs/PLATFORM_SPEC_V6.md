@@ -810,6 +810,123 @@ For full document template text, see [`docusign-templates/DOCUSIGN_TEMPLATES_GUI
 
 ---
 
+## 19. SUMMARY FOR PROGRAMMER
+
+> **Complete build requirements for the MrSurety loss-prevention platform.**
+
+### 1. Multi-Step Homeowner Form
+
+Build a multi-step homeowner intake form with the following steps:
+
+- **Account** – login or signup
+- **Service type** – Installation or Assessment
+- **Property address** – validated via Google Maps
+- **Insurance info** – agent name and email auto-filled from referral link; homeowner may override
+- **Home specifics** – square footage, year built
+- **Device info** – device type, who provides the device (homeowner or contractor), software setup assistance (yes / no)
+- **Water main photo** – REQUIRED; must be inside the house (NOT the street meter)
+- **LiDar file upload** – optional
+- **Contact preferences** – preferred contact method and time window
+- **Terms agreement** – must be accepted before submission
+
+### 2. Assessment Option
+
+When the homeowner selects Assessment:
+
+- Calculate total fee: **$185 base + $0.75 per mile** (distance from nearest available technician to property)
+- Create invoice and collect payment
+- Assign technician upon payment confirmation
+
+### 3. Installation Option
+
+When the homeowner selects Installation:
+
+**Contractor bid inputs:**
+- Parts price (contractor cost)
+- Pressure reducer price (contractor cost)
+- Device price (contractor cost; $0 if homeowner-provided)
+- Software setup assistance: **$75 flat** if requested
+- Labor: contractor sets their own price
+
+**Platform markup applied automatically:**
+| Line Item | Contractor Price | Markup | Homeowner Price |
+|-----------|-----------------|--------|----------------|
+| Parts | Contractor cost | +35% | Retail |
+| Pressure reducer | Contractor cost | +35% | Retail |
+| Device | Contractor cost | +0% | Same |
+| Software setup assistance | $75 | +25% | $93.75 |
+| Labor | Contractor cost | +25% | Retail |
+
+**After markup:**
+- Add **$95 Service Fee** as a separate line item to all estimates
+- Calculate sales tax on `(retail subtotal + $95 service fee)` using address-based rate (TaxJar / Avalara)
+- Homeowner sees the complete estimate including markup, service fee, and tax
+- **10% deposit required** to confirm the job
+
+### 4. Service Fee ($95) Covers
+
+The $95 Service Fee is collected from the homeowner and covers MrSurety compliance services:
+
+1. Contractor license verification
+2. Affidavit of Service
+3. Conditional Lien Release
+4. Unconditional Lien Release
+5. Certificate of Completion
+6. Agent portal access
+7. Document storage
+8. Platform administration
+
+### 5. Contractor Visibility Rule
+
+> **Contractors NEVER see the $95 Service Fee in any communications.**
+
+- Work Orders show contractor pricing only
+- Contractor payout calculations exclude the service fee
+- All contractor-facing documents and emails use contractor pricing exclusively
+
+### 6. Job Flow (17 Steps)
+
+1. Homeowner submits service request
+2. Contractors receive bid request and submit bids
+3. Homeowner reviews and selects a contractor
+4. Homeowner pays 10% deposit
+5. Contractor signs Work Order (DocuSign D2)
+6. Contractor checks in via GPS upon arrival at property
+7. Work is performed on-site
+8. Contractor uploads completion photos
+9. Contractor signs Affidavit of Service (DocuSign D3)
+10. Contractor signs Conditional Lien Release with Invoice (DocuSign D4)
+11. Admin reviews job, approves payment release
+12. Platform releases contractor payment
+13. After payment clears, Unconditional Lien Release (DocuSign D5) is sent to contractor
+14. **Platform access is locked for contractor until Unconditional Lien Release is signed**
+15. Certificate of Completion generated
+16. Certificate and documents sent to homeowner (Email 10)
+17. Certificate and documents sent to insurance agent (Email 11)
+
+### 7. Policy Renewal Data Storage
+
+Store the following data points from every completed job for future policy renewal tracking:
+
+- Completion date
+- Property address
+- Device type and model / serial numbers
+- Contractor (name, license, business)
+- All document URLs (certificate, affidavit, lien releases, photos)
+- Homeowner contact info
+- Agent contact info
+- Insurance company and policy number
+
+Use this data to send anniversary notifications to homeowners and agents when a policy renewal window approaches.
+
+### 8. AI Call Reminder Module
+
+> **FUTURE MODULE — NOT required for launch (V2).**
+
+An AI-powered outbound call reminder system to contact homeowners before policy renewal deadlines. Implement after the core platform is stable.
+
+---
+
 ## SECTION REFERENCES
 
 For detailed workflow documentation, see:
