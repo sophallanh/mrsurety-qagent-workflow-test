@@ -1,7 +1,7 @@
 # Service Request Form – MrSurety QA Reference
 
 **Live App:** https://frontend-tan-five-46.vercel.app  
-**Source:** Christopher's "MR SURETY – TESTING GUIDE FOR QA TEAM" (Doc 1, Part 2) + Platform Spec V6.3 (Doc 2)  
+**Source:** Christopher's "MR SURETY – TESTING GUIDE FOR QA TEAM" (Doc 1, Part 2) + Platform Spec V6.3 (Doc 2) + "MR SURETY – SERVICE REQUEST FORM WITH ASSESSMENT OPTION" (March 2026)  
 **Last Updated:** 2026-03-14
 
 > 📄 **Full platform spec:** See [`qa/spec-docs/PLATFORM_SPEC_V6.md`](../PLATFORM_SPEC_V6.md)
@@ -229,3 +229,380 @@ When NOT using a referral link, the homeowner can enter the agent's email addres
 | $95 service fee visible in estimate | `serviceform_13_service-fee-visible.png` |
 | Pay Deposit screen (10% of total) | `serviceform_14_pay-deposit.png` |
 | Calendar – schedule installation | `serviceform_15_schedule-calendar.png` |
+
+---
+
+## Programmer Specification – Service Request Form with Assessment Option
+
+> Source: "MR SURETY – SERVICE REQUEST FORM WITH ASSESSMENT OPTION" – March 2026
+
+### Form Overview
+
+Multi-step form (10 steps) with agent referral tracking and assessment service option.
+Agent ID is captured via URL parameter and persists through entire flow.
+Form handles both new account creation and existing user login, with conditional logic for
+installation vs assessment requests.
+
+---
+
+### Referral Tracking
+
+| Parameter  | Source                                        | Storage                          |
+|------------|-----------------------------------------------|----------------------------------|
+| `ref`      | URL query param (`mrsurety.com/ref/AGENT123`) | Stored in session → `service_requests.agent_id` |
+| agent_name | Auto-populated from `agents` table            | Display only, read-only field    |
+| agent_email| Auto-populated from `agents` table            | Display only, read-only field    |
+
+---
+
+### Section 1: Account Verification / Creation
+
+#### Section 1 – Top-Level Field
+
+| Field ID    | Field Type | Label                          | Required | Validation              |
+|-------------|------------|-------------------------------|----------|-------------------------|
+| has_account | Radio      | Do you have a MrSurety account? | Yes    | Options: "yes", "no"   |
+
+#### Section 1A – Existing User Login (shown if `has_account = "yes"`)
+
+| Field ID       | Field Type | Label         | Required | Conditions            | Validation                |
+|---------------|------------|--------------|----------|-----------------------|--------------------------|
+| login_email   | Email      | Email Address | Yes      | has_account = "yes"   | Valid email format        |
+| login_password| Password   | Password      | Yes      | has_account = "yes"   | Min 8 characters          |
+
+#### Section 1B – New Account Creation (shown if `has_account = "no"`)
+
+| Field ID        | Field Type | Label           | Required | Conditions           | Validation                               |
+|----------------|------------|----------------|----------|----------------------|------------------------------------------|
+| full_name      | Text       | Full Name       | Yes      | has_account = "no"   | Min 2 characters                         |
+| email          | Email      | Email Address   | Yes      | has_account = "no"   | Valid format, unique                     |
+| phone          | Tel        | Phone Number    | Yes      | has_account = "no"   | US format (xxx-xxx-xxxx)                 |
+| password       | Password   | Password        | Yes      | has_account = "no"   | Min 8 chars, 1 number, 1 letter          |
+| confirm_password | Password | Confirm Password| Yes      | has_account = "no"   | Must match password                      |
+
+---
+
+### Section 2: Service Type Selection (NEW)
+
+| Field ID     | Field Type | Label                      | Required | Validation                              |
+|-------------|------------|---------------------------|----------|-----------------------------------------|
+| service_type | Radio      | What would you like to do? | Yes      | Options: "installation", "assessment"   |
+
+#### Assessment Fee Calculation (shown if `service_type = "assessment"`)
+
+| Display          | Calculation                                              |
+|-----------------|----------------------------------------------------------|
+| Base Fee         | $185.00                                                  |
+| Mileage Rate     | $0.75 per mile                                           |
+| Estimated Total  | $185.00 + ($0.75 × distance from nearest technician to property) |
+
+**Distance Calculation Logic:**
+1. Use property address geocoding to get coordinates
+2. Query database for nearest available assessment technician
+3. Calculate driving distance using Google Maps Distance Matrix API
+4. Display estimated total to homeowner
+
+| Field ID          | Field Type | Label                          | Required | Conditions                    | Validation           |
+|------------------|------------|-------------------------------|----------|-------------------------------|----------------------|
+| proceed_assessment | Radio    | Proceed with Assessment Request? | Yes    | service_type = "assessment"   | Options: "yes", "no" |
+
+> **Note:** If `proceed_assessment = "no"`, form continues but skips installation-specific sections (6 and 7).
+
+---
+
+### Section 3: Property Information (All Service Types)
+
+| Field ID       | Field Type | Label             | Required | Validation                  |
+|---------------|------------|------------------|----------|-----------------------------|
+| property_street | Text     | Street Address    | Yes      | —                           |
+| property_city   | Text     | City              | Yes      | —                           |
+| property_state  | Select   | State             | Yes      | US State dropdown (50 states)|
+| property_zip    | Text     | ZIP Code          | Yes      | 5-digit or 9-digit format   |
+| billing_same    | Radio    | Is billing address same as property? | Yes | Options: "yes", "no" |
+
+#### Billing Address Fields (shown if `billing_same = "no"`)
+
+| Field ID       | Field Type | Label          | Required | Conditions           | Validation           |
+|---------------|------------|----------------|----------|----------------------|----------------------|
+| billing_street | Text      | Street Address  | Yes      | billing_same = "no"  | —                    |
+| billing_city   | Text      | City            | Yes      | billing_same = "no"  | —                    |
+| billing_state  | Select    | State           | Yes      | billing_same = "no"  | US State dropdown    |
+| billing_zip    | Text      | ZIP Code        | Yes      | billing_same = "no"  | 5-digit or 9-digit   |
+
+---
+
+### Section 4: Insurance Information (All Service Types)
+
+| Field ID          | Field Type | Label                 | Required  | Conditions    | Validation           |
+|------------------|------------|----------------------|-----------|---------------|----------------------|
+| insurance_company | Text       | Insurance Company     | Yes       | Always        | —                    |
+| agent_name        | Text       | Agent Name            | Auto-filled| From referral | Read-only, display only |
+| agent_email       | Email      | Agent Email Address   | Auto-filled| From referral | Read-only, display only |
+| policy_number     | Text       | Policy Number         | No        | Always        | —                    |
+
+---
+
+### Section 5: Home Specifics (All Service Types)
+
+| Field ID        | Field Type | Label                         | Required | Validation                        |
+|----------------|------------|------------------------------|----------|----------------------------------|
+| home_type       | Select     | What kind of home is this?    | Yes      | Options: "single_family", "condo", "apartment", "commercial", "other" |
+| home_type_other | Text       | If Other, please specify      | No       | Shown only if home_type = "other" |
+| square_feet     | Number     | How many sqft is your home?   | Yes      | Numeric, > 0, < 10000            |
+| year_built      | Number     | What year was your home built?| Yes      | 4-digit year, 1800–current year  |
+
+---
+
+### Section 6: Device Information (Installation Only)
+
+> This section appears only if `service_type = "installation"`
+
+| Field ID        | Field Type | Label                                    | Required | Conditions                     | Validation                                |
+|----------------|------------|------------------------------------------|----------|--------------------------------|-------------------------------------------|
+| device_type     | Select     | What type of leak detection product?     | Yes      | service_type = "installation"  | Options: "flo_by_moen", "awtos", "not_sure" |
+| device_source   | Select     | Who will provide the device?             | Yes      | service_type = "installation"  | Options: "insurance", "homeowner", "contractor" |
+| software_required | Radio    | Do you need software setup and WiFi configuration? | Yes | service_type = "installation" | Options: "yes", "no"        |
+
+---
+
+### Section 7: Water Main Location & Photos (Installation Only)
+
+> This section appears only if `service_type = "installation"`
+
+| Field ID            | Field Type   | Label                              | Required | Conditions                     | Validation                   |
+|--------------------|--------------|-----------------------------------|----------|--------------------------------|------------------------------|
+| water_main_location | Select       | Where is your water main located?  | Yes      | service_type = "installation"  | Options: "inside", "outside", "not_sure" |
+| water_main_photo    | File Upload  | Photo of Current Water Main Setup  | Yes      | service_type = "installation"  | JPG, PNG, HEIC, max 25MB     |
+| additional_photos   | File Upload  | Additional Photos (Optional)       | No       | service_type = "installation"  | JPG, PNG, HEIC, max 25MB per file, max 5 files |
+
+---
+
+### Section 8: Advanced Options (All Service Types)
+
+| Field ID      | Field Type  | Label                        | Required | Conditions          | Validation                     |
+|--------------|-------------|------------------------------|----------|---------------------|-------------------------------|
+| lidar_provided | Checkbox   | I can provide a LiDar scan   | No       | Always              | Boolean                        |
+| lidar_file    | File Upload | Upload LiDar Scan            | Yes      | lidar_provided = true | LAS, LAZ, XYZ, PLY, max 100MB |
+
+---
+
+### Section 9: Access & Contact (All Service Types)
+
+| Field ID       | Field Type | Label                      | Required | Validation                                   |
+|---------------|------------|---------------------------|----------|----------------------------------------------|
+| access_notes  | Textarea   | Property Access Notes      | No       | Max 500 characters                           |
+| contact_method | Select    | Preferred Contact Method   | Yes      | Options: "phone", "text", "email", "any"     |
+| preferred_time | Select    | Preferred Appointment Time | Yes      | Options: "morning", "afternoon", "flexible"  |
+
+---
+
+### Section 10: Terms & Submission (All Service Types)
+
+| Field ID    | Field Type | Label                                       | Required | Validation         |
+|------------|------------|---------------------------------------------|----------|--------------------|
+| terms_agreed | Checkbox  | I agree to Terms of Service and Privacy Policy | Yes  | Must be checked    |
+
+**Submit Button:** "Submit Request"
+
+---
+
+### File Upload Specifications
+
+| Upload Field       | Max Size   | Allowed Types              | Max Files | Required When                    |
+|-------------------|------------|---------------------------|-----------|----------------------------------|
+| water_main_photo  | 25 MB      | .jpg, .jpeg, .png, .heic  | 1         | service_type = "installation"    |
+| additional_photos | 25 MB each | .jpg, .jpeg, .png, .heic  | 5         | Never (optional)                 |
+| lidar_file        | 100 MB     | .las, .laz, .xyz, .ply    | 1         | lidar_provided = true            |
+
+---
+
+### System Auto-Calculations (After Form Submission)
+
+| Calculation            | Logic                                                              | Applies To           |
+|-----------------------|--------------------------------------------------------------------|----------------------|
+| Pressure Reducer Required | IF (Current Year − year_built) > 5 THEN Required              | Installation requests |
+| Extension Cord Length  | Default 25 ft (configurable)                                      | Installation requests |
+| Pipe Size              | IF square_feet ≤ 2000 → 3/4"; IF 2001–3000 → 1"; IF 3001–5000 → 1 1/4" | Installation requests |
+| Assessment Fee         | Base $185 + ($0.75 × distance miles)                              | Assessment requests   |
+| Nearest Technician     | Query `technicians` table by location                             | Assessment requests   |
+
+---
+
+### Assessment Workflow (NEW)
+
+When homeowner selects assessment option and submits:
+
+| Step | Action                                                                |
+|------|-----------------------------------------------------------------------|
+| 1    | System calculates assessment fee based on distance to nearest technician |
+| 2    | System creates `assessment_request` record                             |
+| 3    | System generates invoice for assessment fee                           |
+| 4    | Invoice emailed to homeowner with payment link                        |
+| 5    | Upon payment, system assigns nearest available technician             |
+| 6    | Technician receives notification with property details                |
+| 7    | Technician schedules appointment with homeowner                       |
+| 8    | After assessment, technician submits report to platform               |
+| 9    | Homeowner can then choose to proceed with installation                |
+
+---
+
+### Database Tables
+
+#### `users`
+
+| Column        | Type      | Description                                             |
+|--------------|-----------|--------------------------------------------------------|
+| id           | UUID      | Primary key                                             |
+| full_name    | VARCHAR   | —                                                       |
+| email        | VARCHAR   | Unique                                                  |
+| phone        | VARCHAR   | —                                                       |
+| password_hash | VARCHAR  | —                                                       |
+| user_type    | VARCHAR   | 'homeowner', 'technician', 'contractor', 'agent', 'admin' |
+| created_at   | TIMESTAMP | —                                                       |
+
+#### `technicians` (NEW)
+
+| Column             | Type      | Description                     |
+|-------------------|-----------|---------------------------------|
+| id                | UUID      | Primary key, links to `users.id`|
+| service_area      | JSON      | Geofence or list of zip codes   |
+| base_location_lat | DECIMAL   | —                               |
+| base_location_lng | DECIMAL   | —                               |
+| is_active         | BOOLEAN   | —                               |
+| hourly_rate       | DECIMAL   | For future use                  |
+| mileage_rate      | DECIMAL   | Default 0.75                    |
+
+#### `service_requests`
+
+| Column                | Type      | Description                                    |
+|----------------------|-----------|------------------------------------------------|
+| id                   | UUID      | Primary key                                    |
+| user_id              | UUID      | Foreign key to `users`                         |
+| agent_id             | UUID      | Foreign key to `agents` (from referral)        |
+| service_type         | VARCHAR   | 'installation' or 'assessment'                 |
+| property_address     | JSON      | Street, city, state, zip                       |
+| billing_address      | JSON      | Nullable                                       |
+| insurance_company    | VARCHAR   | —                                              |
+| agent_name           | VARCHAR   | From referral                                  |
+| agent_email          | VARCHAR   | From referral                                  |
+| policy_number        | VARCHAR   | Nullable                                       |
+| home_type            | VARCHAR   | —                                              |
+| home_type_other      | VARCHAR   | Nullable                                       |
+| square_feet          | INTEGER   | —                                              |
+| year_built           | INTEGER   | —                                              |
+| device_type          | VARCHAR   | Nullable (installation only)                   |
+| device_source        | VARCHAR   | Nullable (installation only)                   |
+| software_required    | BOOLEAN   | Nullable (installation only)                   |
+| water_main_location  | VARCHAR   | Nullable (installation only)                   |
+| water_main_photo_url | VARCHAR   | Nullable (installation only)                   |
+| additional_photo_urls| JSON      | Nullable (installation only)                   |
+| lidar_provided       | BOOLEAN   | —                                              |
+| lidar_file_url       | VARCHAR   | Nullable                                       |
+| access_notes         | TEXT      | Nullable                                       |
+| contact_method       | VARCHAR   | —                                              |
+| preferred_time       | VARCHAR   | —                                              |
+| status               | VARCHAR   | 'pending', 'assessment_invoiced', 'assessment_paid', 'assessment_scheduled', 'assessment_completed', 'estimating', 'approved' |
+| created_at           | TIMESTAMP | —                                              |
+
+#### `assessment_requests` (NEW)
+
+| Column               | Type      | Description                        |
+|---------------------|-----------|------------------------------------|
+| id                  | UUID      | Primary key                        |
+| service_request_id  | UUID      | Foreign key to `service_requests`  |
+| technician_id       | UUID      | Foreign key to `technicians`       |
+| base_fee            | DECIMAL   | 185.00                             |
+| mileage_fee         | DECIMAL   | Calculated                         |
+| total_fee           | DECIMAL   | base_fee + mileage_fee             |
+| distance_miles      | DECIMAL   | Calculated                         |
+| invoice_id          | VARCHAR   | Link to invoice                    |
+| invoice_paid        | BOOLEAN   | —                                  |
+| scheduled_date      | DATE      | Nullable                           |
+| completed_date      | DATE      | Nullable                           |
+| assessment_report_url | VARCHAR | Link to uploaded report            |
+| created_at          | TIMESTAMP | —                                  |
+
+#### `agents`
+
+| Column       | Type      | Description     |
+|-------------|-----------|----------------|
+| id          | UUID      | Primary key     |
+| name        | VARCHAR   | —               |
+| email       | VARCHAR   | Unique          |
+| agency      | VARCHAR   | —               |
+| referral_link | VARCHAR | Unique          |
+| created_at  | TIMESTAMP | —               |
+
+#### `invoices`
+
+| Column                  | Type      | Description               |
+|------------------------|-----------|--------------------------|
+| id                     | UUID      | Primary key               |
+| user_id                | UUID      | —                         |
+| assessment_request_id  | UUID      | Nullable                  |
+| job_id                 | UUID      | Nullable                  |
+| amount                 | DECIMAL   | —                         |
+| description            | VARCHAR   | —                         |
+| stripe_payment_intent_id | VARCHAR | —                        |
+| status                 | VARCHAR   | 'pending', 'paid', 'failed' |
+| created_at             | TIMESTAMP | —                         |
+| paid_at                | TIMESTAMP | Nullable                  |
+
+---
+
+### API Endpoints
+
+| Endpoint                             | Method | Purpose                                 |
+|-------------------------------------|--------|-----------------------------------------|
+| /api/auth/login                     | POST   | Authenticate existing user              |
+| /api/users                          | POST   | Create new user account                 |
+| /api/service-requests               | POST   | Submit service request                  |
+| /api/upload                         | POST   | Upload files to cloud storage           |
+| /api/assessments/calculate-fee      | POST   | Calculate assessment fee based on address |
+| /api/assessments/assign-technician  | POST   | Assign nearest technician               |
+| /api/invoices/create                | POST   | Create invoice for assessment fee       |
+| /api/stripe/webhook                 | POST   | Handle payment confirmations            |
+
+---
+
+### Email Notifications (Post-Submission)
+
+| # | To              | Trigger                       | Subject                                                   | Body Includes                                                    |
+|---|----------------|-------------------------------|-----------------------------------------------------------|------------------------------------------------------------------|
+| 1 | Homeowner       | installation_request_submitted | Your MrSurety Service Request Has Been Received          | Summary of submission, tracking link                             |
+| 2 | Homeowner       | assessment_request_submitted   | Your Property Assessment Request - Invoice Enclosed      | Assessment fee calculation, payment link, next steps             |
+| 3 | Agent           | referral_submitted_service_request | Your Client [Name] Has Started a Service Request    | Client details, request type, tracking link                      |
+| 4 | Contractors     | installation_request_submitted | New Service Request in Your Area                         | Property details, link to bid                                    |
+| 5 | Technician      | assessment_payment_received    | New Assessment Assignment - [Address]                    | Property details, homeowner contact info, preferred time         |
+| 6 | Homeowner       | technician_assigned            | Technician Assigned for Your Property Assessment          | Technician name, contact info, next steps                        |
+
+---
+
+### Service Request Status Workflow
+
+#### Assessment Path
+
+```
+pending → assessment_invoiced → assessment_paid → assessment_scheduled → assessment_completed
+```
+
+| Status                | Trigger                                 |
+|----------------------|-----------------------------------------|
+| pending              | Form submitted                          |
+| assessment_invoiced  | Invoice generated and emailed           |
+| assessment_paid      | Payment received via Stripe             |
+| assessment_scheduled | Technician assigned and date confirmed  |
+| assessment_completed | Technician submits report               |
+
+#### Installation Path
+
+```
+pending → estimating → approved
+```
+
+| Status     | Trigger                                       |
+|-----------|-----------------------------------------------|
+| pending   | Form submitted                                |
+| estimating | Admin assigns job, contractors bidding       |
+| approved  | Homeowner selects contractor and pays deposit |
+

@@ -48,6 +48,14 @@ All items below were updated in the repo to match Christopher's "MR SURETY – T
 | 34 | Workflow guides (SHORT + LONG) updated for all 9 workflows | `SHORT_WORKFLOW_GUIDE.md`, `LONG_WORKFLOW_GUIDE.md` |
 | 35 | Anniversary Reminder email: 11 months after job | `EMAIL_TEMPLATES_GUIDE.md` |
 | 36 | Google Drive folder structure updated | `SHORT_WORKFLOW_GUIDE.md` |
+| 37 | SERVICE_FORM_GUIDE.md updated with complete Assessment Option programmer spec | `SERVICE_FORM_GUIDE.md` |
+| 38 | New technicians DB table documented | `SERVICE_FORM_GUIDE.md` |
+| 39 | New assessment_requests DB table documented | `SERVICE_FORM_GUIDE.md` |
+| 40 | 8 API endpoints for Assessment flow documented | `SERVICE_FORM_GUIDE.md` |
+| 41 | 6 email notification types for Assessment flow documented | `SERVICE_FORM_GUIDE.md` |
+| 42 | Full Assessment workflow (9 steps) documented | `SERVICE_FORM_GUIDE.md` |
+| 43 | Service request status workflow (assessment + installation paths) documented | `SERVICE_FORM_GUIDE.md` |
+| 44 | New spec test file: service-form-assessment-doc-spec.spec.ts (88 tests §A–§M) | `tests/playwright/service-form-assessment-doc-spec.spec.ts` |
 
 ---
 
