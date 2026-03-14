@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # ============================================================
 # run_daily.sh – MrSurety QA Daily Automated Runner
-# ============================================================
-# Runs all 6 OpenClaw workflows, rotates the output folder,
+#
+# Runs all 9 OpenClaw workflows, rotates the output folder,
 # sends a Telegram/Slack summary, and uploads to Google Drive.
 #
 # Usage:
