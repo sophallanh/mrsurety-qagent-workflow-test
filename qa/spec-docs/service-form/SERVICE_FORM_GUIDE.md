@@ -606,3 +606,166 @@ pending → estimating → approved
 | estimating | Admin assigns job, contractors bidding       |
 | approved  | Homeowner selects contractor and pays deposit |
 
+
+---
+
+## V4.3 Platform Spec Cross-Reference
+
+> **Purpose:** Confirms that the Assessment Option (added March 2026) is fully additive and
+> does not alter any V4.3 installation pricing rules, job flow, DocuSign documents, or email content.
+> Source: "MR SURETY – COMPLETE PLATFORM SPECIFICATION V4.3"
+
+### V4.3 Pricing Rules (Installation Path – Unchanged)
+
+| Component            | Markup | Notes                                         |
+|---------------------|--------|-----------------------------------------------|
+| Parts               | +35%   | Fittings, misc, cable — contractor × 1.35     |
+| Pressure Reducer    | +35%   | Required if home >5 yrs — contractor × 1.35  |
+| Device              | +0%    | Pass-through at contractor price              |
+| Software Setup      | +25%   | Optional — contractor × 1.25                 |
+| Labor               | +25%   | Installation labor — contractor × 1.25       |
+| Service Fee         | $95 flat | Compliance docs, liens, certificate         |
+
+> ⚠️ The $95 Service Fee applies **only to installation requests**, not to assessment requests.
+> Assessment requests are invoiced separately at $185 base + $0.75/mile.
+
+---
+
+### V4.3 Four Pricing Scenarios (All Retail Prices with Reference Numbers)
+
+#### Scenario 1: With Device + With Software
+
+| Item              | Contractor Price | Retail Price  |
+|------------------|-----------------|---------------|
+| Parts            | $260.00         | $351.00       |
+| Pressure Reducer | $310.00         | $418.50       |
+| Device           | $599.99         | $599.99       |
+| Software Setup   | $75.00          | $93.75        |
+| Labor            | $525.00         | $656.25       |
+| Subtotal         | —               | $2,119.49     |
+| Service Fee      | —               | $95.00        |
+| Tax (7.75%)      | —               | $171.62       |
+| **TOTAL**        | **$1,769.99**   | **$2,386.11** |
+
+#### Scenario 2: With Device + No Software
+
+| Item              | Contractor Price | Retail Price  |
+|------------------|-----------------|---------------|
+| Parts            | $260.00         | $351.00       |
+| Pressure Reducer | $310.00         | $418.50       |
+| Device           | $599.99         | $599.99       |
+| Labor            | $525.00         | $656.25       |
+| Subtotal         | —               | $2,025.74     |
+| Service Fee      | —               | $95.00        |
+| Tax (7.75%)      | —               | $164.36       |
+| **TOTAL**        | —               | **$2,285.10** |
+
+#### Scenario 3: No Device + With Software
+
+| Item              | Contractor Price | Retail Price  |
+|------------------|-----------------|---------------|
+| Parts            | $260.00         | $351.00       |
+| Pressure Reducer | $310.00         | $418.50       |
+| Software Setup   | $75.00          | $93.75        |
+| Labor            | $525.00         | $656.25       |
+| Subtotal         | —               | $1,519.50     |
+| Service Fee      | —               | $95.00        |
+| Tax (7.75%)      | —               | $125.12       |
+| **TOTAL**        | —               | **$1,739.62** |
+
+#### Scenario 4: No Device + No Software
+
+| Item              | Contractor Price | Retail Price  |
+|------------------|-----------------|---------------|
+| Parts            | $260.00         | $351.00       |
+| Pressure Reducer | $310.00         | $418.50       |
+| Labor            | $525.00         | $656.25       |
+| Subtotal         | —               | $1,425.75     |
+| Service Fee      | —               | $95.00        |
+| Tax (7.75%)      | —               | $117.87       |
+| **TOTAL**        | —               | **$1,638.62** *(V4.3 value; V4.4 corrected to $1,638.61)* |
+
+---
+
+### V4.3 Job Flow (12 Steps – Installation Path)
+
+| Step | Who        | Action                                                                          |
+|-----|-----------|---------------------------------------------------------------------------------|
+| 1   | Homeowner  | Submits request (address, sq ft, device source, software yes/no)               |
+| 2   | System     | Calculates: pressure req if >5 yrs, 25 ft cord, 1" pipe                        |
+| 3   | System     | Notifies nearby contractors                                                      |
+| 4   | Contractor | Bids with prices (parts $260, pressure $310, device $599.99, software $75, labor $525) |
+| 5   | System     | Applies markups, adds $95 fee, calculates tax                                   |
+| 6   | Homeowner  | Sees retail estimate, approves, pays 10% deposit                                |
+| 7   | Contractor | Gets job assignment, checks in via GPS at site                                  |
+| 8   | Contractor | Completes work, uploads photos/invoice                                           |
+| 9   | Contractor | Signs Affidavit + Conditional Lien Release                                      |
+| 10  | Admin      | Approves, releases payment                                                       |
+| 11  | System     | After payment clears, sends Unconditional Lien Release                          |
+| 12  | System     | Generates certificate, emails homeowner + agent                                 |
+
+---
+
+### V4.3 DocuSign Documents (Contractor vs Homeowner Price Separation)
+
+| Document                   | Recipient  | Prices Shown           | Notes                                                    |
+|---------------------------|------------|------------------------|----------------------------------------------------------|
+| Work Order                | Contractor | Contractor prices only | Parts $260, Pressure $310, Device $599.99, Software $75, Labor $525. Total $1,769.99 |
+| Affidavit of Service      | Contractor | None                   | Declaration under penalty of perjury; work completed, photos attached |
+| Conditional Lien Release  | Contractor | Contractor prices only | Invoice with contractor total $1,769.99; conditional on payment clearance |
+
+> ⚠️ Contractors **never** see the $95 Service Fee or homeowner retail prices in any DocuSign document.
+
+---
+
+### V4.3 Email Pricing Content (Installation Path)
+
+#### Email: Estimate Selected – Deposit Required
+
+```
+YOUR ESTIMATE:
+Parts & Fittings:    $351.00
+Pressure Reducer:    $418.50
+Moen System:         $599.99
+Software Setup:      $93.75
+Labor:               $656.25
+Subtotal:          $2,119.49
+Service Fee:          $95.00
+Tax:                 $171.62
+TOTAL:             $2,386.11
+
+Deposit Required (10%): $238.61
+```
+
+#### Email: Final Invoice
+
+```
+FINAL INVOICE:
+Parts & Fittings:    $351.00
+Pressure Reducer:    $418.50
+Moen System:         $599.99
+Software Setup:      $93.75
+Labor:               $656.25
+Subtotal:          $2,119.49
+Service Fee:          $95.00
+Tax:                 $171.62
+TOTAL PAID:        $2,386.11
+
+Deposit:             $238.61
+Final Payment:     $2,147.50
+```
+
+---
+
+### V4.3 Assessment Option Consistency Notes
+
+| Rule                                                   | V4.3 Status    | Assessment Option Impact                                 |
+|-------------------------------------------------------|----------------|----------------------------------------------------------|
+| $95 Service Fee on all installation jobs              | ✅ Unchanged   | Assessment requests are invoiced separately — no $95 fee |
+| 10% deposit for installation                          | ✅ Unchanged   | Assessment invoiced at full fee ($185 + mileage) upfront |
+| Contractor sees only their prices (not retail)        | ✅ Unchanged   | Assessment path has no contractor; technician assigned   |
+| Homeowner sees only retail prices (not contractor)    | ✅ Unchanged   | Assessment homeowner sees only assessment fee total      |
+| Installation: Parts ×1.35, Pressure ×1.35, Device ×1.00, Software ×1.25, Labor ×1.25 | ✅ Unchanged | Assessment path bypasses all installation markups |
+| DocuSign: Work Order + Affidavit + Conditional Lien Release | ✅ Unchanged | Assessment generates assessment_report instead        |
+| Pipe size logic (sq ft → 3/4"/1"/1¼")                | ✅ Unchanged   | Used for installation requests only                      |
+| Pressure reducer if >5 years old                      | ✅ Unchanged   | Used for installation requests only                      |

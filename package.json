@@ -26,7 +26,8 @@
     "test:email-v144-emails5to14": "playwright test email-v144-emails5to14.spec.ts",
     "test:email-v144-emails15to16-docusign": "playwright test email-v144-emails15to16-docusign.spec.ts",
     "test:email-v144-longform": "playwright test email-v144-longform-supplement.spec.ts",
-    "test:service-form-assessment-doc": "playwright test service-form-assessment-doc-spec.spec.ts"
+    "test:service-form-assessment-doc": "playwright test service-form-assessment-doc-spec.spec.ts",
+    "test:platform-v43-crosscheck": "playwright test platform-v43-crosscheck.spec.ts"
   },
   "devDependencies": {
     "@playwright/test": "^1.42.0"
