@@ -22,8 +22,9 @@ import * as path from 'path';
 
 // ---------------------------------------------------------------------------
 // Load .env from the repo root if it exists.
-// This means you never need to run 'export VAR="value!"' in your shell
-// (which triggers zsh history expansion on '!').  Just edit .env instead.
+// Values from .env take precedence over shell environment variables so that
+// a stale `export MRSURETY_BASE_URL=https://staging.mrsurety.com` in your
+// shell can be corrected simply by running: cp .env.example .env
 // ---------------------------------------------------------------------------
 try {
   const envPath = path.join(__dirname, '.env');
@@ -32,12 +33,12 @@ try {
     // Match KEY=value lines; skip comments and blank lines
     const m = line.match(/^\s*([A-Z_][A-Z0-9_]*)\s*=\s*(.*?)\s*$/);
     if (m) {
-      // Don't override variables that were already set in the shell environment
-      process.env[m[1]] ??= m[2];
+      // .env wins over stale shell exports; edit .env to switch environments
+      process.env[m[1]] = m[2];
     }
   }
 } catch {
-  // .env not found – that's fine; env vars may be set directly in the shell
+  // .env not found – fall back to shell env vars or the hardcoded defaults below
 }
 export default defineConfig({
   testDir: './tests/playwright',
