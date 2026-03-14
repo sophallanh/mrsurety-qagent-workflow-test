@@ -22,8 +22,8 @@ git checkout copilot/openclaw-integration-steps --quiet
 git pull --ff-only --quiet
 
 # ── One-time setup ────────────────────────────────────────────────────────────
-pip3 install playwright python-dotenv
-playwright install chromium
+python3 -m pip install playwright python-dotenv
+python3 -m playwright install chromium
 cp qa/openclaw/.env.example qa/openclaw/.env
 
 # ── Step 1: Verify the live app is reachable ──────────────────────────────────
@@ -64,11 +64,11 @@ cd qa/openclaw && ./workflows/run_daily.sh && cd ../..
 ## One-Time Setup (if not already done)
 
 ```bash
-# Install Python dependencies
-pip3 install playwright python-dotenv
+# Install Python dependencies (use python3 -m pip to match the active interpreter)
+python3 -m pip install playwright python-dotenv
 
 # Install Chromium browser
-playwright install chromium
+python3 -m playwright install chromium
 
 # Configure (copy the pre-filled template — already points to live app)
 cp qa/openclaw/.env.example qa/openclaw/.env
@@ -257,8 +257,8 @@ cd ~/mrsurety-qagent-workflow-test
 git fetch origin copilot/openclaw-integration-steps --quiet
 git checkout copilot/openclaw-integration-steps --quiet
 git pull --ff-only --quiet
-pip3 install playwright python-dotenv
-playwright install chromium
+python3 -m pip install playwright python-dotenv
+python3 -m playwright install chromium
 cp qa/openclaw/.env.example qa/openclaw/.env
 python3 qa/openclaw/workflows/mrsurety_qa.py --check-connection
 python3 qa/openclaw/workflows/mrsurety_qa.py --workflow create-accounts

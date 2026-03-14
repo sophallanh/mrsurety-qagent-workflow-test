@@ -65,8 +65,25 @@ from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
-from dotenv import load_dotenv
-from playwright.sync_api import Browser, BrowserContext, Page, sync_playwright
+try:
+    from dotenv import load_dotenv
+except ImportError:
+    sys.stderr.write(
+        "\n[ERROR] python-dotenv is not installed for this Python interpreter.\n"
+        "Fix:    python3 -m pip install playwright python-dotenv\n"
+        "        python3 -m playwright install chromium\n\n"
+    )
+    sys.exit(1)
+
+try:
+    from playwright.sync_api import Browser, BrowserContext, Page, sync_playwright
+except ImportError:
+    sys.stderr.write(
+        "\n[ERROR] playwright is not installed for this Python interpreter.\n"
+        "Fix:    python3 -m pip install playwright python-dotenv\n"
+        "        python3 -m playwright install chromium\n\n"
+    )
+    sys.exit(1)
 
 # ── Load environment ──────────────────────────────────────────────────────────
 _SCRIPT_DIR = Path(__file__).parent

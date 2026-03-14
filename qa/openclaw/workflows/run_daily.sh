@@ -85,7 +85,7 @@ if ! command -v python3 &> /dev/null; then
 fi
 if ! python3 -c "import playwright" 2>/dev/null; then
     log "Installing playwright Python package ..."
-    pip3 install playwright python-dotenv --quiet
+    python3 -m pip install playwright python-dotenv --quiet
     python3 -m playwright install chromium --quiet
 fi
 

@@ -38,7 +38,7 @@ Install the following before starting. All commands assume Ubuntu 22.04 / macOS 
 | Docker Compose | v2 | Included with Docker Desktop |
 | Python | 3.11+ | `brew install python` or `apt install python3` |
 | pip | latest | `python3 -m ensurepip --upgrade` |
-| playwright (Python) | 1.44+ | `pip install playwright && playwright install chromium` |
+| playwright (Python) | 1.44+ | `python3 -m pip install playwright && python3 -m playwright install chromium` |
 | Git | any | `brew install git` or `apt install git` |
 
 Verify:

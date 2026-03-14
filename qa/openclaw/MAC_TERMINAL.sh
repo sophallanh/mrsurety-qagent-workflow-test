@@ -90,15 +90,14 @@ fi
 PYTHON_VERSION=$(python3 --version 2>&1)
 ok "Using $PYTHON_VERSION"
 
-# Install pip packages (silently if already installed)
+# Install pip packages using the active python3 interpreter (avoids version mismatch)
 info "Installing playwright + python-dotenv ..."
-pip3 install playwright python-dotenv --quiet --upgrade
+python3 -m pip install playwright python-dotenv --quiet --upgrade
 ok "Python packages installed"
 
 # Install Chromium browser
 info "Installing/verifying Chromium browser ..."
 python3 -m playwright install chromium --quiet 2>/dev/null \
-    || playwright install chromium --quiet 2>/dev/null \
     || warn "Chromium install may have failed — will try to proceed"
 ok "Chromium ready"
 
