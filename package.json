@@ -31,7 +31,8 @@
     "test:platform-v44-spec": "playwright test platform-v44-spec.spec.ts",
     "test:qa-testing-guide": "playwright test qa-testing-guide.spec.ts",
     "test:palmer-email-supplement": "playwright test palmer-email-supplement.spec.ts",
-    "test:palmer-supplement2": "playwright test palmer-supplement2.spec.ts"
+    "test:palmer-supplement2": "playwright test palmer-supplement2.spec.ts",
+    "test:christopher-email": "playwright test christopher-original-email.spec.ts"
   },
   "devDependencies": {
     "@playwright/test": "^1.58.2"

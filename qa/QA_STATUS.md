@@ -10,7 +10,9 @@
 
 ## Short Answer
 
-**Yes – all items from Christopher's "MR SURETY – TESTING GUIDE FOR QA TEAM" have been implemented, and the test suite has been significantly expanded beyond the original scope.**
+**Yes – all items from Christopher's "MR SURETY – TESTING GUIDE FOR QA TEAM" and his "Testing Instructions – User Types & Workflow" email have been implemented, and the test suite has been significantly expanded beyond the original scope.**
+
+**A dedicated spec file (`christopher-original-email.spec.ts`) cross-checks every specific line of Christopher's original testing instructions — confirming 100% coverage.**
 
 **Live App:** https://frontend-tan-five-46.vercel.app  
 All tests target this URL by default.
@@ -59,9 +61,9 @@ All tests target this URL by default.
 | `qa-testing-guide.spec.ts` | Christopher's testing guide cross-validation | 153 |
 | `palmer-email-supplement.spec.ts` | Palmer Mar 14 email supplement | 40 |
 | `palmer-supplement2.spec.ts` | Palmer supplement 2 (upload invite) | 55 |
-| `programmer-summary.spec.ts` | Programmer summary cross-check | 18 |
+| `christopher-original-email.spec.ts` | Christopher's email cross-check (all 14 §§) | 62 |
 
-**Total: 1,364 tests across 33 spec files**
+**Total: 1,606 tests across 34 spec files**
 
 ---
 

@@ -7,7 +7,7 @@
 
 ## ✅ The QA Infrastructure is 100% Complete
 
-Everything in the GitHub repo is built and ready. As of today (2026-03-14), the test suite has grown to **1,364 automated Playwright tests across 33 spec files**, covering every workflow, every email template, every DocuSign document, all platform spec versions (V4.3, V4.4, V6.3), all four role workflows (Homeowner, Agent, Contractor, Admin), and Palmer's supplement additions.
+Everything in the GitHub repo is built and ready. As of today (2026-03-14), the test suite has grown to **1,606 automated Playwright tests across 34 spec files**, covering every workflow, every email template, every DocuSign document, all platform spec versions (V4.3, V4.4, V6.3), all four role workflows (Homeowner, Agent, Contractor, Admin), Palmer's supplement additions, and a dedicated cross-check for every line of Christopher's original "Testing Instructions – User Types & Workflow" email.
 
 > 📋 **Testing Organization Doc (from Christopher):**  
 > https://docs.google.com/document/d/1SDDd29PN9Z9vc6wg1eIAewDJnNhHa_aWGzfs_mqL8dU/edit?usp=sharing  
@@ -23,7 +23,7 @@ Everything in the GitHub repo is built and ready. As of today (2026-03-14), the 
 ### 2. Draft Message for Christopher
 
 > ---
-> **Subject:** MrSurety QA – Test Suite Complete (1,364 Tests / 33 Spec Files)
+> **Subject:** MrSurety QA – Test Suite Complete (1,606 Tests / 34 Spec Files)
 >
 > Hi Christopher,
 >
@@ -33,7 +33,8 @@ Everything in the GitHub repo is built and ready. As of today (2026-03-14), the 
 > https://github.com/sophallanh/mrsurety-qagent-workflow-test
 >
 > **What's in it:**
-> - **1,364 automated Playwright tests across 33 spec files** — covering all 9 workflows, all email templates (39+ emails), all 8 DocuSign documents, all pricing rules, all platform spec versions (V4.3, V4.4, V6.3), and all role-specific guides (Homeowner Doc 5, Agent Doc 6, Contractor Doc 7, Admin Doc 8)
+> - **1,606 automated Playwright tests across 34 spec files** — covering all 9 workflows, all email templates (39+ emails), all 8 DocuSign documents, all pricing rules, all platform spec versions (V4.3, V4.4, V6.3), and all role-specific guides (Homeowner Doc 5, Agent Doc 6, Contractor Doc 7, Admin Doc 8)
+> - A dedicated spec file (`christopher-original-email.spec.ts`) that cross-checks every specific line of your "Testing Instructions – User Types & Workflow" email — confirming nothing was missed
 > - Every item from your "MR SURETY – TESTING GUIDE FOR QA TEAM" has been cross-validated with its own dedicated test file
 > - Tests were written against the live app at https://frontend-tan-five-46.vercel.app
 > - Full spec documentation in `qa/spec-docs/` (workflow guides, service form, email templates, DocuSign templates, admin guide)
@@ -170,7 +171,7 @@ Only one thing is blocking you from running the tests:
 
 | Item | Done? | Location |
 |------|-------|----------|
-| **1,364 Playwright automated tests (33 spec files)** | ✅ | `tests/playwright/*.spec.ts` |
+| **1,606 Playwright automated tests (34 spec files)** | ✅ | `tests/playwright/*.spec.ts` |
 | All 9 workflows covered | ✅ | `tests/playwright/` |
 | All 39+ email templates cross-validated | ✅ | `email-docusign-examples-doc.spec.ts`, `email-v144-*.spec.ts` |
 | All 8 DocuSign documents cross-validated | ✅ | `email-v144-emails15to16-docusign.spec.ts` |
@@ -179,6 +180,7 @@ Only one thing is blocking you from running the tests:
 | Platform V6.3 gaps (56 tests) | ✅ | `platform-spec-v63-gaps.spec.ts` |
 | Platform V6.3 §13–18 (120 tests) | ✅ | `platform-spec-v63-sections13to18.spec.ts` |
 | Christopher's testing guide cross-validation (153 tests) | ✅ | `qa-testing-guide.spec.ts` |
+| Christopher's original email cross-check (62 tests) | ✅ | `christopher-original-email.spec.ts` |
 | Palmer Mar 14 email supplement (40 tests) | ✅ | `palmer-email-supplement.spec.ts` |
 | Palmer supplement 2 – agent upload (60 tests) | ✅ | `palmer-supplement2.spec.ts` |
 | Homeowner workflow guide Doc 5 (22 tests) | ✅ | `homeowner-workflow-guide-doc5.spec.ts` |
@@ -203,6 +205,6 @@ Only one thing is blocking you from running the tests:
 | QA status summary doc for Christopher | ✅ | `qa/QA_STATUS.md` |
 | Today's summary report (2026-03-14) | ✅ | `qa/summary-reports/QA_SUMMARY_2026-03-14.md` |
 
-**Total automated test scripts:** 33 spec files  
-**Total automated tests:** 1,364  
+**Total automated test scripts:** 34 spec files  
+**Total automated tests:** 1,606  
 **Total workflows covered:** 9 (Agent Referral, Homeowner Service Request, Contractor Bidding, Homeowner Selection, Admin Dashboard, Email/DocuSign, Return Service Call, Critical/Emergency, Assessment) + Agent Upload Invite, Pricing, All role-specific guides
