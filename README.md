@@ -20,11 +20,10 @@ npx playwright install chromium
 npm test
 ```
 
-> **Credentials** are built into the test defaults, but copying the `.env` file is strongly
-> recommended. It prevents test failures caused by stale shell variables (e.g. an old
-> `export MRSURETY_BASE_URL=https://staging.mrsurety.com` overriding the correct URL).
->
-> **Run this command once, from the right directory:**
+> **`.env` is created automatically when you run `npm test`.** The `pretest` npm hook
+> copies `.env.example → .env` for you if the file doesn't already exist, so `npm test`
+> is all you need. If you prefer to set it up in advance (or if you're running tests via
+> `npx playwright test` directly instead of `npm test`), copy it manually:
 >
 > | Where you are | Command to run |
 > |---|---|
@@ -42,10 +41,9 @@ npm test
 > the branch you cloned. Run from the `tests/` subdirectory instead:
 > ```bash
 > cd tests
-> cp .env.example .env
 > npm install
 > npx playwright install chromium
-> npm test
+> npm test          # pretest hook auto-creates .env from .env.example
 > ```
 
 If you already have a clone and want to update it:

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "MrSurety QA – Playwright automated tests for all platform workflows",
   "scripts": {
+    "pretest": "[ -f .env ] || cp .env.example .env",
     "test": "playwright test",
     "test:headed": "playwright test --headed",
     "test:report": "playwright show-report",
