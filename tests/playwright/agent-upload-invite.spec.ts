@@ -28,7 +28,7 @@ import { TEST_USERS, insuranceAgent } from './fixtures/test-users';
  *
  * ⚠️  Required environment variables before running:
  *
- *      MRSURETY_BASE_URL      – e.g. https://staging.mrsurety.com
+ *      MRSURETY_BASE_URL      – e.g. https://frontend-tan-five-46.vercel.app
  *      AGENT_UPLOAD_LINK      – Full secure upload URL extracted from the invite email
  *      REVOKED_UPLOAD_LINK    – A previously-revoked upload URL for security testing
  *      EXPIRED_UPLOAD_LINK    – An upload URL that is more than 7 days old
@@ -36,7 +36,7 @@ import { TEST_USERS, insuranceAgent } from './fixtures/test-users';
  *      Without these vars the link-dependent tests are skipped automatically.
  */
 
-const BASE = process.env.MRSURETY_BASE_URL ?? 'https://staging.mrsurety.com';
+const BASE = process.env.MRSURETY_BASE_URL ?? 'https://frontend-tan-five-46.vercel.app';
 
 /**
  * Resolve a secure upload link from the environment, or skip the test with a
