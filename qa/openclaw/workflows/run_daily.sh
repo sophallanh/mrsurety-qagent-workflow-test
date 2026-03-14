@@ -78,15 +78,19 @@ separator
 log "MrSurety QA – Daily Run starting ($DATE)"
 separator
 
-# Verify Python and playwright are available
-if ! command -v python3 &> /dev/null; then
-    log "ERROR: python3 not found. Install Python 3.11+ first."
-    exit 1
+# Verify Python and playwright are available (via virtual environment)
+VENV_DIR="$OPENCLAW_DIR/.venv"
+if [ ! -d "$VENV_DIR" ]; then
+    log "Creating Python virtual environment at $VENV_DIR ..."
+    python3 -m venv "$VENV_DIR"
 fi
+# shellcheck disable=SC1090
+source "$VENV_DIR/bin/activate"
+
 if ! python3 -c "import playwright" 2>/dev/null; then
     log "Installing playwright Python package ..."
-    python3 -m pip install playwright python-dotenv --quiet
-    python3 -m playwright install chromium --quiet
+    pip install playwright python-dotenv --quiet
+    playwright install chromium --quiet
 fi
 
 # Check app connectivity

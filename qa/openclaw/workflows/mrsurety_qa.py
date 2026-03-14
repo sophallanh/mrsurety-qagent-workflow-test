@@ -65,24 +65,27 @@ from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
+_VENV_FIX = (
+    "\nFix: Use a virtual environment (avoids macOS PEP 668 error):\n"
+    "   python3 -m venv qa/openclaw/.venv\n"
+    "   source qa/openclaw/.venv/bin/activate\n"
+    "   pip install playwright python-dotenv\n"
+    "   playwright install chromium\n"
+    "Then re-run: python3 qa/openclaw/workflows/mrsurety_qa.py --check-connection\n\n"
+)
+
 try:
     from dotenv import load_dotenv
 except ImportError:
-    sys.stderr.write(
-        "\n[ERROR] python-dotenv is not installed for this Python interpreter.\n"
-        "Fix:    python3 -m pip install playwright python-dotenv\n"
-        "        python3 -m playwright install chromium\n\n"
-    )
+    sys.stderr.write("\n[ERROR] python-dotenv is not installed for this Python interpreter.\n")
+    sys.stderr.write(_VENV_FIX)
     sys.exit(1)
 
 try:
     from playwright.sync_api import Browser, BrowserContext, Page, sync_playwright
 except ImportError:
-    sys.stderr.write(
-        "\n[ERROR] playwright is not installed for this Python interpreter.\n"
-        "Fix:    python3 -m pip install playwright python-dotenv\n"
-        "        python3 -m playwright install chromium\n\n"
-    )
+    sys.stderr.write("\n[ERROR] playwright is not installed for this Python interpreter.\n")
+    sys.stderr.write(_VENV_FIX)
     sys.exit(1)
 
 # ── Load environment ──────────────────────────────────────────────────────────

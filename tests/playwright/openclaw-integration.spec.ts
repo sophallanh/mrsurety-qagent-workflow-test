@@ -455,7 +455,7 @@ test.describe('§E – Daily runner script (run_daily.sh)', () => {
 
   test('§E.9 Validates playwright is installed before running', () => {
     expect(runner).toContain('playwright');
-    expect(runner).toContain('python3 -m pip install');
+    expect(runner).toContain('venv');
   });
 
   test('§E.10 Reports metrics (screenshot count, video count, findings count)', () => {

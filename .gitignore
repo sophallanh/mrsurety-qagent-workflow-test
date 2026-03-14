@@ -161,5 +161,9 @@ MrSurety_QA_*.zip
 # OpenClaw .env (contains secrets – never commit)
 qa/openclaw/.env
 
+# Python virtual environment
+qa/openclaw/.venv/
+.venv/
+
 # Lock files (generated; not committed)
 tests/package-lock.json
