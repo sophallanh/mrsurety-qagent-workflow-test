@@ -1,0 +1,40 @@
+{
+  "name": "mrsurety-qagent-workflow-test",
+  "version": "1.0.0",
+  "description": "MrSurety QA – Playwright automated tests for all platform workflows",
+  "scripts": {
+    "pretest": "[ -f .env ] || cp .env.example .env",
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:report": "playwright show-report",
+    "test:admin": "playwright test admin-dashboard.spec.ts",
+    "test:homeowner": "playwright test homeowner-service-request.spec.ts homeowner-workflow-guide-doc5.spec.ts",
+    "test:contractor": "playwright test contractor-bidding.spec.ts",
+    "test:agent": "playwright test agent-referral-workflow.spec.ts agent-upload-invite.spec.ts",
+    "test:agent-doc6": "playwright test agent-workflow-guide-doc6.spec.ts",
+    "test:contractor-doc7": "playwright test contractor-workflow-guide-doc7.spec.ts",
+    "test:admin-doc8": "playwright test admin-workflow-guide-doc8.spec.ts",
+    "test:full-workflow": "playwright test full-workflow-guide.spec.ts",
+    "test:doc5": "playwright test homeowner-workflow-guide-doc5.spec.ts",
+    "test:homeowner-referral": "playwright test homeowner-referral-workflow.spec.ts",
+    "test:agent-referral-guide": "playwright test agent-referral-workflow-guide.spec.ts",
+    "test:service-request-form": "playwright test service-request-form-spec.spec.ts",
+    "test:email-examples-doc": "playwright test email-docusign-examples-doc.spec.ts",
+    "test:platform-spec-v63": "playwright test platform-spec-v63-gaps.spec.ts",
+    "test:platform-spec-v63-complete": "playwright test platform-spec-v63-sections13to18.spec.ts",
+    "test:email-v144-content": "playwright test email-v144-content.spec.ts",
+    "test:email-v144-emails5to14": "playwright test email-v144-emails5to14.spec.ts",
+    "test:email-v144-emails15to16-docusign": "playwright test email-v144-emails15to16-docusign.spec.ts",
+    "test:email-v144-longform": "playwright test email-v144-longform-supplement.spec.ts",
+    "test:service-form-assessment-doc": "playwright test service-form-assessment-doc-spec.spec.ts",
+    "test:platform-v43-crosscheck": "playwright test platform-v43-crosscheck.spec.ts",
+    "test:platform-v44-spec": "playwright test platform-v44-spec.spec.ts",
+    "test:qa-testing-guide": "playwright test qa-testing-guide.spec.ts",
+    "test:palmer-email-supplement": "playwright test palmer-email-supplement.spec.ts",
+    "test:palmer-supplement2": "playwright test palmer-supplement2.spec.ts",
+    "test:christopher-email": "playwright test christopher-original-email.spec.ts"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.2"
+  }
+}

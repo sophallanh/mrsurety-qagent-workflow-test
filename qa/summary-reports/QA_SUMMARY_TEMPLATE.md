@@ -117,5 +117,5 @@ _General observations about the platform, UX, wording, or workflow logic. Includ
 
 ---
 
-**Submitted to:** Christopher (chris@mrsurety.com)  
-**Google Drive Folder:** [insert link here]
+**Submitted to:** Christopher Palmer (c.palmer@mrsurety.com)  
+**Google Drive Folder:** https://docs.google.com/document/d/1SDDd29PN9Z9vc6wg1eIAewDJnNhHa_aWGzfs_mqL8dU/edit?usp=sharing

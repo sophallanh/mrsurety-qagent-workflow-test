@@ -1,11 +1,11 @@
-role,email,password,first_name,last_name,phone,company,notes
-agent,agent.test1@mrsurety-qa.com,QAtest@123,Alex,Johnson,(555) 100-0001,Surety Realty,Primary agent tester; use for referral link generation
-agent,agent.test2@mrsurety-qa.com,QAtest@123,Maria,Garcia,(555) 100-0002,HomeGuard Agency,Secondary agent; test multi-agent scenarios
-homeowner,homeowner.test1@mrsurety-qa.com,QAtest@123,Sam,Williams,(555) 200-0001,,Property: 123 Main St, Los Angeles CA 90001
-homeowner,homeowner.test2@mrsurety-qa.com,QAtest@123,Jamie,Lee,(555) 200-0002,,Property: 456 Oak Ave, Anaheim CA 92801; linked to agent.test1
-homeowner,homeowner.test3@mrsurety-qa.com,QAtest@123,Chris,Brown,(555) 200-0003,,Used for edge case: no agent email entered
-contractor,contractor.test1@mrsurety-qa.com,QAtest@123,Bob,Miller,(555) 300-0001,Miller Construction LLC,Primary contractor; upload bid and estimate
-contractor,contractor.test2@mrsurety-qa.com,QAtest@123,Linda,Chen,(555) 300-0002,Chen Builders Inc,Secondary contractor; test competing bids
-technician,tech.test1@mrsurety-qa.com,QAtest@123,Dave,Torres,(555) 400-0001,Torres Services,Assigned technician; verify work order receipt
-admin,admin.qa@mrsurety-qa.com,QAadmin@123,QA,Admin,(555) 500-0001,MrSurety,Internal admin account for approvals and dashboard review
-insurance_agent,ins.agent.test@mrsurety-qa.com,N/A (no account),Rachel,Kim,(555) 600-0001,Kim Insurance Brokers,External insurance agent; receives secure upload link from contractor.test1; no platform login
+role,email,password,first_name,last_name,phone,company,cslb,resale_cert,service_areas,notes
+admin,admin@mrsurety.com,MrSurety2026!,Admin,MrSurety,(555) 000-0001,MrSurety,,,,"Official admin account provided by Christopher"
+agent,agent1@outlook.com,Test123!,Alex,Johnson,(555) 100-0001,State Farm Test,,,,"Primary agent tester; use for referral link generation"
+agent,agent2@outlook.com,Test123!,Maria,Garcia,(555) 100-0002,Allstate Test,,,,"Secondary agent; test multi-agent scenarios"
+homeowner,homeowner1@outlook.com,Test123!,Sam,Williams,(555) 200-0001,,,,,"Property: 123 Main St, Los Angeles CA 90001 | 1800 sq ft | Built 2010 | Pipe: 3/4"" | Pressure reducer: REQUIRED"
+homeowner,homeowner2@outlook.com,Test123!,Jamie,Lee,(555) 200-0002,,,,,"Property: 456 Oak Ave, Anaheim CA 92801 | 2500 sq ft | Built 2022 | Pipe: 1"" | Pressure reducer: NOT required"
+homeowner,homeowner3@outlook.com,Test123!,Chris,Brown,(555) 200-0003,,,,,"Property: 789 Pine Ln, Irvine CA 92604 | 3500 sq ft | Built 2000 | Pipe: 1 1/4"" | No agent (edge case)"
+contractor,contractor1@outlook.com,Test123!,Bob,Miller,(555) 300-0001,Miller Construction LLC,999888,YES,,"Primary contractor; resale cert accepted → MrSurety adds tax"
+contractor,contractor2@outlook.com,Test123!,Linda,Chen,(555) 300-0002,Chen Builders Inc,999777,NO,,"Secondary contractor; resale cert NOT accepted → contractor includes tax"
+technician,tech1@outlook.com,Test123!,Dave,Torres,(555) 400-0001,,,,"92530,92531","Assessment service and work order receipt"
+insurance_agent,ins.agent.test@outlook.com,N/A (no account),Rachel,Kim,(555) 600-0001,Kim Insurance Brokers,,,,"External insurance agent; receives secure upload link from contractor1; no platform login"

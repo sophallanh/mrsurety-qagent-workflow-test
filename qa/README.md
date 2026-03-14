@@ -52,6 +52,7 @@ mrsurety-qagent-workflow-test/
         ├── contractor-bidding.spec.ts
         ├── admin-dashboard.spec.ts
         ├── email-docusign-triggers.spec.ts
+        ├── technician-workflow.spec.ts
         └── agent-upload-invite.spec.ts  # ← Agent Upload Invite System
 ```
 
@@ -70,14 +71,25 @@ npx playwright install chromium
 ### 2. Set Environment Variables
 
 ```bash
-export MRSURETY_BASE_URL=https://staging.mrsurety.com
+# Live app (already set as default in playwright.config.ts)
+export MRSURETY_BASE_URL=https://frontend-tan-five-46.vercel.app
+# Admin account – provided by Christopher; password MUST be set via env var (never hardcode)
+export ADMIN_EMAIL=admin@mrsurety.com
+export ADMIN_PASSWORD=<admin-password-from-christopher>
+# All QA test users (create these on the live platform first):
 export AGENT_EMAIL=agent.test1@mrsurety-qa.com
 export AGENT_PASSWORD=QAtest@123
+export HOMEOWNER_EMAIL=homeowner.test1@mrsurety-qa.com
+export HOMEOWNER_PASSWORD=QAtest@123
+export CONTRACTOR_EMAIL=contractor.test1@mrsurety-qa.com
+export CONTRACTOR_PASSWORD=QAtest@123
+export TECH_EMAIL=tech.test1@mrsurety-qa.com
+export TECH_PASSWORD=QAtest@123
 # Agent Upload Invite System – set these when running invite tests:
 export INSURANCE_AGENT_EMAIL=ins.agent.test@mrsurety-qa.com
-export AGENT_UPLOAD_LINK=https://staging.mrsurety.com/agent-upload/<token>
-export REVOKED_UPLOAD_LINK=https://staging.mrsurety.com/agent-upload/<revoked-token>
-export EXPIRED_UPLOAD_LINK=https://staging.mrsurety.com/agent-upload/<expired-token>
+export AGENT_UPLOAD_LINK=https://frontend-tan-five-46.vercel.app/agent-upload/<token>
+export REVOKED_UPLOAD_LINK=https://frontend-tan-five-46.vercel.app/agent-upload/<revoked-token>
+export EXPIRED_UPLOAD_LINK=https://frontend-tan-five-46.vercel.app/agent-upload/<expired-token>
 # ... (see qa/test-user-credentials/TEST_USER_CREDENTIALS.md for all accounts)
 ```
 

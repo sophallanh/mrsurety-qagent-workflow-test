@@ -1,0 +1,5 @@
+# MrSurety QA – Python dependencies
+# Install with:  pip install -r requirements.txt
+
+# Playwright for Python (browser automation)
+playwright>=1.42.0

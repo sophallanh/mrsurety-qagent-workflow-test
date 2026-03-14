@@ -1,54 +1,65 @@
 # MrSurety QA – Test User Credentials
 
 **Last Updated:** 2026-03-13  
-**Environment:** Staging / QA  
+**Live App:** https://frontend-tan-five-46.vercel.app  
+**Source:** Christopher's "MR SURETY – TESTING GUIDE FOR QA TEAM" – Parts 1 & 8  
 **Prepared by:** Sophal Lanh  
 
 > ⚠️ **Do not share these credentials publicly. For internal QA use only.**
 
 ---
 
+## Admin
+
+| Email | Password | Notes |
+|-------|----------|-------|
+| admin@mrsurety.com | MrSurety2026! | **Official admin account provided by Christopher. Password unchanged.** |
+
+---
+
 ## Agents
+
+Per Christopher's doc: email domain `@test.com` or `@outlook.com`, password `Test123!`
 
 | Email | Password | Name | Company | Notes |
 |-------|----------|------|---------|-------|
-| agent.test1@mrsurety-qa.com | QAtest@123 | Alex Johnson | Surety Realty | Primary agent tester; use for referral link generation |
-| agent.test2@mrsurety-qa.com | QAtest@123 | Maria Garcia | HomeGuard Agency | Secondary agent; test multi-agent scenarios |
+| agent1@outlook.com | Test123! | Alex Johnson | State Farm Test | Primary agent tester; use for referral link generation (Method A) |
+| agent2@outlook.com | Test123! | Maria Garcia | Allstate Test | Secondary agent; test multi-agent scenarios |
 
 ---
 
 ## Homeowners
 
-| Email | Password | Name | Property Address | Notes |
-|-------|----------|------|-----------------|-------|
-| homeowner.test1@mrsurety-qa.com | QAtest@123 | Sam Williams | 123 Main St, Los Angeles CA 90001 | Standard homeowner test account |
-| homeowner.test2@mrsurety-qa.com | QAtest@123 | Jamie Lee | 456 Oak Ave, Anaheim CA 92801 | Linked to agent.test1 via referral |
-| homeowner.test3@mrsurety-qa.com | QAtest@123 | Chris Brown | 789 Pine Rd, Irvine CA 92604 | Edge case: no agent email entered |
+Per Christopher's doc: email `@outlook.com`, password `Test123!`
+
+| Email | Password | Name | Property Address | Sq Ft | Year Built | Notes |
+|-------|----------|------|-----------------|-------|------------|-------|
+| homeowner1@outlook.com | Test123! | Sam Williams | 123 Main St, Los Angeles CA 90001 | 1,800 | 2010 | Pipe: 3/4" (under 2000 sq ft); Pressure reducer: REQUIRED (>5 yr) |
+| homeowner2@outlook.com | Test123! | Jamie Lee | 456 Oak Ave, Anaheim CA 92801 | 2,500 | 2022 | Pipe: 1" (2001-3000 sq ft); Pressure reducer: NOT required (≤5 yr) |
+| homeowner3@outlook.com | Test123! | Chris Brown | 789 Pine Ln, Irvine CA 92604 | 3,500 | 2000 | Pipe: 1 1/4" (3001-5000 sq ft); No agent email (edge case) |
 
 ---
 
 ## Contractors
 
-| Email | Password | Name | Company | Notes |
-|-------|----------|------|---------|-------|
-| contractor.test1@mrsurety-qa.com | QAtest@123 | Bob Miller | Miller Construction LLC | Primary contractor; upload bid and estimate |
-| contractor.test2@mrsurety-qa.com | QAtest@123 | Linda Chen | Chen Builders Inc | Secondary contractor; test competing bids |
+Per Christopher's doc: email `@test.com` or `@outlook.com`, password `Test123!`, CSLB test numbers
+
+| Email | Password | Name | Company | CSLB | Resale Cert | Notes |
+|-------|----------|------|---------|------|-------------|-------|
+| contractor1@outlook.com | Test123! | Bob Miller | Miller Construction LLC | 999888 | YES | Accepts resale cert → MrSurety adds tax at retail; Primary contractor |
+| contractor2@outlook.com | Test123! | Linda Chen | Chen Builders Inc | 999777 | NO | Does NOT accept resale cert → includes tax in prices; secondary bidder |
+
+> **CSLB numbers per Christopher's doc:** 999888 (contractor 1), 999777 (contractor 2)
 
 ---
 
 ## Technicians
 
-| Email | Password | Name | Company | Notes |
-|-------|----------|------|---------|-------|
-| tech.test1@mrsurety-qa.com | QAtest@123 | Dave Torres | Torres Services | Assigned technician; verify work order receipt |
+Per Christopher's doc: email `@test.com`, password `Test123!`
 
----
-
-## Admin
-
-| Email | Password | Name | Notes |
-|-------|----------|------|-------|
-| admin.qa@mrsurety-qa.com | QAadmin@123 | QA Admin | Internal admin account for approvals and dashboard review |
+| Email | Password | Name | Service Area | Notes |
+|-------|----------|------|-------------|-------|
+| tech1@outlook.com | Test123! | Dave Torres | 92530, 92531 | Assessment service and work order receipt |
 
 ---
 
@@ -59,18 +70,33 @@
 
 | Email | Name | Company | Notes |
 |-------|------|---------|-------|
-| ins.agent.test@mrsurety-qa.com | Rachel Kim | Kim Insurance Brokers | Used for Agent Upload Invite System tests; receives secure link from contractor.test1 |
+| ins.agent.test@outlook.com | Rachel Kim | Kim Insurance Brokers | Used for Agent Upload Invite System tests; receives secure link from contractor1 |
 
-**Environment variable:** `INSURANCE_AGENT_EMAIL=ins.agent.test@mrsurety-qa.com`  
-For end-to-end testing with a real inbox, use a tool like Mailosaur or Mailtrap and set `AGENT_UPLOAD_LINK` to the link extracted from the received email.
+---
+
+## Pipe Size Logic (from Christopher's Testing Guide Part 2)
+
+| Square Footage | Expected Pipe Size |
+|---------------|-------------------|
+| Under 2,000 sq ft | 3/4 inch |
+| 2,001 – 3,000 sq ft | 1 inch |
+| 3,001 – 5,000 sq ft | 1 1/4 inch |
+
+## Pressure Reducer Logic
+
+| Home Age | Requirement |
+|----------|------------|
+| Built > 5 years ago | REQUIRED |
+| Built ≤ 5 years ago | NOT REQUIRED |
 
 ---
 
 ## Account Registration Notes
 
-- All accounts should be registered on the **staging** environment only.
-- Use the **agent referral link** method (agent.test1 → homeowner.test2) for referral flow tests.
-- Use the **homeowner agent-email method** (homeowner.test1 → enters agent.test1 email) for email-based linking.
-- Contractor accounts require approval before bidding; confirm admin receives and approves contractor registration.
-- After each test cycle, document which accounts were used and any password resets applied.
-- The **Insurance Agent** has no platform account. They access the system only via the secure upload link emailed to them by the contractor. Set `INSURANCE_AGENT_EMAIL` env var if using a real test inbox.
+- All QA test accounts must be **created on the live platform** at https://frontend-tan-five-46.vercel.app
+- QA account password: **Test123!** (per Christopher's Testing Guide Part 8)
+- Admin password: **MrSurety2026!** (provided by Christopher — unchanged)
+- Contractor accounts require **admin approval** and a **CSLB license number** before bidding
+- Homeowner accounts need **water main photo upload** when creating a service request
+- Referral link format: `mrsurety.com/ref/AGENT123` — landing page shows "Brought to you by [Agent Name]"
+- After each test cycle, document which accounts were used and any password resets applied

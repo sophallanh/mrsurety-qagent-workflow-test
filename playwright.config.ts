@@ -3,27 +3,28 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 /**
- * MrSurety QA – Playwright Configuration
+ * MrSurety QA – Root-level Playwright Configuration
  *
- * Quick start (from the tests/ directory):
- *   cp .env.example .env          # one-time setup: copies the correct base URL + credentials
+ * Quick start (from the REPO ROOT):
+ *   cp .env.example .env          # credentials live in .env – no shell quoting needed
  *   npm install
  *   npx playwright install chromium
- *   npx playwright test
+ *   npx playwright test                                        # run all tests
+ *   npx playwright test homeowner-workflow-guide-doc5.spec.ts  # run one spec
+ *   npx playwright test admin-dashboard.spec.ts                # run admin tests
  *
  * Live App: https://frontend-tan-five-46.vercel.app
- * Admin:    admin@mrsurety.com  /  see .env.example for credentials
+ * Admin:    admin@mrsurety.com / see .env.example for default password
  *
- * To point at a different environment, edit the MRSURETY_BASE_URL line in your .env file.
- * If you have no .env, the hardcoded Vercel URL above is used as a fallback.
+ * Env vars can also be overridden inline:
+ *   MRSURETY_BASE_URL=https://staging.example.com npx playwright test
  */
 
 // ---------------------------------------------------------------------------
-// Load .env from the tests/ directory if it exists.
+// Load .env from the repo root if it exists.
 // Values from .env take precedence over shell environment variables so that
 // a stale `export MRSURETY_BASE_URL=https://staging.mrsurety.com` in your
-// shell can be corrected simply by running:
-//   cp .env.example .env
+// shell can be corrected simply by running: cp .env.example .env
 // ---------------------------------------------------------------------------
 try {
   const envPath = path.join(__dirname, '.env');
@@ -39,13 +40,12 @@ try {
 } catch {
   // .env not found – fall back to shell env vars or the hardcoded defaults below
 }
-
 export default defineConfig({
-  testDir: './playwright',
+  testDir: './tests/playwright',
   timeout: 60_000,
   retries: 1,
   reporter: [
-    ['html', { outputFolder: '../qa/test-results/playwright-report', open: 'never' }],
+    ['html', { outputFolder: 'qa/test-results/playwright-report', open: 'never' }],
     ['list'],
   ],
   use: {
