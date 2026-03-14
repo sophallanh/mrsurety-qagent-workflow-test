@@ -20,7 +20,8 @@
     "test:agent-referral-guide": "playwright test agent-referral-workflow-guide.spec.ts",
     "test:service-request-form": "playwright test service-request-form-spec.spec.ts",
     "test:email-examples-doc": "playwright test email-docusign-examples-doc.spec.ts",
-    "test:platform-spec-v63": "playwright test platform-spec-v63-gaps.spec.ts"
+    "test:platform-spec-v63": "playwright test platform-spec-v63-gaps.spec.ts",
+    "test:platform-spec-v63-complete": "playwright test platform-spec-v63-sections13to18.spec.ts"
   },
   "devDependencies": {
     "@playwright/test": "^1.42.0"
