@@ -160,7 +160,11 @@ test.describe('Requirement 3 – Installation Markup Rules and Deposit', () => {
 // Requirement 4: Service fee coverage
 // ---------------------------------------------------------------------------
 test.describe('Requirement 4 – Service Fee Coverage Items', () => {
-  test('$95 service fee covers all 8 required items', async () => {
+  // NOTE: Platform Spec V6.3, Section 10 lists 11 service fee items.
+  // This test validates the 8 items captured from the "Summary for Programmer" section (Section 19).
+  // The 3 additional V6.3 items (Background Checks, Insurance Verification, Compliance Monitoring,
+  // and Tax Reporting) are covered in platform-spec-v63-gaps.spec.ts, Section 10.
+  test('$95 service fee covers all 8 required items (see platform-spec-v63-gaps.spec.ts for all 11)', async () => {
     const coverageItems = [
       'Contractor license verification',
       'Affidavit of Service',
@@ -225,9 +229,13 @@ test.describe('Requirement 5 – Contractor Service Fee Visibility', () => {
 
 // ---------------------------------------------------------------------------
 // Requirement 6: Job flow – 17 steps
+// NOTE: Platform Spec V6.3, Section 11 defines the complete 24-step job flow.
+// This test validates the 17 key steps captured from the "Summary for Programmer"
+// section (Section 19). The full 24-step flow including Steps 2, 7, 8, 13, and 19
+// is covered in platform-spec-v63-gaps.spec.ts, Section 11.
 // ---------------------------------------------------------------------------
 test.describe('Requirement 6 – Job Flow Steps', () => {
-  test('Job flow has exactly 17 required steps through certificate delivery', async () => {
+  test('Job flow has exactly 17 required steps through certificate delivery (see platform-spec-v63-gaps.spec.ts for all 24)', async () => {
     const jobFlowSteps = [
       'homeowner_submits_request',
       'contractors_bid',
