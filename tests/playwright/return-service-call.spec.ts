@@ -18,7 +18,7 @@ import { TEST_USERS } from './fixtures/test-users';
  *      before running against staging/production.
  */
 
-const screenshotDir = path.join(__dirname, '../..', 'qa/screenshots/agent-referral-workflow');
+const screenshotDir = path.join(__dirname, '../..', 'qa/screenshots/return-service-call');
 
 async function loginAs(page: Page, email: string, password: string) {
   await page.goto('/login');

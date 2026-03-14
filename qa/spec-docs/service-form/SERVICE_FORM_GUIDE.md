@@ -1,8 +1,10 @@
 # Service Request Form – MrSurety QA Reference
 
 **Live App:** https://frontend-tan-five-46.vercel.app  
-**Source:** Christopher's "MR SURETY – TESTING GUIDE FOR QA TEAM" – Part 2  
-**Last Updated:** 2026-03-13
+**Source:** Christopher's "MR SURETY – TESTING GUIDE FOR QA TEAM" (Doc 1, Part 2) + Platform Spec V6.3 (Doc 2)  
+**Last Updated:** 2026-03-14
+
+> 📄 **Full platform spec:** See [`qa/spec-docs/PLATFORM_SPEC_V6.md`](../PLATFORM_SPEC_V6.md)
 
 > ⚠️ When a homeowner uses a referral link, the form creates their account AND submits
 > the service request in a single step. There is no separate registration flow.
@@ -84,11 +86,11 @@
 
 ### Section 6: Device Info
 
-| Field | Required | Test Cases |
-|-------|----------|------------|
-| Device type | ✅ | Test all device type options |
-| Device source | ✅ | Contractor Provided / Homeowner Provided / Insurance Provided |
-| Software setup assistance | — | Yes / No |
+| Field | Required | Options (from Platform Spec V6.3) |
+|-------|----------|----------------------------------|
+| Device type | ✅ | **Flo by Moen** / **Awtos** / **I'm not sure** |
+| Device source | ✅ | **Insurance Company will provide** / **I already have the device (Homeowner Provided)** / **Contractor should provide (included in estimate)** |
+| Software setup assistance | — | **Yes – I need help setting up the software and connecting to WiFi (additional fee)** / **No – I will handle software setup myself** |
 
 #### Device Source Pricing Impact
 
@@ -108,11 +110,13 @@
 
 ---
 
-### Section 7: Water Main Photo
+### Section 7: Water Main Location & Photos
 
-| Field | Required | Test Cases |
-|-------|----------|------------|
-| Water main photo | ✅ **REQUIRED** | Upload valid photo — must succeed; Skip photo — form **must not submit** (error expected) |
+| Field | Required | Options / Test Cases |
+|-------|----------|---------------------|
+| Water main location | ✅ | **Inside the house** (basement, garage, crawl space) / **Outside the house** (exterior wall, yard) / **I'm not sure** |
+| Water main photo | ✅ **REQUIRED** | Upload valid photo (jpg/png/heic, max 25MB) — must succeed; Skip photo — form **must not submit** (error expected) |
+| Additional photos (up to 5) | Optional | Test with and without additional photos |
 
 > ⚠️ **Skipping the water main photo should produce a validation error.** Test this explicitly.
 
@@ -126,19 +130,13 @@
 
 ---
 
-### Section 9: Access Notes
+### Section 9: Access & Contact
 
-| Field | Required | Notes |
-|-------|----------|-------|
-| Access notes / special instructions | Optional | Free-text field; test special characters and long input |
-
----
-
-### Section 10: Contact
-
-| Field | Required | Test Cases |
-|-------|----------|------------|
-| Contact methods | ✅ | Test all available contact method options |
+| Field | Required | Options / Notes |
+|-------|----------|----------------|
+| Property access notes | Optional | Free-text field; test special characters and long input |
+| Preferred contact method | ✅ | **Phone call** / **Text message** / **Email** / **Any of the above** |
+| Preferred appointment time | ✅ | **Morning (8am–12pm)** / **Afternoon (12pm–4pm)** / **Flexible** |
 
 ---
 
@@ -167,9 +165,12 @@ When NOT using a referral link, the homeowner can enter the agent's email addres
 
 ---
 
-## Retail Price Markup Reference (from Christopher's Testing Guide Part 4)
+## Retail Price Markup Reference
 
 > **Service Fee ($95) must appear in ALL estimates as a separate line item.**
+> ⚠️ **Contractors NEVER see the $95 Service Fee in any documents or communications.**
+
+### Doc 1 Example Prices (Christopher's Testing Guide Part 4)
 
 | Component | Contractor Price | Markup | Retail Price |
 |-----------|-----------------|--------|-------------|
@@ -181,6 +182,24 @@ When NOT using a referral link, the homeowner can enter the agent's email addres
 | Device (Contractor Provided) | $599.99 (fixed) | 0% | $599.99 |
 | **Service Fee** | — | — | **$95.00** |
 | **Tax** | — | — | Calculated on total (see Resale Cert) |
+
+### V6.3 Example Prices (Platform Spec V6.3, Section 4) — Full Calculation
+
+| Component | Contractor Price | Markup | Retail Price |
+|-----------|-----------------|--------|-------------|
+| Parts | $260.00 | +35% | $351.00 |
+| Pressure Reducer | $310.00 | +35% | $418.50 |
+| Device | $599.99 | +0% | $599.99 |
+| Software Setup Assistance | $75.00 (fixed) | +25% | $93.75 |
+| Labor | $450.00 *(example)* | +25% | $562.50 |
+| **Subtotal** | | | **$2,025.74** |
+| Service Fee | — | — | **+$95.00** |
+| **Total Before Tax** | | | **$2,120.74** |
+| Sales Tax (7.75% example) | $2,120.74 × 0.0775 | | **$164.36** |
+| **HOMEOWNER TOTAL** | | | **$2,285.10** |
+
+> The $450 labor price is an **example only** — contractors enter their own labor price when bidding.
+> Tax rate (7.75%) is an example; actual rate varies by jurisdiction.
 
 ### Resale Certificate Tax Handling
 
