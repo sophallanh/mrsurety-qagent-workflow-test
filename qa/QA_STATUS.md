@@ -39,7 +39,7 @@ All tests target this URL by default.
 | `assessment-service.spec.ts` | WF9: Assessment Service | 7 |
 | `pricing-calculation.spec.ts` | All pricing & markup formulas | 17 |
 | `technician-workflow.spec.ts` | Technician steps | 8 |
-| `agent-upload-invite.spec.ts` | Agent Upload Invite System (contractor side) | 16 |
+| `agent-upload-invite.spec.ts` | Agent Upload Invite System (contractor side) | 20 |
 | `agent-referral-workflow-guide.spec.ts` | Doc 6: Agent referral guide deep-spec | 13 |
 | `homeowner-referral-workflow.spec.ts` | Homeowner referral experience | 18 |
 | `homeowner-workflow-guide-doc5.spec.ts` | Doc 5: Homeowner workflow guide | 22 |
@@ -53,17 +53,18 @@ All tests target this URL by default.
 | `email-v144-emails15to16-docusign.spec.ts` | v1.4.4 emails 15–16 + DocuSign | 93 |
 | `email-v144-longform-supplement.spec.ts` | v1.4.4 long-form 15-email sequence | 36 |
 | `service-form-assessment-doc-spec.spec.ts` | Service form Assessment Option spec | 88 |
-| `service-request-form-spec.spec.ts` | Service request form field spec | 34 |
+| `service-request-form-spec.spec.ts` | Service request form field spec | 30 |
 | `platform-spec-v63-gaps.spec.ts` | Platform V6.3 gap coverage | 56 |
 | `platform-spec-v63-sections13to18.spec.ts` | Platform V6.3 §13–18 | 120 |
-| `platform-v43-crosscheck.spec.ts` | Platform V4.3 pricing cross-check | 83 |
+| `platform-v43-crosscheck.spec.ts` | Platform V4.3 pricing cross-check | 82 |
 | `platform-v44-spec.spec.ts` | Platform V4.4 full spec | 130 |
 | `qa-testing-guide.spec.ts` | Christopher's testing guide cross-validation | 153 |
 | `palmer-email-supplement.spec.ts` | Palmer Mar 14 email supplement | 40 |
 | `palmer-supplement2.spec.ts` | Palmer supplement 2 (upload invite + §H live URL) | 60 |
 | `christopher-original-email.spec.ts` | Christopher's email cross-check (all 14 §§) | 62 |
+| `programmer-summary.spec.ts` | Programmer summary cross-validation | 18 |
 
-**Total: 1,418 tests across 34 spec files**
+**Total: 1,426 tests across 34 spec files**
 
 ---
 
@@ -190,4 +191,4 @@ The app is live at https://frontend-tan-five-46.vercel.app.
 
 ---
 
-**Last Updated:** 2026-03-14 — **1,418 automated tests across 34 spec files**
+**Last Updated:** 2026-03-14 — **1,426 automated tests across 34 spec files**
