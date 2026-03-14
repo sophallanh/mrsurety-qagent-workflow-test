@@ -91,3 +91,28 @@ export const insuranceAgent = {
   name: 'Rachel Kim',
   company: 'Kim Insurance Brokers',
 } as const;
+
+/**
+ * Doc #5 – Homeowner Workflow Guide credentials.
+ *
+ * These are the two specific accounts called out in the Homeowner Workflow Guide:
+ *   - testOwner: the primary returning homeowner account for workflow testing.
+ *   - demoHomeowner: a fresh account used to verify the new-account first-run experience.
+ *
+ * Source: Doc #5 (Homeowner Workflow Guide)
+ *   "Login: testowner@mrsurety.com | Password: MrSurety2026!"
+ *   "For a fresh account: demo.homeowner@mrsurety.com"
+ *
+ * The demoHomeowner password is the same platform default used for all demo accounts.
+ */
+export const doc5TestOwner = {
+  email: process.env.DOC5_TESTOWNER_EMAIL || 'testowner@mrsurety.com',
+  password: process.env.DOC5_TESTOWNER_PASSWORD || 'MrSurety2026!',
+  displayName: 'Test Owner',
+} as const;
+
+export const doc5DemoHomeowner = {
+  email: process.env.DOC5_DEMO_HOMEOWNER_EMAIL || 'demo.homeowner@mrsurety.com',
+  password: process.env.DOC5_DEMO_HOMEOWNER_PASSWORD || 'MrSurety2026!',
+  displayName: 'Demo Homeowner',
+} as const;
