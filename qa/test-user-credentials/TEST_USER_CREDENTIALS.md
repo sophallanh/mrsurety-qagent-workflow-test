@@ -1,54 +1,67 @@
 # MrSurety QA – Test User Credentials
 
-**Last Updated:** 2026-03-13  
-**Environment:** Staging / QA  
+**Last Updated:** 2026-03-14  
+**Live App:** https://frontend-tan-five-46.vercel.app  
 **Prepared by:** Sophal Lanh  
 
 > ⚠️ **Do not share these credentials publicly. For internal QA use only.**
 
 ---
 
+## How to Create These Accounts
+
+Run this **once** before executing any other workflow:
+```bash
+cd qa/openclaw
+cp .env.example .env
+python3 workflows/mrsurety_qa.py --workflow create-accounts
+```
+
+Or create them manually at: **https://frontend-tan-five-46.vercel.app/signup**
+
+---
+
+## Admin (already exists — provided by Christopher)
+
+| Email | Password | Notes |
+|-------|----------|-------|
+| admin@mrsurety.com | MrSurety2026! | Real admin — DO NOT change password |
+
+---
+
 ## Agents
 
-| Email | Password | Name | Company | Notes |
-|-------|----------|------|---------|-------|
-| agent.test1@mrsurety-qa.com | QAtest@123 | Alex Johnson | Surety Realty | Primary agent tester; use for referral link generation |
-| agent.test2@mrsurety-qa.com | QAtest@123 | Maria Garcia | HomeGuard Agency | Secondary agent; test multi-agent scenarios |
+| Email | Password | Name | Company | Workflow |
+|-------|----------|------|---------|----------|
+| agent.test1@outlook.com | QAtest@2026! | Alex Johnson | Surety Realty | Workflow 2 — referral link generation |
+| agent.test2@outlook.com | QAtest@2026! | Maria Garcia | HomeGuard Agency | Multi-agent scenario |
 
 ---
 
 ## Homeowners
 
-| Email | Password | Name | Property Address | Notes |
-|-------|----------|------|-----------------|-------|
-| homeowner.test1@mrsurety-qa.com | QAtest@123 | Sam Williams | 123 Main St, Los Angeles CA 90001 | Standard homeowner test account |
-| homeowner.test2@mrsurety-qa.com | QAtest@123 | Jamie Lee | 456 Oak Ave, Anaheim CA 92801 | Linked to agent.test1 via referral |
-| homeowner.test3@mrsurety-qa.com | QAtest@123 | Chris Brown | 789 Pine Rd, Irvine CA 92604 | Edge case: no agent email entered |
+| Email | Password | Name | Property Address | Workflow |
+|-------|----------|------|-----------------|----------|
+| homeowner.test2@outlook.com | QAtest@2026! | Jamie Lee | 456 Oak Ave, Anaheim CA 92801 | Workflow 3 Method A — uses referral link |
+| homeowner.test1@outlook.com | QAtest@2026! | Sam Williams | 123 Main St, Los Angeles CA 90001 | Workflow 3 Method B — enters agent email |
+| homeowner.test3@outlook.com | QAtest@2026! | Chris Brown | 789 Pine Rd, Irvine CA 92604 | Edge case — no agent email entered |
 
 ---
 
 ## Contractors
 
-| Email | Password | Name | Company | Notes |
-|-------|----------|------|---------|-------|
-| contractor.test1@mrsurety-qa.com | QAtest@123 | Bob Miller | Miller Construction LLC | Primary contractor; upload bid and estimate |
-| contractor.test2@mrsurety-qa.com | QAtest@123 | Linda Chen | Chen Builders Inc | Secondary contractor; test competing bids |
+| Email | Password | Name | Company | Workflow |
+|-------|----------|------|---------|----------|
+| contractor.test1@outlook.com | QAtest@2026! | Bob Miller | Miller Construction LLC | Workflow 4 — submits bid & estimate |
+| contractor.test2@outlook.com | QAtest@2026! | Linda Chen | Chen Builders Inc | Competing bid scenario |
 
 ---
 
 ## Technicians
 
-| Email | Password | Name | Company | Notes |
-|-------|----------|------|---------|-------|
-| tech.test1@mrsurety-qa.com | QAtest@123 | Dave Torres | Torres Services | Assigned technician; verify work order receipt |
-
----
-
-## Admin
-
-| Email | Password | Name | Notes |
-|-------|----------|------|-------|
-| admin.qa@mrsurety-qa.com | QAadmin@123 | QA Admin | Internal admin account for approvals and dashboard review |
+| Email | Password | Name | Company | Workflow |
+|-------|----------|------|---------|----------|
+| tech.test1@outlook.com | QAtest@2026! | Dave Torres | Torres Services | Workflow 8 — receives & completes work order |
 
 ---
 
@@ -57,20 +70,20 @@
 > This persona is the contractor's **external insurance agent** who receives a secure one-time upload link via email.
 > They do **not** have a platform account. Access is via the link only.
 
-| Email | Name | Company | Notes |
-|-------|------|---------|-------|
-| ins.agent.test@mrsurety-qa.com | Rachel Kim | Kim Insurance Brokers | Used for Agent Upload Invite System tests; receives secure link from contractor.test1 |
+| Email | Name | Company | Workflow |
+|-------|------|---------|----------|
+| ins.agent.test@outlook.com | Rachel Kim | Kim Insurance Brokers | Workflow 9 — receives secure upload link from contractor.test1 |
 
-**Environment variable:** `INSURANCE_AGENT_EMAIL=ins.agent.test@mrsurety-qa.com`  
-For end-to-end testing with a real inbox, use a tool like Mailosaur or Mailtrap and set `AGENT_UPLOAD_LINK` to the link extracted from the received email.
+**Environment variable:** `INSURANCE_AGENT_EMAIL=ins.agent.test@outlook.com`
 
 ---
 
 ## Account Registration Notes
 
-- All accounts should be registered on the **staging** environment only.
-- Use the **agent referral link** method (agent.test1 → homeowner.test2) for referral flow tests.
-- Use the **homeowner agent-email method** (homeowner.test1 → enters agent.test1 email) for email-based linking.
-- Contractor accounts require approval before bidding; confirm admin receives and approves contractor registration.
-- After each test cycle, document which accounts were used and any password resets applied.
-- The **Insurance Agent** has no platform account. They access the system only via the secure upload link emailed to them by the contractor. Set `INSURANCE_AGENT_EMAIL` env var if using a real test inbox.
+- **Create a real Outlook inbox** for each email address before running `create-accounts`
+- All accounts are registered on the **live app** (https://frontend-tan-five-46.vercel.app) only
+- Use the **agent referral link** method (agent.test1 → homeowner.test2) for Workflow 2–3 Method A
+- Use the **homeowner agent-email method** (homeowner.test1 → enters agent.test1 email) for Workflow 3 Method B
+- Contractor accounts require admin approval — admin logs in and approves (Workflow 7)
+- After each test cycle, document which accounts were used and any password resets
+

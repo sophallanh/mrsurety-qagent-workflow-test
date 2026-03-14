@@ -2,38 +2,56 @@
 mrsurety_qa.py – OpenClaw / Playwright Python Workflow Suite
 ============================================================
 Complete automated QA for Christopher's MrSurety testing requirements.
+Live app: https://frontend-tan-five-46.vercel.app
 
-Workflows
----------
-  --workflow admin-login              Login as admin, screenshot dashboard, export user CSV
-  --workflow agent-signup             Create agent account, generate referral code & QR
-  --workflow homeowner-service-request  Test both referral methods + Stripe test payment
-  --workflow email-docusign           Screenshot every email and DocuSign doc (50+)
-  --workflow contractor-upload-invite  Full invite flow + all security controls
-  --workflow admin-verification       Admin checks + compile daily findings report
-  --workflow all                       Run all 6 workflows in sequence (default)
-  --check-connection                  Verify app is reachable and admin login works
+4 Things Left to Do (all automated by this script)
+---------------------------------------------------
+  1. Create QA test accounts on the live app:
+       python3 mrsurety_qa.py --workflow create-accounts
 
-Usage
------
-  # Run everything (recommended for daily automated run):
-  python3 mrsurety_qa.py --workflow all
+  2. Run all 9 workflows (captures 50+ screenshots + videos):
+       python3 mrsurety_qa.py --workflow all
 
-  # Run a single workflow:
-  python3 mrsurety_qa.py --workflow admin-login
+  3. Package everything for Google Drive:
+       ./run_daily.sh   (creates a zip in qa/openclaw/)
 
-  # Verify connectivity before starting:
-  python3 mrsurety_qa.py --check-connection
+  4. Share the zip with Christopher (upload to Google Drive manually or
+     set GDRIVE_FOLDER_ID in .env for automatic upload)
 
-Requirements
-------------
+All 9 Workflows
+---------------
+  --workflow create-accounts        Create all test users on the live app (run FIRST)
+  --workflow admin-login            Workflow 1: Login as admin, screenshot dashboard, export user CSV
+  --workflow agent-signup           Workflow 2: Create agent account, generate referral code & QR
+  --workflow homeowner-service-request  Workflow 3: Both referral methods + Stripe test payment
+  --workflow contractor-bidding     Workflow 4: Contractor submits bid & uploads estimate
+  --workflow homeowner-deposit      Workflow 5: Homeowner selects estimate & pays deposit
+  --workflow work-order-docusign    Workflow 6: Work order generated + DocuSign sent/signed
+  --workflow admin-verification     Workflow 7: Admin approval flow + all status checks
+  --workflow technician-workflow    Workflow 8: Technician receives & completes work order
+  --workflow agent-upload-invite    Workflow 9: Contractor upload invite + security controls
+  --workflow email-docusign         Bonus: Screenshot every email & DocuSign doc (50+)
+  --workflow all                    Run ALL 9 workflows in sequence (recommended)
+  --check-connection                Verify app is reachable and admin login works
+
+Quick Start
+-----------
+  # Step 0: Install dependencies (one time)
   pip install playwright python-dotenv
   playwright install chromium
 
-Environment
------------
-  Copy .env.example → .env in the qa/openclaw/ directory and fill in your values.
-  All variables can be overridden by setting them in the shell environment.
+  # Step 1: Configure (one time)
+  cp qa/openclaw/.env.example qa/openclaw/.env
+  # (The defaults already point to the live app — no edits needed for a quick start)
+
+  # Step 2: Create all test accounts on the live app
+  python3 qa/openclaw/workflows/mrsurety_qa.py --workflow create-accounts
+
+  # Step 3: Run all 9 workflows
+  python3 qa/openclaw/workflows/mrsurety_qa.py --workflow all
+
+  # Step 4: Package and share
+  cd qa/openclaw && ./workflows/run_daily.sh
 """
 
 from __future__ import annotations
@@ -55,7 +73,8 @@ _SCRIPT_DIR = Path(__file__).parent
 _ENV_FILE = _SCRIPT_DIR.parent / ".env"
 load_dotenv(_ENV_FILE)
 
-BASE_URL = os.getenv("MRSURETY_BASE_URL", "https://staging.mrsurety.com").rstrip("/")
+# Live app URL – https://frontend-tan-five-46.vercel.app
+BASE_URL = os.getenv("MRSURETY_BASE_URL", "https://frontend-tan-five-46.vercel.app").rstrip("/")
 ADMIN_EMAIL = os.getenv("ADMIN_EMAIL", "admin@mrsurety.com")
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "MrSurety2026!")
 
@@ -77,19 +96,27 @@ HEADLESS = os.getenv("OPENCLAW_HEADLESS", "false").lower() == "true"
 SLOW_MO = int(os.getenv("OPENCLAW_SLOW_MO", "50"))
 TIMEOUT = int(os.getenv("OPENCLAW_TIMEOUT", "60000"))
 
-# Generated test account credentials (YYYYMMDD suffix for uniqueness)
-_DATE_SUFFIX = datetime.now().strftime("%Y%m%d")
-AGENT_EMAIL = os.getenv("AGENT_EMAIL") or f"testagent_{_DATE_SUFFIX}@outlook.com"
-AGENT_PASSWORD = os.getenv("AGENT_PASSWORD", "MrSuretyQA2026!")
-HOMEOWNER_EMAIL_A = os.getenv("HOMEOWNER_EMAIL_A") or f"testhomeowner_a_{_DATE_SUFFIX}@outlook.com"
-HOMEOWNER_PASSWORD_A = os.getenv("HOMEOWNER_PASSWORD_A", "MrSuretyQA2026!")
-HOMEOWNER_EMAIL_B = os.getenv("HOMEOWNER_EMAIL_B") or f"testhomeowner_b_{_DATE_SUFFIX}@outlook.com"
-HOMEOWNER_PASSWORD_B = os.getenv("HOMEOWNER_PASSWORD_B", "MrSuretyQA2026!")
-CONTRACTOR_EMAIL = os.getenv("CONTRACTOR_EMAIL") or f"testcontractor_{_DATE_SUFFIX}@outlook.com"
-CONTRACTOR_PASSWORD = os.getenv("CONTRACTOR_PASSWORD", "MrSuretyQA2026!")
-INSURANCE_AGENT_EMAIL = os.getenv("INSURANCE_AGENT_EMAIL") or f"testinsagent_{_DATE_SUFFIX}@outlook.com"
+# Test account credentials – pre-set to consistent names for the live app
+# Override via .env or environment variables
+AGENT_EMAIL = os.getenv("AGENT_EMAIL", "agent.test1@outlook.com")
+AGENT_PASSWORD = os.getenv("AGENT_PASSWORD", "QAtest@2026!")
+AGENT2_EMAIL = os.getenv("AGENT2_EMAIL", "agent.test2@outlook.com")
+AGENT2_PASSWORD = os.getenv("AGENT2_PASSWORD", "QAtest@2026!")
+HOMEOWNER_EMAIL_A = os.getenv("HOMEOWNER_EMAIL_A", "homeowner.test2@outlook.com")   # linked via referral
+HOMEOWNER_PASSWORD_A = os.getenv("HOMEOWNER_PASSWORD_A", "QAtest@2026!")
+HOMEOWNER_EMAIL_B = os.getenv("HOMEOWNER_EMAIL_B", "homeowner.test1@outlook.com")   # agent email method
+HOMEOWNER_PASSWORD_B = os.getenv("HOMEOWNER_PASSWORD_B", "QAtest@2026!")
+HOMEOWNER_EMAIL_C = os.getenv("HOMEOWNER_EMAIL_C", "homeowner.test3@outlook.com")   # no agent
+HOMEOWNER_PASSWORD_C = os.getenv("HOMEOWNER_PASSWORD_C", "QAtest@2026!")
+CONTRACTOR_EMAIL = os.getenv("CONTRACTOR_EMAIL", "contractor.test1@outlook.com")
+CONTRACTOR_PASSWORD = os.getenv("CONTRACTOR_PASSWORD", "QAtest@2026!")
+CONTRACTOR2_EMAIL = os.getenv("CONTRACTOR2_EMAIL", "contractor.test2@outlook.com")
+CONTRACTOR2_PASSWORD = os.getenv("CONTRACTOR2_PASSWORD", "QAtest@2026!")
+TECH_EMAIL = os.getenv("TECH_EMAIL", "tech.test1@outlook.com")
+TECH_PASSWORD = os.getenv("TECH_PASSWORD", "QAtest@2026!")
+INSURANCE_AGENT_EMAIL = os.getenv("INSURANCE_AGENT_EMAIL", "ins.agent.test@outlook.com")
 
-# Secure upload link variables (set after Workflow 5 generates them)
+# Secure upload link variables (set after Workflow 9 generates them)
 AGENT_UPLOAD_LINK = os.getenv("AGENT_UPLOAD_LINK", "")
 REVOKED_UPLOAD_LINK = os.getenv("REVOKED_UPLOAD_LINK", "")
 EXPIRED_UPLOAD_LINK = os.getenv("EXPIRED_UPLOAD_LINK", "")
@@ -648,6 +675,378 @@ def workflow_admin_verification(browser: Browser) -> None:
     _generate_reports()
 
 
+# ── Workflow 0 – Create Test Accounts ───────────────────────────────────────
+
+def workflow_create_accounts(browser: Browser) -> None:
+    """
+    Creates all QA test accounts on the live app.
+    Run this FIRST (before any other workflow).
+
+    Accounts created:
+      Agent 1:        agent.test1@outlook.com
+      Agent 2:        agent.test2@outlook.com
+      Homeowner A:    homeowner.test2@outlook.com  (referral link method)
+      Homeowner B:    homeowner.test1@outlook.com  (agent email method)
+      Homeowner C:    homeowner.test3@outlook.com  (no agent – edge case)
+      Contractor 1:   contractor.test1@outlook.com
+      Contractor 2:   contractor.test2@outlook.com
+      Technician:     tech.test1@outlook.com
+    """
+    print("\n── Workflow 0: Create Test Accounts ─────────────────────────")
+
+    accounts_to_create = [
+        ("agent",      AGENT_EMAIL,       AGENT_PASSWORD,       "Alex",  "Johnson",  "Surety Realty"),
+        ("agent",      AGENT2_EMAIL,      AGENT2_PASSWORD,      "Maria", "Garcia",   "HomeGuard Agency"),
+        ("homeowner",  HOMEOWNER_EMAIL_A, HOMEOWNER_PASSWORD_A, "Jamie", "Lee",      ""),
+        ("homeowner",  HOMEOWNER_EMAIL_B, HOMEOWNER_PASSWORD_B, "Sam",   "Williams", ""),
+        ("homeowner",  HOMEOWNER_EMAIL_C, HOMEOWNER_PASSWORD_C, "Chris", "Brown",    ""),
+        ("contractor", CONTRACTOR_EMAIL,  CONTRACTOR_PASSWORD,  "Bob",   "Miller",   "Miller Construction LLC"),
+        ("contractor", CONTRACTOR2_EMAIL, CONTRACTOR2_PASSWORD, "Linda", "Chen",     "Chen Builders Inc"),
+        ("technician", TECH_EMAIL,        TECH_PASSWORD,        "Dave",  "Torres",   "Torres Services"),
+    ]
+
+    for role, email, password, first, last, company in accounts_to_create:
+        ctx, page = _new_page(browser)
+        try:
+            page.goto("/signup")
+            page.wait_for_load_state("networkidle")
+
+            # Select role if dropdown exists
+            try:
+                page.select_option('[data-testid="role"]', role)
+            except Exception:
+                pass
+
+            page.fill('[data-testid="first-name"]', first)
+            page.fill('[data-testid="last-name"]', last)
+            page.fill('[data-testid="email"]', email)
+            page.fill('[data-testid="password"]', password)
+
+            try:
+                page.fill('[data-testid="confirm-password"]', password)
+            except Exception:
+                pass
+
+            if company:
+                try:
+                    page.fill('[data-testid="company"]', company)
+                except Exception:
+                    pass
+
+            shot_name = f"account_create_{role}_{first.lower()}_{last.lower()}.png"
+            shot_path = _shot(page, shot_name)
+            _register_account(role, email, password, str(shot_path))
+
+            page.click('[data-testid="signup-submit"]')
+            page.wait_for_load_state("networkidle")
+            page.wait_for_timeout(2000)
+
+            # Accept any success/confirmation dialog
+            try:
+                page.click('[data-testid="confirm-ok"]', timeout=3000)
+            except Exception:
+                pass
+
+            _shot(page, f"account_created_{role}_{first.lower()}.png")
+            print(f"  ✅ {role}: {email}")
+
+        except Exception as exc:
+            _log_finding("create-accounts", f"signup-{role}", "ERROR", f"{email}: {exc}", severity="high")
+            print(f"  ❌ {role} {email}: {exc}")
+        finally:
+            ctx.close()
+
+    print(f"  ✅ Account creation complete — check output/data/test_accounts.csv")
+
+
+# ── Workflow 4 – Contractor Bidding & Estimate Upload ────────────────────────
+
+def workflow_contractor_bidding(browser: Browser) -> None:
+    """
+    Workflow 4: Contractor logs in, finds the open job, submits a bid,
+    and uploads an estimate document.
+    """
+    print("\n── Workflow 4: Contractor Bidding & Estimate Upload ─────────")
+    ctx, page = _new_page(browser)
+    try:
+        _login(page, CONTRACTOR_EMAIL, CONTRACTOR_PASSWORD)
+        page.wait_for_load_state("networkidle")
+        _shot(page, "contractor_bidding_01_dashboard.png")
+        print("  ✅ Contractor logged in")
+
+        # Navigate to available jobs
+        page.click('[data-testid="nav-jobs"]')
+        page.wait_for_selector('[data-testid="job-list"]', timeout=TIMEOUT)
+        _shot(page, "contractor_bidding_02_job_list.png")
+        print("  ✅ Job list visible")
+
+        # Open first available job
+        first_job = page.locator('[data-testid="job-item"]').first
+        first_job.click()
+        page.wait_for_load_state("networkidle")
+        _shot(page, "contractor_bidding_03_job_detail.png")
+        print("  ✅ Job detail page")
+
+        # Submit bid
+        try:
+            page.click('[data-testid="submit-bid-btn"]')
+            page.wait_for_selector('[data-testid="bid-form"]', timeout=TIMEOUT)
+            page.fill('[data-testid="bid-amount"]', "1500.00")
+            page.fill('[data-testid="bid-notes"]', "Professional repair service, fully licensed and insured.")
+            _shot(page, "contractor_bidding_04_bid_form.png")
+
+            # Upload estimate PDF fixture if available
+            estimate_path = _SCRIPT_DIR.parent.parent / "tests/playwright/fixtures/sample-estimate.pdf"
+            if estimate_path.exists():
+                page.set_input_files('[data-testid="estimate-upload"]', str(estimate_path))
+                print("  ✅ Estimate PDF attached")
+
+            page.click('[data-testid="submit-bid"]')
+            page.wait_for_selector('[data-testid="bid-success"]', timeout=TIMEOUT)
+            _shot(page, "contractor_bidding_05_bid_submitted.png")
+            print("  ✅ Bid submitted successfully")
+        except Exception as exc:
+            _log_finding("contractor-bidding", "bid-submit", "WARNING", str(exc), severity="medium")
+            print(f"  ⚠️  Bid submission: {exc}")
+
+    except Exception as exc:
+        _log_finding("contractor-bidding", "setup", "ERROR", str(exc), severity="high")
+        print(f"  ❌ {exc}")
+    finally:
+        ctx.close()
+
+
+# ── Workflow 5 – Homeowner Estimate Selection & Deposit ─────────────────────
+
+def workflow_homeowner_deposit(browser: Browser) -> None:
+    """
+    Workflow 5: Homeowner logs in, reviews contractor bids, selects an
+    estimate, picks a calendar date, and pays the deposit (Stripe test card).
+    """
+    print("\n── Workflow 5: Homeowner Estimate Selection & Deposit ───────")
+    ctx, page = _new_page(browser)
+    try:
+        _login(page, HOMEOWNER_EMAIL_B, HOMEOWNER_PASSWORD_B)
+        page.wait_for_load_state("networkidle")
+        _shot(page, "homeowner_deposit_01_dashboard.png")
+        print("  ✅ Homeowner logged in")
+
+        # View bids received
+        page.click('[data-testid="nav-service-requests"]')
+        page.wait_for_selector('[data-testid="service-request-list"]', timeout=TIMEOUT)
+        _shot(page, "homeowner_deposit_02_service_requests.png")
+
+        # Open request with bids
+        request_item = page.locator('[data-testid="service-request-item"]').first
+        request_item.click()
+        page.wait_for_load_state("networkidle")
+        _shot(page, "homeowner_deposit_03_request_detail.png")
+        print("  ✅ Service request detail page")
+
+        # View and select estimate
+        try:
+            page.click('[data-testid="view-estimates"]')
+            page.wait_for_selector('[data-testid="estimate-list"]', timeout=TIMEOUT)
+            _shot(page, "homeowner_deposit_04_estimate_list.png")
+            print("  ✅ Estimate list visible")
+
+            # Select first estimate
+            first_estimate = page.locator('[data-testid="estimate-item"]').first
+            first_estimate.click()
+            page.wait_for_load_state("networkidle")
+            _shot(page, "homeowner_deposit_05_estimate_selected.png")
+            print("  ✅ Estimate selected")
+        except Exception as exc:
+            print(f"  ⚠️  Estimate selection: {exc}")
+
+        # Pick calendar date
+        try:
+            page.click('[data-testid="pick-date-btn"]')
+            page.wait_for_selector('[data-testid="calendar"]', timeout=TIMEOUT)
+            _shot(page, "homeowner_deposit_06_calendar.png")
+            # Click first available date
+            available_date = page.locator('[data-testid="calendar-day-available"]').first
+            available_date.click()
+            _shot(page, "homeowner_deposit_07_date_selected.png")
+            print("  ✅ Date selected")
+        except Exception as exc:
+            print(f"  ⚠️  Calendar selection: {exc}")
+
+        # Stripe deposit payment
+        try:
+            page.click('[data-testid="pay-deposit-btn"]')
+            page.wait_for_selector('[data-testid="stripe-payment-form"]', timeout=TIMEOUT)
+            _shot(page, "homeowner_deposit_08_stripe_form.png")
+
+            # Fill Stripe test card
+            page.fill('[data-testid="card-number"]', STRIPE_CARD)
+            page.fill('[data-testid="card-expiry"]', STRIPE_EXPIRY)
+            page.fill('[data-testid="card-cvv"]', STRIPE_CVV)
+            try:
+                page.fill('[data-testid="card-zip"]', STRIPE_ZIP)
+            except Exception:
+                pass
+
+            _shot(page, "homeowner_deposit_09_stripe_filled.png")
+            page.click('[data-testid="pay-now-btn"]')
+            page.wait_for_selector('[data-testid="payment-success"]', timeout=TIMEOUT)
+            _shot(page, "homeowner_deposit_10_payment_success.png")
+            print("  ✅ Deposit paid (Stripe test card)")
+        except Exception as exc:
+            _log_finding("homeowner-deposit", "stripe-payment", "WARNING", str(exc), severity="high")
+            print(f"  ⚠️  Stripe payment: {exc}")
+
+    except Exception as exc:
+        _log_finding("homeowner-deposit", "setup", "ERROR", str(exc), severity="high")
+        print(f"  ❌ {exc}")
+    finally:
+        ctx.close()
+
+
+# ── Workflow 6 – Work Order Generation & DocuSign ───────────────────────────
+
+def workflow_work_order_docusign(browser: Browser) -> None:
+    """
+    Workflow 6: Admin generates the work order after deposit is paid.
+    DocuSign is sent to contractor (and possibly homeowner). Captures
+    all DocuSign email links and screenshots the document preview.
+    """
+    print("\n── Workflow 6: Work Order Generation & DocuSign ─────────────")
+    ctx, page = _new_page(browser)
+    try:
+        _login(page, ADMIN_EMAIL, ADMIN_PASSWORD)
+        page.wait_for_load_state("networkidle")
+
+        # Navigate to work orders / pending
+        page.click('[data-testid="nav-work-orders"]')
+        page.wait_for_selector('[data-testid="work-order-list"]', timeout=TIMEOUT)
+        _shot(page, "workorder_01_list.png")
+        print("  ✅ Work order list visible")
+
+        # Open pending work order
+        try:
+            pending_wo = page.locator('[data-testid="work-order-pending"]').first
+            pending_wo.click()
+            page.wait_for_load_state("networkidle")
+            _shot(page, "workorder_02_detail.png")
+
+            # Generate work order / trigger DocuSign
+            page.click('[data-testid="generate-work-order"]')
+            page.wait_for_selector('[data-testid="work-order-generated"]', timeout=TIMEOUT)
+            _shot(page, "workorder_03_generated.png")
+            print("  ✅ Work order generated")
+
+            # Screenshot DocuSign trigger confirmation
+            try:
+                page.wait_for_selector('[data-testid="docusign-sent"]', timeout=10000)
+                _shot(page, "workorder_04_docusign_sent.png")
+                print("  ✅ DocuSign triggered")
+            except Exception:
+                print("  ⚠️  DocuSign trigger confirmation not found (may send async)")
+
+        except Exception as exc:
+            _log_finding("work-order-docusign", "generate", "WARNING", str(exc), severity="medium")
+            print(f"  ⚠️  Work order generation: {exc}")
+
+        # Screenshot admin work order status
+        _shot(page, "workorder_05_admin_status.png")
+
+    except Exception as exc:
+        _log_finding("work-order-docusign", "setup", "ERROR", str(exc), severity="high")
+        print(f"  ❌ {exc}")
+    finally:
+        ctx.close()
+
+    # Contractor view: sign DocuSign
+    ctx2, page2 = _new_page(browser)
+    try:
+        _login(page2, CONTRACTOR_EMAIL, CONTRACTOR_PASSWORD)
+        page2.wait_for_load_state("networkidle")
+
+        page2.click('[data-testid="nav-work-orders"]')
+        page2.wait_for_selector('[data-testid="work-order-list"]', timeout=TIMEOUT)
+        _shot(page2, "workorder_06_contractor_list.png")
+
+        # Open the work order
+        wo_item = page2.locator('[data-testid="work-order-item"]').first
+        wo_item.click()
+        page2.wait_for_load_state("networkidle")
+        _shot(page2, "workorder_07_contractor_detail.png")
+        print("  ✅ Contractor can see work order")
+
+        # Initiate DocuSign signing if available
+        try:
+            page2.click('[data-testid="sign-docusign"]')
+            page2.wait_for_load_state("networkidle")
+            _shot(page2, "workorder_08_docusign_signing.png")
+            print("  ✅ DocuSign signing page reached")
+        except Exception:
+            print("  ⚠️  DocuSign sign button not available yet (awaiting email trigger)")
+
+    except Exception as exc:
+        print(f"  ⚠️  Contractor DocuSign view: {exc}")
+    finally:
+        ctx2.close()
+
+
+# ── Workflow 8 – Technician Work Order Receipt ───────────────────────────────
+
+def workflow_technician(browser: Browser) -> None:
+    """
+    Workflow 8: Technician logs in, views assigned work order,
+    reviews details, and marks job as started/completed.
+    """
+    print("\n── Workflow 8: Technician Work Order Receipt ────────────────")
+    ctx, page = _new_page(browser)
+    try:
+        _login(page, TECH_EMAIL, TECH_PASSWORD)
+        page.wait_for_load_state("networkidle")
+        _shot(page, "technician_01_dashboard.png")
+        print("  ✅ Technician logged in")
+
+        # View assigned jobs
+        try:
+            page.click('[data-testid="nav-my-jobs"]')
+            page.wait_for_selector('[data-testid="job-list"]', timeout=TIMEOUT)
+            _shot(page, "technician_02_job_list.png")
+            print("  ✅ Technician job list visible")
+
+            # Open job detail
+            job_item = page.locator('[data-testid="job-item"]').first
+            job_item.click()
+            page.wait_for_load_state("networkidle")
+            _shot(page, "technician_03_job_detail.png")
+            print("  ✅ Technician job detail")
+
+            # View work order document
+            try:
+                page.click('[data-testid="view-work-order"]')
+                page.wait_for_load_state("networkidle")
+                _shot(page, "technician_04_work_order_doc.png")
+                print("  ✅ Work order document visible")
+            except Exception:
+                print("  ⚠️  Work order doc not available yet (may not be assigned)")
+
+            # Mark job started
+            try:
+                page.click('[data-testid="start-job"]')
+                page.wait_for_selector('[data-testid="job-started"]', timeout=TIMEOUT)
+                _shot(page, "technician_05_job_started.png")
+                print("  ✅ Job marked as started")
+            except Exception as exc:
+                print(f"  ⚠️  Start job: {exc}")
+
+        except Exception as exc:
+            _log_finding("technician-workflow", "job-view", "WARNING", str(exc), severity="medium")
+            print(f"  ⚠️  Technician job view: {exc}")
+
+    except Exception as exc:
+        _log_finding("technician-workflow", "login", "ERROR", str(exc), severity="high")
+        print(f"  ❌ {exc}")
+    finally:
+        ctx.close()
+
+
 # ── Report Generation ────────────────────────────────────────────────────────
 
 def _generate_reports() -> None:
@@ -791,13 +1190,25 @@ def check_connection() -> None:
 # ── Main Entry Point ─────────────────────────────────────────────────────────
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="MrSurety QA – OpenClaw Workflow Suite")
+    parser = argparse.ArgumentParser(description="MrSurety QA – OpenClaw Workflow Suite (All 9 Workflows)")
     parser.add_argument(
         "--workflow",
-        choices=["admin-login", "agent-signup", "homeowner-service-request",
-                 "email-docusign", "contractor-upload-invite", "admin-verification", "all"],
+        choices=[
+            "create-accounts",          # Step 0: Create all test users on the live app (run FIRST)
+            "admin-login",              # Workflow 1: Admin login & dashboard
+            "agent-signup",             # Workflow 2: Agent signup & referral code
+            "homeowner-service-request",# Workflow 3: Both referral methods + Stripe
+            "contractor-bidding",       # Workflow 4: Contractor bid & estimate upload
+            "homeowner-deposit",        # Workflow 5: Homeowner selects estimate & pays deposit
+            "work-order-docusign",      # Workflow 6: Work order generated + DocuSign
+            "admin-verification",       # Workflow 7: Admin approval flow
+            "technician-workflow",      # Workflow 8: Technician receives work order
+            "agent-upload-invite",      # Workflow 9: Contractor upload invite + security
+            "email-docusign",           # Bonus: Screenshot every email & DocuSign doc (50+)
+            "all",                      # Run ALL 9 workflows in sequence
+        ],
         default="all",
-        help="Which workflow to run (default: all)",
+        help="Which workflow to run (default: all – runs all 9 in order)",
     )
     parser.add_argument(
         "--check-connection",
@@ -815,6 +1226,7 @@ def main() -> None:
     print(f"  MrSurety QA – OpenClaw Workflow Suite")
     print(f"  App: {BASE_URL}")
     print(f"  Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    print(f"  Workflow: {args.workflow}")
     print(f"{'='*60}")
 
     with sync_playwright() as pw:
@@ -823,36 +1235,70 @@ def main() -> None:
             referral_link = ""
             run = args.workflow
 
+            # Step 0: Create all accounts (run before anything else)
+            if run == "create-accounts":
+                workflow_create_accounts(browser)
+                _generate_reports()
+                return
+
+            # Workflow 1: Admin login & dashboard
             if run in ("admin-login", "all"):
                 workflow_admin_login(browser)
 
+            # Workflow 2: Agent signup & referral code
             if run in ("agent-signup", "all"):
                 referral_link = workflow_agent_signup(browser)
 
+            # Workflow 3: Homeowner service request (both methods) + Stripe
             if run in ("homeowner-service-request", "all"):
                 workflow_homeowner_service_request(browser, referral_link)
 
-            if run in ("email-docusign", "all"):
-                workflow_email_docusign(browser)
+            # Workflow 4: Contractor bidding & estimate upload
+            if run in ("contractor-bidding", "all"):
+                workflow_contractor_bidding(browser)
 
-            if run in ("contractor-upload-invite", "all"):
-                workflow_contractor_upload_invite(browser)
+            # Workflow 5: Homeowner estimate selection & deposit
+            if run in ("homeowner-deposit", "all"):
+                workflow_homeowner_deposit(browser)
 
+            # Workflow 6: Work order generation & DocuSign
+            if run in ("work-order-docusign", "all"):
+                workflow_work_order_docusign(browser)
+
+            # Workflow 7: Admin verification & approval flow
             if run in ("admin-verification", "all"):
                 workflow_admin_verification(browser)
 
-            if run not in ("admin-verification",):
-                _generate_reports()
+            # Workflow 8: Technician work order receipt
+            if run in ("technician-workflow", "all"):
+                workflow_technician(browser)
+
+            # Workflow 9: Agent upload invite + security controls
+            if run in ("agent-upload-invite", "all"):
+                workflow_contractor_upload_invite(browser)
+
+            # Bonus: Email & DocuSign screenshot sweep (50+)
+            if run in ("email-docusign", "all"):
+                workflow_email_docusign(browser)
+
+            _generate_reports()
 
         finally:
             browser.close()
 
+    screenshots = list(SCREENSHOT_DIR.glob("*.png"))
+    videos = list(VIDEO_DIR.glob("*.mp4"))
     print(f"\n{'='*60}")
-    print(f"  ✅ QA Suite complete")
-    print(f"  📁 Output → {_OUTPUT_BASE}")
-    print(f"  📸 Screenshots: {len(list(SCREENSHOT_DIR.glob('*.png')))}")
-    print(f"  🎥 Videos: {len(list(VIDEO_DIR.glob('*.mp4')))}")
-    print(f"  📄 Findings: {len(_findings)}")
+    print(f"  ✅ QA Suite complete — {len(screenshots)} screenshots, {len(videos)} videos")
+    print(f"  📁 Output  → {_OUTPUT_BASE}")
+    print(f"  📋 Report  → {REPORT_DIR / (datetime.now().strftime('%Y-%m-%d') + '_findings.md')}")
+    print(f"  📄 Accounts → {DATA_DIR / 'test_accounts.csv'}")
+    print(f"  ⚠️  Findings → {len(_findings)}")
+    print(f"\n  ── Next Steps ──────────────────────────────────────────")
+    print(f"  1. Review output/reports/*_findings.md")
+    print(f"  2. Zip:   cd qa/openclaw && zip -r MrSurety_QA_$(date +%Y-%m-%d).zip output/")
+    print(f"  3. Upload zip to the shared Google Drive folder")
+    print(f"  4. Email Christopher: c.palmer@mrsurety.com")
     print(f"{'='*60}\n")
 
 

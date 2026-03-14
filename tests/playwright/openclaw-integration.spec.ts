@@ -730,4 +730,210 @@ test.describe('§I – Integration with existing Playwright test suite', () => {
     expect(guide).toContain('email-docusign');
     expect(guide).toContain('agent-upload-invite');
   });
+
+  test('§I.11 Live app URL is https://frontend-tan-five-46.vercel.app in all configs', () => {
+    const LIVE_URL = 'https://frontend-tan-five-46.vercel.app';
+    expect(readFile(ENV_EXAMPLE_PATH)).toContain(LIVE_URL);
+    expect(readFile(GUIDE_PATH)).toContain(LIVE_URL);
+    expect(readFile(WORKFLOW_SCRIPT_PATH)).toContain(LIVE_URL);
+  });
+
+  test('§I.12 playwright.config.ts default baseURL points to live app', () => {
+    const config = fs.readFileSync(
+      path.join(REPO_ROOT, 'tests', 'playwright.config.ts'), 'utf-8'
+    );
+    expect(config).toContain('https://frontend-tan-five-46.vercel.app');
+  });
+
+  test('§I.13 tests/fixtures/test-users.ts admin uses real admin@mrsurety.com', () => {
+    const fixtures = fs.readFileSync(
+      path.join(__dirname, 'fixtures/test-users.ts'), 'utf-8'
+    );
+    expect(fixtures).toContain("'admin@mrsurety.com'");
+    expect(fixtures).toContain("'MrSurety2026!'");
+  });
+
+  test('§I.14 tests/fixtures/test-users.ts uses @outlook.com emails (not old @mrsurety-qa.com)', () => {
+    const fixtures = fs.readFileSync(
+      path.join(__dirname, 'fixtures/test-users.ts'), 'utf-8'
+    );
+    expect(fixtures).toContain('@outlook.com');
+    expect(fixtures).not.toContain('@mrsurety-qa.com');
+  });
+
+  test('§I.15 tests/.env.example exists and has MRSURETY_BASE_URL', () => {
+    const testsEnv = path.join(REPO_ROOT, 'tests', '.env.example');
+    expect(fs.existsSync(testsEnv)).toBe(true);
+    const content = fs.readFileSync(testsEnv, 'utf-8');
+    expect(content).toContain('MRSURETY_BASE_URL=https://frontend-tan-five-46.vercel.app');
+  });
+});
+
+// ── §J – RUN_TODAY.md completeness ──────────────────────────────────────────
+test.describe('§J – RUN_TODAY.md completeness', () => {
+  const RUN_TODAY_PATH = path.join(OPENCLAW_DIR, 'RUN_TODAY.md');
+  const readRunToday = () => fs.readFileSync(RUN_TODAY_PATH, 'utf-8');
+
+  test('§J.1 RUN_TODAY.md exists', () => {
+    expect(fs.existsSync(RUN_TODAY_PATH)).toBe(true);
+  });
+
+  test('§J.2 Lists all 4 remaining tasks', () => {
+    const content = readRunToday();
+    expect(content).toContain('Create QA test accounts');
+    expect(content).toContain('Run all 9 workflows');
+    expect(content).toContain('Google Drive');
+    expect(content).toContain('Christopher');
+  });
+
+  test('§J.3 Has create-accounts command', () => {
+    expect(readRunToday()).toContain('--workflow create-accounts');
+  });
+
+  test('§J.4 Has --workflow all command', () => {
+    expect(readRunToday()).toContain('--workflow all');
+  });
+
+  test('§J.5 Has --check-connection command', () => {
+    expect(readRunToday()).toContain('--check-connection');
+  });
+
+  test('§J.6 References live app URL', () => {
+    expect(readRunToday()).toContain('https://frontend-tan-five-46.vercel.app');
+  });
+
+  test('§J.7 References all 9 workflows in the table', () => {
+    const content = readRunToday();
+    expect(content).toContain('Workflow 1');
+    expect(content).toContain('Workflow 2');
+    expect(content).toContain('Workflow 3');
+    expect(content).toContain('Workflow 4');
+    expect(content).toContain('Workflow 5');
+    expect(content).toContain('Workflow 6');
+    expect(content).toContain('Workflow 7');
+    expect(content).toContain('Workflow 8');
+    expect(content).toContain('Workflow 9');
+  });
+
+  test('§J.8 Has Stripe test card reference', () => {
+    expect(readRunToday()).toContain('4242');
+  });
+
+  test('§J.9 Has admin credentials', () => {
+    const content = readRunToday();
+    expect(content).toContain('admin@mrsurety.com');
+    expect(content).toContain('MrSurety2026!');
+  });
+
+  test('§J.10 Has npm test step', () => {
+    expect(readRunToday()).toContain('npm test');
+  });
+
+  test('§J.11 Has run_daily.sh packaging step', () => {
+    expect(readRunToday()).toContain('run_daily.sh');
+  });
+
+  test('§J.12 Has c.palmer@mrsurety.com for sharing results', () => {
+    expect(readRunToday()).toContain('c.palmer@mrsurety.com');
+  });
+});
+
+// ── §K – mrsurety_qa.py expanded to all 9 workflows ─────────────────────────
+test.describe('§K – mrsurety_qa.py all 9 workflows', () => {
+    const pyPath = WORKFLOW_SCRIPT_PATH;
+  const readPy = () => fs.readFileSync(pyPath, 'utf-8');
+
+  test('§K.1 Has workflow_create_accounts function', () => {
+    expect(readPy()).toContain('def workflow_create_accounts');
+  });
+
+  test('§K.2 Has workflow_contractor_bidding function', () => {
+    expect(readPy()).toContain('def workflow_contractor_bidding');
+  });
+
+  test('§K.3 Has workflow_homeowner_deposit function', () => {
+    expect(readPy()).toContain('def workflow_homeowner_deposit');
+  });
+
+  test('§K.4 Has workflow_work_order_docusign function', () => {
+    expect(readPy()).toContain('def workflow_work_order_docusign');
+  });
+
+  test('§K.5 Has workflow_technician function', () => {
+    expect(readPy()).toContain('def workflow_technician');
+  });
+
+  test('§K.6 CLI choices include create-accounts', () => {
+    expect(readPy()).toContain('"create-accounts"');
+  });
+
+  test('§K.7 CLI choices include contractor-bidding', () => {
+    expect(readPy()).toContain('"contractor-bidding"');
+  });
+
+  test('§K.8 CLI choices include homeowner-deposit', () => {
+    expect(readPy()).toContain('"homeowner-deposit"');
+  });
+
+  test('§K.9 CLI choices include work-order-docusign', () => {
+    expect(readPy()).toContain('"work-order-docusign"');
+  });
+
+  test('§K.10 CLI choices include technician-workflow', () => {
+    expect(readPy()).toContain('"technician-workflow"');
+  });
+
+  test('§K.11 CLI choices include agent-upload-invite', () => {
+    expect(readPy()).toContain('"agent-upload-invite"');
+  });
+
+  test('§K.12 main() dispatches all 9 workflows when run == "all"', () => {
+    const py = readPy();
+    expect(py).toContain('workflow_admin_login');
+    expect(py).toContain('workflow_agent_signup');
+    expect(py).toContain('workflow_homeowner_service_request');
+    expect(py).toContain('workflow_contractor_bidding');
+    expect(py).toContain('workflow_homeowner_deposit');
+    expect(py).toContain('workflow_work_order_docusign');
+    expect(py).toContain('workflow_admin_verification');
+    expect(py).toContain('workflow_technician');
+    expect(py).toContain('workflow_contractor_upload_invite');
+  });
+
+  test('§K.13 Uses outlook.com for test account emails (not mrsurety-qa.com)', () => {
+    const py = readPy();
+    expect(py).toContain('outlook.com');
+    expect(py).not.toContain('mrsurety-qa.com');
+  });
+
+  test('§K.14 Uses QAtest@2026! as default test password', () => {
+    expect(readPy()).toContain('QAtest@2026!');
+  });
+
+  test('§K.15 create-accounts creates 8 accounts (2 agents, 3 homeowners, 2 contractors, 1 tech)', () => {
+    const py = readPy();
+    // check all 8 emails are in the accounts_to_create list
+    expect(py).toContain('agent.test1@outlook.com');
+    expect(py).toContain('agent.test2@outlook.com');
+    expect(py).toContain('homeowner.test2@outlook.com');
+    expect(py).toContain('homeowner.test1@outlook.com');
+    expect(py).toContain('homeowner.test3@outlook.com');
+    expect(py).toContain('contractor.test1@outlook.com');
+    expect(py).toContain('contractor.test2@outlook.com');
+    expect(py).toContain('tech.test1@outlook.com');
+  });
+
+  test('§K.16 MANUAL_EXECUTION_GUIDE.md exists', () => {
+    const guide = path.join(REPO_ROOT, 'qa', 'MANUAL_EXECUTION_GUIDE.md');
+    expect(fs.existsSync(guide)).toBe(true);
+  });
+
+  test('§K.17 MANUAL_EXECUTION_GUIDE.md covers all 9 workflows', () => {
+    const guide = fs.readFileSync(
+      path.join(REPO_ROOT, 'qa', 'MANUAL_EXECUTION_GUIDE.md'), 'utf-8'
+    );
+    for (let i = 1; i <= 9; i++) {
+      expect(guide).toContain(`Workflow ${i}`);
+    }
+  });
 });

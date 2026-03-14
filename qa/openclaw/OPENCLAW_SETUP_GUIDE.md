@@ -89,7 +89,7 @@ nano qa/openclaw/.env   # or use VS Code, TextEdit, etc.
 **Required variables to fill in right now:**
 
 ```dotenv
-MRSURETY_BASE_URL=https://staging.mrsurety.com   # ← ask Christopher for staging URL
+MRSURETY_BASE_URL=https://frontend-tan-five-46.vercel.app   # live Vercel deployment
 ADMIN_EMAIL=admin@mrsurety.com
 ADMIN_PASSWORD=MrSurety2026!
 ```
@@ -169,7 +169,7 @@ python3 qa/openclaw/workflows/mrsurety_qa.py --check-connection
 
 Expected output:
 ```
-✅ Reached https://staging.mrsurety.com – HTTP 200
+✅ Reached https://frontend-tan-five-46.vercel.app – HTTP 200
 ✅ Login page found (/login)
 ✅ Admin login verified (admin@mrsurety.com)
 ```
