@@ -116,3 +116,23 @@ export const doc5DemoHomeowner = {
   password: process.env.DOC5_DEMO_HOMEOWNER_PASSWORD || 'MrSurety2026!',
   displayName: 'Demo Homeowner',
 } as const;
+
+/**
+ * Doc #6 – Agent Workflow Guide credentials.
+ *
+ * Source: Doc #6 (Agent Workflow Guide)
+ *   "Login: testagent2@mrsurety.com | Password: MrSurety2026!"
+ *   "Example Referral Link: https://frontend-tan-five-46.vercel.app/r/AG-F84604C0"
+ *
+ * Used by agent-workflow-guide-doc6.spec.ts to test:
+ *   – Sharing referral link (copy button, QR code)
+ *   – Tracking referrals (dashboard, Referrals page, Clients page)
+ *   – Earning points (tier display, Points page, points history)
+ */
+export const doc6TestAgent = {
+  email: process.env.DOC6_TESTAGENT2_EMAIL || 'testagent2@mrsurety.com',
+  password: process.env.DOC6_TESTAGENT2_PASSWORD || 'MrSurety2026!',
+  displayName: 'Test Agent 2',
+  /** Referral link slug pattern: /r/AG-XXXXXXXX */
+  referralLinkPattern: /\/r\/AG-[0-9A-F]{8}/i,
+} as const;
