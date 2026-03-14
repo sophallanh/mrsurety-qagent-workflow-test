@@ -6,22 +6,24 @@ import * as path from 'path';
  * MrSurety QA – Playwright Configuration
  *
  * Quick start (from the tests/ directory):
- *   cp .env.example .env          # credentials live in .env – no shell quoting needed
+ *   cp .env.example .env          # one-time setup: copies the correct base URL + credentials
  *   npm install
  *   npx playwright install chromium
  *   npx playwright test
  *
  * Live App: https://frontend-tan-five-46.vercel.app
- * Admin:    admin@mrsurety.com  /  set ADMIN_PASSWORD env var
+ * Admin:    admin@mrsurety.com  /  see .env.example for credentials
  *
- * Override via environment variable if needed:
- *   MRSURETY_BASE_URL=https://frontend-tan-five-46.vercel.app npx playwright test
+ * To point at a different environment, edit the MRSURETY_BASE_URL line in your .env file.
+ * If you have no .env, the hardcoded Vercel URL above is used as a fallback.
  */
 
 // ---------------------------------------------------------------------------
 // Load .env from the tests/ directory if it exists.
-// This means you never need to run 'export VAR="value!"' in your shell
-// (which triggers zsh history expansion on '!').  Just edit .env instead.
+// Values from .env take precedence over shell environment variables so that
+// a stale `export MRSURETY_BASE_URL=https://staging.mrsurety.com` in your
+// shell can be corrected simply by running:
+//   cp .env.example .env
 // ---------------------------------------------------------------------------
 try {
   const envPath = path.join(__dirname, '.env');
@@ -30,12 +32,12 @@ try {
     // Match KEY=value lines; skip comments and blank lines
     const m = line.match(/^\s*([A-Z_][A-Z0-9_]*)\s*=\s*(.*?)\s*$/);
     if (m) {
-      // Don't override variables that were already set in the shell environment
-      process.env[m[1]] ??= m[2];
+      // .env wins over stale shell exports; edit .env to switch environments
+      process.env[m[1]] = m[2];
     }
   }
 } catch {
-  // .env not found – that's fine; env vars may be set directly in the shell
+  // .env not found – fall back to shell env vars or the hardcoded defaults below
 }
 
 export default defineConfig({
