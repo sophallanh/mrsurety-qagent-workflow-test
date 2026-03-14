@@ -278,11 +278,65 @@ def _new_page(browser: Browser, record_video: bool = False) -> tuple[BrowserCont
     return ctx, page
 
 
-def _login(page: Page, email: str, password: str) -> None:
+# ── Resilient selector helpers ────────────────────────────────────────────────
+# The live app may not have data-testid attributes on every element.
+# Each list is tried in priority order; the first visible selector wins.
+
+_EMAIL_SELECTORS = [
+    '[data-testid="email"]',
+    'input[type="email"]',
+    'input[name="email"]',
+    'input[id="email"]',
+    'input[placeholder*="email" i]',
+    'input[autocomplete="email"]',
+]
+
+_PASSWORD_SELECTORS = [
+    '[data-testid="password"]',
+    'input[type="password"]',
+    'input[name="password"]',
+    'input[id="password"]',
+    'input[autocomplete="current-password"]',
+    'input[autocomplete="password"]',
+]
+
+_LOGIN_SUBMIT_SELECTORS = [
+    '[data-testid="login-submit"]',
+    'button[type="submit"]',
+    'input[type="submit"]',
+    'button:has-text("Login")',
+    'button:has-text("Log in")',
+    'button:has-text("Sign in")',
+    'button:has-text("Continue")',
+]
+
+
+def _resolve_selector(page: "Page", selectors: list[str], probe_ms: int = 5000) -> str:
+    """Return the first selector from *selectors* that is visible on *page*.
+
+    Each candidate is tried for up to *probe_ms* milliseconds before moving on.
+    Raises RuntimeError with a helpful message if none are found.
+    """
+    for sel in selectors:
+        try:
+            page.wait_for_selector(sel, timeout=probe_ms, state="visible")
+            return sel
+        except Exception:
+            continue
+    raise RuntimeError(
+        f"Could not locate any of the expected elements on {page.url}\n"
+        f"Tried selectors (none visible within {probe_ms}ms each): {selectors}"
+    )
+
+
+def _login(page: "Page", email: str, password: str) -> None:
     page.goto("/login")
-    page.fill('[data-testid="email"]', email)
-    page.fill('[data-testid="password"]', password)
-    page.click('[data-testid="login-submit"]')
+    email_sel = _resolve_selector(page, _EMAIL_SELECTORS)
+    page.fill(email_sel, email)
+    pwd_sel = _resolve_selector(page, _PASSWORD_SELECTORS)
+    page.fill(pwd_sel, password)
+    submit_sel = _resolve_selector(page, _LOGIN_SUBMIT_SELECTORS)
+    page.click(submit_sel)
     page.wait_for_url(lambda url: "/login" not in url, timeout=TIMEOUT)
 
 
@@ -1256,12 +1310,14 @@ def check_connection() -> None:
                 sys.exit(1)
 
             page.goto("/login")
-            page.wait_for_selector('[data-testid="email"]', timeout=TIMEOUT)
-            print(f"  ✅ Login page found (/login)")
+            email_sel = _resolve_selector(page, _EMAIL_SELECTORS)
+            print(f"  ✅ Login page found (/login) — email input: {email_sel}")
 
-            page.fill('[data-testid="email"]', ADMIN_EMAIL)
-            page.fill('[data-testid="password"]', ADMIN_PASSWORD)
-            page.click('[data-testid="login-submit"]')
+            page.fill(email_sel, ADMIN_EMAIL)
+            pwd_sel = _resolve_selector(page, _PASSWORD_SELECTORS)
+            page.fill(pwd_sel, ADMIN_PASSWORD)
+            submit_sel = _resolve_selector(page, _LOGIN_SUBMIT_SELECTORS)
+            page.click(submit_sel)
             page.wait_for_url(lambda url: "/login" not in url, timeout=TIMEOUT)
             print(f"  ✅ Admin login verified ({ADMIN_EMAIL})")
 

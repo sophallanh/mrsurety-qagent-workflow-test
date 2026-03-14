@@ -410,6 +410,34 @@ test.describe('§D – Python workflow script (mrsurety_qa.py)', () => {
     expect(script).toContain('os.execv');
     expect(script).toContain('.venv');
   });
+
+  test('§D.20 Resilient login selectors – _resolve_selector with fallback chains', () => {
+    expect(script).toContain('_resolve_selector');
+    expect(script).toContain('_EMAIL_SELECTORS');
+    expect(script).toContain('_PASSWORD_SELECTORS');
+    expect(script).toContain('_LOGIN_SUBMIT_SELECTORS');
+    expect(script).toContain('input[type="email"]');
+    expect(script).toContain('input[type="password"]');
+    expect(script).toContain('button[type="submit"]');
+  });
+
+  test('§D.21 _login() uses _resolve_selector instead of hardcoded data-testid', () => {
+    const loginFn = script.slice(
+      script.indexOf('def _login('),
+      script.indexOf('\ndef ', script.indexOf('def _login(') + 10)
+    );
+    expect(loginFn).toContain('_resolve_selector');
+    expect(loginFn).not.toContain('wait_for_selector');
+  });
+
+  test('§D.22 check_connection() uses _resolve_selector for login-page detection', () => {
+    const connFn = script.slice(
+      script.indexOf('def check_connection('),
+      script.indexOf('\ndef ', script.indexOf('def check_connection(') + 10)
+    );
+    expect(connFn).toContain('_resolve_selector');
+    expect(connFn).not.toContain('wait_for_selector');
+  });
 });
 
 // ── §E – Daily runner script ───────────────────────────────────────────────
