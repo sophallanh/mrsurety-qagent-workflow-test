@@ -1223,25 +1223,920 @@ This is an automated message. Please do not reply directly to this email.
 - **Body should include:** Homeowner details, urgency level, contractor assignment status
 
 #### AD4 – Quarterly Tax Report
+- **To:** Admin + Accounting
+- **Trigger:** End of quarter (automated, 12:00 AM on first of next month)
+- **Body should include:** Tax data summary for the quarter, jurisdiction breakdown, downloadable report, CDTFA filing deadline
+
+**Full Email Body (Email 16 – Quarterly Tax Report Ready) — v1.4.4:**
+```
+Subject: 📊 Quarterly Sales Tax Report Ready - Q[N] [Year]
+From: system@mrsurety.com
+To: admin@mrsurety.com
+CC: accounting@mrsurety.com
+
+Dear MrSurety Admin,
+
+The quarterly sales tax report for Q[N] [Year] ([Start Date] – [End Date]) is now
+ready for review and filing.
+
+REPORT SUMMARY
++--------------------------+----------+
+| Metric                   | Amount   |
++--------------------------+----------+
+| Total Jobs Completed     | [Count]  |
+| Total Retail Sales       | $[Sales] |
+| Total Sales Tax Collected| $[Tax]   |
+| Number of Tax Jurisdictions | [N]   |
++--------------------------+----------+
+
+BREAKDOWN BY JURISDICTION
++------------------+-----------+------+---------------+
+| Jurisdiction     | Tax Rate  | Jobs | Tax Collected |
++------------------+-----------+------+---------------+
+| Anaheim, CA      | 7.75%     | [N]  | $[Tax]        |
+| Orange, CA       | 7.75%     | [N]  | $[Tax]        |
+| Fullerton, CA    | 7.75%     | [N]  | $[Tax]        |
+| Irvine, CA       | 7.75%     | [N]  | $[Tax]        |
+| Santa Ana, CA    | 7.75%     | [N]  | $[Tax]        |
+| [Other jurisdictions]    |    | [N]  | $[Tax]        |
+| TOTAL            |           | [N]  | $[Tax]        |
++------------------+-----------+------+---------------+
+
+EXAMPLE JOB INCLUDED IN THIS REPORT
++------------------+-------------------------------+
+| Field            | Information                   |
++------------------+-------------------------------+
+| Job ID           | [Job ID]                      |
+| Date             | [Date]                        |
+| Address          | [Address]                     |
+| Retail Subtotal  | $[Subtotal]                   |
+| Tax Rate         | [Rate]%                       |
+| Tax Collected    | $[Tax]                        |
+| Total Paid       | $[Total]                      |
++------------------+-------------------------------+
+
+ATTACHMENTS
+The following files are attached to this email:
+• [Quarter]-Tax-Report.csv  – Raw data for import into accounting software
+• [Quarter]-Tax-Report.pdf  – Formatted report for your records
+• [Quarter]-Job-Detail.csv  – Line-item detail for each job
+
+FILING INSTRUCTIONS
+Please review the report and file with the California Department of Tax and Fee
+Administration (CDTFA) by the April 30 deadline (Q1), July 31 (Q2),
+October 31 (Q3), or January 31 (Q4).
+
+Once filed, please update the filing status in the admin portal:
+UPDATE FILING STATUS: https://admin.mrsurety.com/tax/[quarter]
+
+DOWNLOAD REPORT
+Direct Download Link: https://admin.mrsurety.com/tax/[quarter]/download
+
+Thank you,
+MrSurety System
+1253 E Imperial Hwy, Placentia, CA 92870
+(714) 686-1800
+
+This is an automated message. Please do not reply directly to this email.
+```
+
+#### AD5 – Lien Release Signed (Admin Notification)
 - **To:** Admin
-- **Trigger:** End of quarter
-- **Body should include:** Tax data summary for the quarter, downloadable report
+- **Trigger:** Contractor signs the Unconditional Lien Release via DocuSign
+- **Body should include:** Job ID, contractor identity, signed document URL, automated next-steps status
 
-**Full Email Body (Email 13 – Quarterly Tax Report Ready):**
+**Full Email Body (Email 15 – Unconditional Lien Release Signed) — v1.4.4:**
 ```
-Subject: 📊 Quarterly Sales Tax Report Ready - [Quarter]
+Subject: ✅ Unconditional Lien Release Signed - Job [Job ID]
+From: docusign@mrsurety.com
+To: admin@mrsurety.com
 
-Dear Admin,
+Dear MrSurety Admin,
 
-The quarterly sales tax report for [Quarter] is ready.
+The Unconditional Lien Release for Job [Job ID] has been signed by the contractor.
 
-SUMMARY:
-• Jobs:         [Count]
-• Total Sales:  $[Total]
-• Tax Collected: $[Tax]
+DOCUMENT DETAILS
++------------------+--------------------------------------------+
+| Field            | Information                                |
++------------------+--------------------------------------------+
+| Job ID           | [Job ID]                                   |
+| Property         | [Address]                                  |
+| Homeowner        | [Homeowner Name]                           |
+| Contractor       | [Contractor Name] (CSLB #[License])        |
+| Document Type    | Unconditional Lien Release                 |
+| Signed By        | [Signer Name], [Title]                     |
+| Signed At        | [Date] [Time]                              |
+| Envelope ID      | [DS Envelope ID]                           |
++------------------+--------------------------------------------+
 
-DOWNLOAD REPORT: [Link]
+DOCUMENT SUMMARY
+The signed document confirms:
+• Contractor received final payment of $[Amount]
+• Payment has cleared
+• No further claims against the property
+• All subcontractors and suppliers paid
+
+NEXT STEPS
++---------------------------------------------+----------------------+
+| Step                                         | Status               |
++---------------------------------------------+----------------------+
+| Add document to job folder                   | Automated – Complete |
+| Update job status to "Closed"                | Automated – Complete |
+| Notify homeowner (optional)                  | Not required         |
+| File with tax records                        | Automated            |
++---------------------------------------------+----------------------+
+
+VIEW DOCUMENT
+Signed Document URL: https://docusign.com/envelopes/[Envelope ID]
+
+This job is now fully documented and closed.
+
+Thank you,
+MrSurety System
+
+This is an automated message. Please do not reply directly to this email.
 ```
+
+---
+
+## DocuSign Documents
+
+All DocuSign documents use the MrSurety platform to send, track, and store electronic signatures. Electronic signatures are legally binding under the California Uniform Electronic Transactions Act (Civil Code §1633.1 et seq.).
+
+**Reference job for all examples:** JOB-WL-7890 — 4568 Sycamore Lane, Anaheim, CA 92806
+
+---
+
+### DocuSign 1 – Contractor Master Services Agreement (One-Time)
+
+- **Envelope ID:** DS-12345-00001
+- **Trigger:** Contractor onboarding (one-time, before first job)
+- **Sent To:** Contractor (Jane Doe, Plumb Perfect Inc.)
+- **From:** MrSurety Operations Team
+
+**DocuSign Envelope:**
+```
+To:   Jane Doe, Plumb Perfect Inc.
+From: MrSurety, Inc.
+Subject: Please sign: Contractor Master Services Agreement
+
+Dear Jane Doe,
+
+Please review and sign the attached Contractor Master Services Agreement to join
+the MrSurety contractor network.
+
+CLICK HERE TO REVIEW AND SIGN: [DocuSign Link]
+
+This agreement will govern all future jobs you perform through the MrSurety platform.
+
+Thank you for partnering with MrSurety!
+MrSurety Operations Team
+```
+
+**Document: CONTRACTOR MASTER SERVICES AGREEMENT**
+```
+CONTRACTOR MASTER SERVICES AGREEMENT
+
+THIS MASTER SERVICES AGREEMENT (the "Agreement") is entered into on [Date], by and between:
+
+  MrSurety, Inc. ("Company")
+  1253 E Imperial Hwy
+  Placentia, CA 92870
+
+AND
+
+  [Contractor Business Name] ("Contractor")
+  [Contractor Address]
+  CSLB #: [License Number]
+
+1. SERVICES
+Contractor agrees to perform loss prevention services as assigned through the
+MrSurety platform, including but not limited to: water mitigation device installation,
+pressure reducer installation, pipe fitting, software configuration, and related
+services. Each individual job will be authorized by a separate Work Order signed by
+both parties.
+
+2. INDEPENDENT CONTRACTOR STATUS
+Contractor is an independent contractor and not an employee, joint venturer, or
+partner of Company. Contractor retains sole discretion over the means and methods of
+performing the work, including but not limited to:
+  • Work schedules and hours
+  • Assignment of personnel
+  • Tools and equipment used
+  • Specific work techniques
+
+3. COMPENSATION
+Company shall pay Contractor the amounts set forth in each Work Order. Payment shall
+be made within fifteen (15) days of:
+  a) Contractor's completion of the work;
+  b) Submission of all required documentation (photos, invoice, affidavit);
+  c) Company's written approval of the work.
+
+4. WORK ORDER AUTHORIZATION
+No work shall commence until a Work Order is signed by both parties. Each Work Order
+serves as a task contract and purchase order between Company and Contractor and
+incorporates the terms of this Master Agreement. Each Work Order shall specify:
+  • Job ID and property address
+  • Detailed scope of work
+  • Contractor pricing (parts, pressure reducer, device, software, labor)
+  • Installation schedule
+
+5. DOCUMENTATION REQUIREMENTS
+For each job, Contractor must provide:
+  a) Before, during, and after photographs;
+  b) Final invoice with line-item detail;
+  c) Affidavit of Service (signed under penalty of perjury);
+  d) Conditional Lien Release (upon submission of final invoice);
+  e) Unconditional Lien Release (after payment clears).
+All documents may be signed electronically via DocuSign, and electronic signatures
+shall have the same legal effect as manual signatures under the California Uniform
+Electronic Transactions Act.
+
+6. RESALE CERTIFICATE
+Company holds a valid California Resale Certificate (Seller's Permit #XXXXXX).
+Contractor may elect to accept this certificate for each job:
+  IF YES: Contractor shall NOT charge sales tax on materials. Company will charge
+          and remit all applicable sales tax to the homeowner and taxing authorities.
+  IF NO:  Contractor shall include applicable sales tax in their pricing. Company
+          will NOT add additional tax at retail.
+The election shall be made at the time of bidding for each job.
+
+7. NON-CIRCUMVENTION
+Contractor agrees not to solicit, contact, or perform work directly for any property
+owner introduced through MrSurety for a period of twenty-four (24) months following
+the completion of the last job for that property owner. Breach of this section shall
+result in liquidated damages equal to the full margin MrSurety would have earned on
+any such work.
+
+8. LICENSE AND INSURANCE
+Contractor represents that they hold a valid, active contractor's license and maintain
+general liability insurance with minimum coverage of $1,000,000. Proof shall be
+uploaded annually and upon request.
+
+9. INDEMNIFICATION
+Contractor agrees to indemnify and hold harmless Company from any claims arising out
+of Contractor's work, including but not limited to property damage, personal injury,
+or faulty workmanship.
+
+10. TERMINATION
+Either party may terminate this Agreement upon thirty (30) days written notice. Jobs
+in progress at the time of termination shall be completed under the terms of this
+Agreement.
+
+11. GOVERNING LAW
+This Agreement shall be governed by the laws of the State of California.
+
+IN WITNESS WHEREOF, the parties have executed this Agreement as of the date first
+written above.
+
+CONTRACTOR:
+
+[Signer Name], [Title]
+[Contractor Business Name]
+CSLB #[License]
+Date: [Date]
+
+COMPANY:
+
+[Operations Manager Name], Operations Manager
+MrSurety, Inc.
+Date: [Date]
+
+[Electronically signed via DocuSign]
+[DocuSign Timestamp: [Date and Time]]
+```
+
+---
+
+### DocuSign 2 – Work Order / Task Contract (Per Job)
+
+- **Envelope ID:** DS-12345-78902 *(reference job JOB-WL-7890)*
+- **Trigger:** Job assigned to contractor (after deposit received)
+- **Sent To:** Contractor (Jane Doe, Plumb Perfect Inc.)
+- **From:** MrSurety Operations Team
+
+**DocuSign Envelope:**
+```
+To:   Jane Doe, Plumb Perfect Inc.
+From: MrSurety, Inc.
+Subject: Please sign: Work Order for Job [Job ID]
+
+Dear Jane Doe,
+
+A new job has been assigned to you. Please review and sign the attached Work Order
+to authorize work.
+
+JOB SUMMARY:
+  Job ID:             [Job ID]
+  Property:           [Address]
+  Homeowner:          [Homeowner Name]
+  Installation Date:  [Date] @ [Time]
+  Contractor Payment: $[Amount]
+
+CLICK HERE TO REVIEW AND SIGN: [DocuSign Link]
+
+Once signed, you may proceed with the work on the scheduled date.
+
+Thank you,
+MrSurety Operations Team
+```
+
+**Document: WORK ORDER AND TASK CONTRACT**
+```
+WORK ORDER AND TASK CONTRACT
+(Purchase Order / Promise to Pay)
+
+Work Order #: [WO Number]
+Date: [Date]
+Service Category: Water Mitigation
+
+THIS WORK ORDER is entered into under the Master Services Agreement dated [MSA Date],
+between:
+
+  MrSurety, Inc. ("Company")
+  1253 E Imperial Hwy
+  Placentia, CA 92870
+
+AND
+
+  [Contractor Business Name] ("Contractor")
+  [Contractor Address]
+  CSLB #: [License Number]
+
+1. JOB IDENTIFICATION
++-------------------------------+---------------------------------------+
+| Field                         | Information                           |
++-------------------------------+---------------------------------------+
+| Job ID                        | [Job ID]                              |
+| Property Owner                | [Homeowner Name]                      |
+| Property Address              | [Address]                             |
+| Square Footage                | [Sq Ft] sq ft                         |
+| Property Age                  | [Age] years                           |
+| Pressure Reducer Required     | YES (home >5 years)                   |
+| Pipe Size                     | [Size] inch                           |
+| Extension Cord                | [Length] ft                           |
+| Software Setup Required       | YES                                   |
++-------------------------------+---------------------------------------+
+
+2. SCOPE OF WORK
+Contractor agrees to perform the following loss prevention services:
++---+----------------------------------------+---------------------------------------+
+| # | Description                            | Details                               |
++---+----------------------------------------+---------------------------------------+
+| 1 | Install Pressure Reducer/Regulator     | [Size]" pressure regulator on main    |
+|   |                                        | water line                            |
+| 2 | Install [Device Name]                  | Complete system with leak detectors   |
+|   |                                        | and automatic shutoff valve           |
+| 3 | Install Parts & Fittings               | All necessary pipe fittings,          |
+|   |                                        | connectors, and misc supplies         |
+| 4 | Install Extension Cable                | [Length] ft extension cable           |
+|   |                                        | from exterior outlet                  |
+| 5 | Software Setup & Configuration         | WiFi connection, app configuration,   |
+|   |                                        | system testing, auto-shutoff          |
+|   |                                        | verification                          |
++---+----------------------------------------+---------------------------------------+
+
+3. MATERIALS
+Contractor has confirmed acceptance of MrSurety Resale Certificate for this job.
++-------------------------------+----------+-----------------------+
+| Material                      | Quantity | Source                |
++-------------------------------+----------+-----------------------+
+| Pressure Reducer              | 1 unit   | Contractor supplied   |
+| Pipe Fittings & Misc Kit      | 1 unit   | Contractor supplied   |
+| Extension Cable               | 1 unit   | Contractor supplied   |
+| [Device Name]                 | 1 unit   | Contractor supplied   |
++-------------------------------+----------+-----------------------+
+Contractor represents that all materials are in inventory and available for this job.
+
+4. COMPENSATION AND PROMISE TO PAY
+Company promises to pay Contractor the total sum of $[Total] for the complete and
+satisfactory performance of the work described in this Work Order.
++--------------------------------------+----------+
+| Component                            | Amount   |
++--------------------------------------+----------+
+| Parts (Fittings & Misc + Cable)      | $[Amt]   |
+| Pressure Reducer                     | $[Amt]   |
+| Device ([Device Name])               | $[Amt]   |
+| Software Setup & Configuration       | $[Amt]   |
+| Labor                                | $[Amt]   |
+| TOTAL CONTRACTOR PAYMENT             | $[Total] |
++--------------------------------------+----------+
+
+NOTE: The homeowner will be charged a separate $95 Service Fee by MrSurety for
+compliance documentation, lien releases, and certificate generation. This fee is
+retained by MrSurety and does not affect contractor compensation.
+
+5. PAYMENT TERMS
+Company shall pay Contractor within fifteen (15) days of:
+  a) Completion of all work described herein;
+  b) Submission of all required documentation (photos, invoice, affidavit);
+  c) Company's written approval of the work.
+
+6. SCHEDULE
++--------------------+---------------+
+| Field              | Information   |
++--------------------+---------------+
+| Installation Date  | [Date]        |
+| Installation Time  | [Time]        |
+| Estimated Duration | [N]-[N] hours |
++--------------------+---------------+
+Contractor shall notify Company immediately of any delays.
+
+7. RESALE CERTIFICATE ACKNOWLEDGMENT
++--------------------------------------------+--------+
+| Field                                       | Status |
++--------------------------------------------+--------+
+| Accept MrSurety Resale Certificate?         | YES    |
+| Sales Tax Handling                          | Contractor has NOT included sales tax |
+|                                             | in pricing. Company will charge and   |
+|                                             | remit all applicable sales tax.       |
++--------------------------------------------+--------+
+
+8. AUTHORIZATION
+By signing below, Company issues this Work Order as a binding task contract and
+purchase order. By signing below, Contractor agrees to perform the work in a
+professional and workmanlike manner and in accordance with all applicable laws and
+manufacturer specifications.
+
+9. INCORPORATION OF MASTER AGREEMENT
+This Work Order is subject to all terms and conditions of the Master Services
+Agreement between the parties, which are incorporated herein by reference.
+
+COMPANY AUTHORIZATION (ISSUING THIS WORK ORDER):
+
+[Name], Operations Manager
+MrSurety, Inc.
+Date: [Date]
+
+CONTRACTOR ACCEPTANCE (AGREEING TO PERFORM TASK):
+
+[Signer Name], [Title]
+[Contractor Business Name]
+CSLB #[License]
+Date: [Date]
+
+[Electronically signed via DocuSign]
+[DocuSign Timestamp: [Date and Time]]
+```
+
+---
+
+### DocuSign 3 – Affidavit of Service (Per Job)
+
+- **Envelope ID:** DS-12345-78903 *(reference job JOB-WL-7890)*
+- **Trigger:** Contractor marks job complete in mobile app
+- **Sent To:** Contractor (Jane Doe, Plumb Perfect Inc.)
+- **From:** MrSurety Compliance Team
+
+**DocuSign Envelope:**
+```
+To:   Jane Doe, Plumb Perfect Inc.
+From: MrSurety, Inc.
+Subject: Please sign: Affidavit of Service for Job [Job ID]
+
+Dear Jane Doe,
+
+You have marked Job [Job ID] as complete. Please review and sign the attached
+Affidavit of Service to verify the work performed.
+
+JOB SUMMARY:
+  Job ID:          [Job ID]
+  Property:        [Address]
+  Completion Date: [Date]
+
+CLICK HERE TO REVIEW AND SIGN: [DocuSign Link]
+
+This affidavit is required before payment can be processed.
+
+Thank you,
+MrSurety Compliance Team
+```
+
+**Document: AFFIDAVIT OF SERVICE**
+```
+AFFIDAVIT OF SERVICE
+
+Job ID:             [Job ID]
+Date of Service:    [Date]
+Property Address:   [Address]
+
+I, [Signer Name], declare as follows:
+
+1. IDENTITY AND LICENSE
+I am the owner and authorized representative of [Contractor Business Name], a
+licensed contractor in the State of California. My contractor license number is
+CSLB #[License]. My contractor license is active and in good standing.
+
+2. SERVICES PERFORMED
+On [Date], I personally performed and/or supervised the following loss prevention
+services at the property located at [Address]:
+
++-------------------------------+--------------------------------------+-----------+
+| Service                       | Details                              | Location  |
++-------------------------------+--------------------------------------+-----------+
+| Pressure Reducer Installation | [Size]" Pressure Reducer/Regulator   | Basement, |
+|                               | installed on main water line         | main line |
+|                               | Model: [Model]                       |           |
+|                               | Serial Number: [S/N]                 |           |
++-------------------------------+--------------------------------------+-----------+
+| [Device Name] Installation    | Complete system with automatic       | Main valve|
+|                               | shutoff valve and [N] leak detectors | at [loc]; |
+|                               | Model (valve): [Model]               | detectors |
+|                               | Model (detectors): [Model]           | at [locs] |
+|                               | Serial Number: [S/N]                 |           |
++-------------------------------+--------------------------------------+-----------+
+| Software Setup & Configuration| WiFi connection established; mobile  | N/A       |
+|                               | app configured; auto-shutoff tested  |           |
++-------------------------------+--------------------------------------+-----------+
+| Parts & Fittings Installation | All pipe fittings, connectors, and   | Throughout|
+|                               | misc supplies installed              | water line|
++-------------------------------+--------------------------------------+-----------+
+| Extension Cable Installation  | [Length] ft extension cable          | Exterior  |
+|                               | ([spec]) installed                   | outlet to |
+|                               |                                      | system    |
++-------------------------------+--------------------------------------+-----------+
+
+3. MATERIALS USED
+All materials used in this installation were new, of good quality, and installed in
+accordance with manufacturer specifications and industry standards.
+
+4. WORKMANSHIP
+All work was completed in a professional and workmanlike manner, in compliance with
+all applicable California codes and regulations. The system has been fully tested
+and is operating as intended.
+
+5. SOFTWARE CONFIRMATION
+The [device] software has been successfully configured with the following confirmed:
+  ✓ WiFi connection established and stable
+  ✓ Mobile app installed on homeowner's device
+  ✓ Leak detectors paired with system
+  ✓ Auto-shutoff function tested and verified
+  ✓ Homeowner instructed on system operation
+
+6. PHOTOGRAPHIC EVIDENCE
+Attached hereto are true and accurate photographs of the completed work, including:
+  • Before photos ([N])
+  • During installation photos ([N])
+  • After completion photos ([N])
+  • Close-up of installed components with serial numbers ([N])
+
+7. RELIANCE
+I understand that this document may be relied upon by:
+  • The above-named property owner
+  • Their insurance agent
+  • Their insurance carrier for underwriting purposes
+  • MrSurety, Inc. for compliance verification
+
+8. DECLARATION UNDER PENALTY OF PERJURY
+I declare under penalty of perjury under the laws of the State of California that
+the foregoing is true and correct and that this affidavit is executed on the date
+below.
+
+Executed on [Date], at [City], California.
+
+[Signer Name], [Title]
+[Contractor Business Name]
+CSLB #[License]
+
+[Electronically signed via DocuSign]
+[Under California Uniform Electronic Transactions Act (Civil Code §1633.1 et seq.),
+this electronic signature has the same legal effect as a manual signature.]
+[DocuSign Timestamp: [Date and Time]]
+```
+
+---
+
+### DocuSign 4 – Conditional Lien Release with Invoice Verification (Per Job)
+
+- **Envelope ID:** DS-12345-78904 *(reference job JOB-WL-7890)*
+- **Trigger:** Contractor marks job complete; sent simultaneously with Affidavit of Service
+- **Sent To:** Contractor (Jane Doe, Plumb Perfect Inc.)
+- **From:** MrSurety Compliance Team
+
+**DocuSign Envelope:**
+```
+To:   Jane Doe, Plumb Perfect Inc.
+From: MrSurety, Inc.
+Subject: Please sign: Conditional Lien Release for Job [Job ID]
+
+Dear Jane Doe,
+
+Please review and sign the attached Conditional Lien Release for Job [Job ID].
+
+IMPORTANT: This document includes your final invoice and requires your verification
+that all work was completed at the property address shown.
+
+JOB SUMMARY:
+  Job ID:          [Job ID]
+  Property:        [Address]
+  Payment Amount:  $[Amount]
+
+CLICK HERE TO REVIEW AND SIGN: [DocuSign Link]
+
+This release is CONDITIONAL upon clearance of your payment. Once signed and admin
+approved, your payment will be processed.
+
+Thank you,
+MrSurety Compliance Team
+```
+
+**Document: CONDITIONAL WAIVER AND RELEASE UPON FINAL PAYMENT**
+```
+CONDITIONAL WAIVER AND RELEASE UPON FINAL PAYMENT
+
++------------------+---------------------------------------+
+| Field            | Information                           |
++------------------+---------------------------------------+
+| Job ID           | [Job ID]                              |
+| Property Address | [Address]                             |
+| Property Owner   | [Homeowner Name]                      |
+| Contractor Name  | [Signer Name]                         |
+| Business Name    | [Contractor Business Name]            |
+| CSLB License #   | [License Number]                      |
+| Payment Amount   | $[Amount]                             |
+| Completion Date  | [Date]                                |
++------------------+---------------------------------------+
+
+INVOICE REFERENCE
+The following invoice is attached to and incorporated in this release:
++------------------+-------------------+
+| Field            | Information       |
++------------------+-------------------+
+| Invoice #        | [Invoice Number]  |
+| Invoice Date     | [Date]            |
+| Total Amount     | $[Amount]         |
++------------------+-------------------+
+
+Invoice Line Items                            | Amount
+Parts (Fittings & Misc + Extension Cable)     | $[Amt]
+Pressure Reducer                              | $[Amt]
+Device ([Device Name])                        | $[Amt]
+Software Setup & Configuration                | $[Amt]
+Labor                                         | $[Amt]
+TOTAL                                         | $[Total]
+
+CONTRACTOR VERIFICATION
+I, [Signer Name], hereby verify and affirm that:
++----------+--------------------------------------------------------------------+
+| Initials | Verification                                                       |
++----------+--------------------------------------------------------------------+
+| [Init]   | The work described in the attached invoice has been completely      |
+|          | performed at the property address shown above.                     |
+| [Init]   | All parts, pressure reducer, device, and software listed in the    |
+|          | invoice were installed and/or configured at this property address. |
+| [Init]   | The invoice is true, accurate, and reflects the actual work        |
+|          | performed and materials/devices provided.                          |
+| [Init]   | I understand that this release is CONDITIONAL upon clearance of    |
+|          | the payment identified below.                                      |
++----------+--------------------------------------------------------------------+
+
+RELEASE OF CLAIMS
+The undersigned contractor hereby waives and releases any and all claims, mechanics
+liens, stop notices, or rights against the above-referenced property for labor,
+services, parts, pressure reducer, device, and software furnished through [Date],
+UPON RECEIPT of the above-referenced payment of $[Amount].
+
+CONDITIONAL NATURE OF RELEASE
+The contractor acknowledges that this release is CONDITIONAL upon clearance of the
+payment identified above. If the payment is reversed, stopped, or fails to clear for
+any reason, this release shall be null and void and of no force or effect.
+
+SUBCONTRACTOR AND SUPPLIER REPRESENTATION
+The contractor further represents that all subcontractors and suppliers have been
+paid or will be paid from the proceeds of this payment.
+
+EXECUTION
+Executed this [Date].
+
+[Signer Name], [Title]
+[Contractor Business Name]
+CSLB #[License]
+
+[ELECTRONIC SIGNATURE ACCEPTED]
+[DocuSign Timestamp: [Date and Time]]
+
+ATTACHMENT: INVOICE #[Invoice Number]
+
+[Contractor Business Name]
+[Contractor Address]
+[Contractor Phone]
+
+INVOICE
++------------------+-------------------------------+
+| Field            | Information                   |
++------------------+-------------------------------+
+| Invoice #        | [Invoice Number]              |
+| Date             | [Date]                        |
+| Job ID           | [Job ID]                      |
+| Bill To          | MrSurety, Inc.                |
+| Property         | [Address]                     |
++------------------+-------------------------------+
+
+Description                                     | Amount
+Parts (Fittings & Misc + Extension Cable)        | $[Amt]
+Pressure Reducer/Regulator                       | $[Amt]
+[Device Name] (complete)                         | $[Amt]
+Software Setup & Configuration                   | $[Amt]
+Labor – Installation                             | $[Amt]
+TOTAL                                            | $[Total]
+
+Payment Terms: Net 15 days after approval
+Resale Certificate: Accepted – No tax charged
+```
+
+---
+
+### DocuSign 5 – Unconditional Lien Release (Per Job)
+
+- **Envelope ID:** DS-12345-78905 *(reference job JOB-WL-7890)*
+- **Trigger:** Contractor payment clears (approximately 2–3 business days after payment sent)
+- **Sent To:** Contractor (Jane Doe, Plumb Perfect Inc.)
+- **From:** MrSurety Compliance Team
+- **⚠️ IMPORTANT:** Contractor's platform access is LIMITED until this document is signed.
+
+**DocuSign Envelope:**
+```
+To:   Jane Doe, Plumb Perfect Inc.
+From: MrSurety, Inc.
+Subject: URGENT: Unconditional Lien Release Required - Job [Job ID]
+
+Dear Jane Doe,
+
+Payment for Job [Job ID] has cleared. Please sign the attached Unconditional Lien
+Release to complete this job.
+
+IMPORTANT NOTICE: Your access to the MrSurety contractor platform is currently
+LIMITED until this document is signed.
+
+JOB SUMMARY:
+  Job ID:              [Job ID]
+  Property:            [Address]
+  Payment Amount:      $[Amount]
+  Payment Clear Date:  [Date]
+
+CLICK HERE TO REVIEW AND SIGN: [DocuSign Link]
+
+Once signed, your platform access will be restored immediately.
+
+Thank you,
+MrSurety Compliance Team
+```
+
+**Document: UNCONDITIONAL WAIVER AND RELEASE UPON FINAL PAYMENT**
+```
+UNCONDITIONAL WAIVER AND RELEASE UPON FINAL PAYMENT
+
++--------------------+---------------------------------------+
+| Field              | Information                           |
++--------------------+---------------------------------------+
+| Job ID             | [Job ID]                              |
+| Property Address   | [Address]                             |
+| Property Owner     | [Homeowner Name]                      |
+| Contractor Name    | [Signer Name]                         |
+| Business Name      | [Contractor Business Name]            |
+| CSLB License #     | [License Number]                      |
+| Payment Amount     | $[Amount]                             |
+| Completion Date    | [Date]                                |
+| Payment Clear Date | [Date]                                |
++--------------------+---------------------------------------+
+
+ACKNOWLEDGMENT OF RECEIPT
+The undersigned contractor hereby acknowledges RECEIPT of the above-referenced
+payment in the amount of $[Amount] for labor, services, equipment, and materials
+furnished for the above-referenced property.
+
+UNCONDITIONAL RELEASE
+The undersigned contractor UNCONDITIONALLY waives and releases any and all claims,
+mechanics liens, stop notices, or rights against the above-referenced property for
+labor, services, parts, pressure reducer, device, software, and materials furnished
+through [Date].
+
+FINALITY OF RELEASE
+The contractor acknowledges that this release is UNCONDITIONAL and final, and that
+payment has been received and cleared. No further claims of any kind shall be made
+against the property, property owner, or MrSurety arising from this job.
+
+SUBCONTRACTOR AND SUPPLIER REPRESENTATION
+The contractor further represents that all subcontractors and suppliers have been
+paid in full from the proceeds of this payment and have no claims against the
+property.
+
+PLATFORM ACCESS NOTICE
+Execution of this document is required for continued access to the MrSurety
+contractor platform. Until this document is signed, contractor account access will
+be limited to signing this document only.
+
+EXECUTION
+Executed this [Date].
+
+[Signer Name], [Title]
+[Contractor Business Name]
+CSLB #[License]
+
+[ELECTRONIC SIGNATURE ACCEPTED]
+[DocuSign Timestamp: [Date and Time]]
+```
+
+---
+
+### DocuSign 6 – Release of Liability – Critical Services Only (Template)
+
+> **NOTE:** This document is included for completeness but was **NOT required** for Job JOB-WL-7890 as it was not a Critical Service. It is shown here as a template for future Critical Service jobs (e.g., emergency valve replacement requiring water main shutoff).
+
+- **Trigger:** Homeowner requests Critical Water Service; contractor is on-site
+- **Sent To:** Homeowner
+- **From:** MrSurety Compliance Team
+
+**DocuSign Envelope (Template):**
+```
+To:   [Homeowner Name]
+From: MrSurety, Inc.
+Subject: URGENT: Release of Liability Required Before Work Begins
+
+Dear [Homeowner],
+
+You have requested Critical Water Service for valve replacement at [Address].
+
+Due to the nature of this service (water main shutoff required), California law
+requires that you sign a Release of Liability before work can begin.
+
+CLICK HERE TO REVIEW AND SIGN: [DocuSign Link]
+
+The contractor is on site and ready to proceed once this document is signed.
+
+Thank you,
+MrSurety Compliance Team
+```
+
+**Document: RELEASE OF LIABILITY – CRITICAL WATER SERVICE (Template)**
+```
+RELEASE OF LIABILITY – CRITICAL WATER SERVICE
+
++------------------+--------------------+
+| Field            | Information        |
++------------------+--------------------+
+| Job ID           | [Job ID]           |
+| Date             | [Date]             |
+| Property Address | [Address]          |
+| Homeowner        | [Name]             |
+| Contractor       | [Contractor Name]  |
++------------------+--------------------+
+
+I, [Homeowner Name], acknowledge that I have requested water main service due to a
+valve needing to be replaced at the above property.
+
+I UNDERSTAND AND AGREE THAT:
+1. This work requires shutting off water at the street, which may affect water
+   service to my property for an extended period.
+2. The contractor, [Contractor Name], is responding to address the valve replacement
+   on an expedited basis.
+3. Due to the nature of this repair, there are increased risks including but not
+   limited to:
+   • Unexpected pipe conditions behind walls or underground
+   • Hidden damage not visible during initial assessment
+   • Need for water shutoff without full evaluation of the entire system
+   • Potential for additional damage when old valves are removed
+
+I release and hold harmless MrSurety, Inc. and [Contractor Name] from any and all
+claims, damages, or liability arising directly from the emergency nature of this
+service, EXCLUDING claims for gross negligence or willful misconduct.
+
+I understand that normal warranty terms still apply to materials and workmanship once
+the repair is completed, but not to pre-existing conditions discovered during
+the repair.
+
+I have been advised of the potential need for additional repairs and understand that
+a change order may be required if unforeseen conditions are discovered.
+
+I HAVE READ AND UNDERSTAND THIS RELEASE OF LIABILITY AND AGREE TO ITS TERMS.
+
+HOMEOWNER:
+
+[Homeowner Name]
+Date: _______________
+
+CONTRACTOR WITNESS:
+
+[Contractor Representative]
+[Contractor Name]
+Date: _______________
+
+[ELECTRONIC SIGNATURE ACCEPTED]
+```
+
+---
+
+### Summary of All DocuSign Documents for Job JOB-WL-7890
+
+| #  | Document                              | Sent To            | Sent Date     | Signed Date   | Status |
+|----|---------------------------------------|--------------------|---------------|---------------|--------|
+| 1  | Contractor Master Services Agreement  | Plumb Perfect Inc. | Jan 15, 2026  | Jan 15, 2026  | Signed |
+| 2  | Work Order / Task Contract            | Plumb Perfect Inc. | Mar 22, 2026  | Mar 22, 2026  | Signed |
+| 3  | Affidavit of Service                  | Plumb Perfect Inc. | Mar 28, 2026  | Mar 28, 2026  | Signed |
+| 4  | Conditional Lien Release w/ Invoice   | Plumb Perfect Inc. | Mar 28, 2026  | Mar 28, 2026  | Signed |
+| 5  | Unconditional Lien Release            | Plumb Perfect Inc. | Apr 2, 2026   | Apr 2, 2026   | Signed |
+
+> **END OF COMPLETE EMAILS AND DOCUSIGN DOCUMENTS SPECIFICATION**
 
 ---
 
