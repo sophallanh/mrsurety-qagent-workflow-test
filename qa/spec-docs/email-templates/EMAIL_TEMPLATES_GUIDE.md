@@ -283,25 +283,95 @@ This is an automated message. Please do not reply directly to this email.
 - **Trigger:** Deposit paid
 - **Body should include:** Service date, contractor name and contact, property address
 
-**Full Email Body (Email 5 – Deposit Received – Job Confirmed):**
+**Full Email Body (Email 5 – Deposit Received – Job Confirmed) — v1.4.4:**
 ```
 Subject: ✅ Job Confirmed! Your Installation is Scheduled
+From: notifications@mrsurety.com
+To: [homeowner_email]
 
-Dear [Homeowner],
+Dear [Homeowner Name],
 
-Your deposit has been received and your installation is confirmed.
+Great news! Your deposit has been successfully processed and your water leak
+prevention installation is now confirmed.
 
-JOB DETAILS:
-• Date: [Date] @ [Time]
-• Contractor: [Contractor]
-• Property: [Address]
+JOB CONFIRMATION DETAILS
++--------------------+------------------------------------------+
+| Field              | Information                              |
++--------------------+------------------------------------------+
+| Job ID             | [Job ID]                                 |
+| Service            | Water Leak Prevention Installation       |
+| Property           | [Address]                                |
+| Contractor         | [Contractor Name] (CSLB #[License])      |
+| Installation Date  | [Date]                                   |
+| Installation Time  | [Time]                                   |
+| Estimated Duration | 4-5 hours                                |
++--------------------+------------------------------------------+
 
-YOUR PAYMENT SUMMARY:
-• Total Project Cost: $[Total] (includes $95 Service Fee)
-• Deposit Paid:       $[Deposit]
-• Remaining Balance:  $[Balance]
+PAYMENT SUMMARY
++-------------------------------------------+----------+
+| Item                                      | Amount   |
++-------------------------------------------+----------+
+| Total Project Cost                        | $[Total] |
+| Deposit Paid ([Date])                     | -$[Dep]  |
+| Remaining Balance Due at Completion       | $[Bal]   |
++-------------------------------------------+----------+
 
-Track your job: [Link]
+WHAT'S INCLUDED IN YOUR PACKAGE
++---------------------+------------------------------------------------------+
+| Component           | Description                                          |
++---------------------+------------------------------------------------------+
+| Parts & Fittings    | All pipe fittings, connectors, and extension cable   |
+| Pressure Reducer    | Required 1" pressure regulator (homes over 5 yrs)   |
+| [Device Name]       | Complete system with leak detectors & shutoff valve  |
+| Software Setup      | WiFi config, app setup, and system testing           |
+| Professional Labor  | Installation by licensed, insured contractor         |
+| Service Fee         | Full compliance documentation package (see below)    |
++---------------------+------------------------------------------------------+
+
+YOUR COMPLIANCE PACKAGE (INCLUDED IN SERVICE FEE)
+The $95 Service Fee provides you with:
+✓ Contractor License Verification – We've verified [Contractor] holds an active
+  California contractor license (CSLB #[License]) with no disciplinary actions.
+✓ Insurance Verification – Liability insurance has been confirmed and is active.
+✓ Affidavit of Service – After completion, the contractor will sign a legally
+  binding affidavit under penalty of perjury confirming all work was performed.
+✓ Conditional Lien Release – Protects your property while payment is processing.
+✓ Unconditional Lien Release – Final legal document confirming contractor has no
+  further claim on your property.
+✓ Certificate of Completion – Official document for your insurance agent to submit
+  to underwriters.
+✓ Agent Portal Access – Your agent can track progress and download documents.
+✓ Perpetual Document Storage – All documents stored securely and accessible anytime.
+
+WHAT TO EXPECT ON INSTALLATION DAY
++----------+---------------------------------------------------------------+
+| Time     | Event                                                         |
++----------+---------------------------------------------------------------+
+| [T+0:00] | Contractor arrives, checks in via mobile app                  |
+| [T+0:05] | Contractor reviews scope of work with you                     |
+| [T+0:15] | Installation begins                                           |
+| [T+3:00] | Approximate midpoint – you may check progress                 |
+| [T+5:00] | Estimated completion time                                     |
+| [T+5:15] | Contractor demonstrates system, confirms software working     |
+| [T+5:30] | Contractor uploads completion photos; you receive notification|
++----------+---------------------------------------------------------------+
+
+TRACK YOUR JOB PROGRESS
+JOB TRACKING LINK: https://mrsurety.com/job/[Job ID]
+
+QUESTIONS?
+If you need to reschedule or have any questions, please contact our support team at
+(714) 686-1800.
+
+Thank you for choosing MrSurety for your loss prevention needs!
+
+Sincerely,
+MrSurety Compliance Team
+1253 E Imperial Hwy, Placentia, CA 92870
+(714) 686-1800
+support@mrsurety.com
+
+This is an automated message. Please do not reply directly to this email.
 ```
 
 #### H6 – Reminder – Tomorrow
@@ -309,20 +379,59 @@ Track your job: [Link]
 - **Trigger:** 24 hours before scheduled installation date
 - **Body should include:** Date/time of service, contractor contact info
 
-**Full Email Body (Email 6 – Reminder: Upcoming Installation):**
+**Full Email Body (Email 6 – Reminder: Upcoming Installation) — v1.4.4:**
 ```
 Subject: ⏰ Reminder: Your Installation is Tomorrow
+From: notifications@mrsurety.com
+To: [homeowner_email]
 
-Dear [Homeowner],
+Dear [Homeowner Name],
 
-Reminder: Your installation is scheduled for TOMORROW.
+This is a friendly reminder that your water leak prevention installation is
+scheduled for TOMORROW.
 
-• Date:       [Date]
-• Time:       [Time]
-• Contractor: [Contractor]
-• Address:    [Address]
+INSTALLATION DETAILS
++--------------------+------------------------------------------+
+| Field              | Information                              |
++--------------------+------------------------------------------+
+| Date               | [Date]                                   |
+| Time               | [Time]                                   |
+| Contractor         | [Contractor Name] (CSLB #[License])      |
+| Property           | [Address]                                |
+| Estimated Duration | 4-5 hours                                |
++--------------------+------------------------------------------+
 
-Contractor will check in via app upon arrival.
+WHAT TO EXPECT
++------------------+----------------------------------------------------------+
+| Step             | Description                                              |
++------------------+----------------------------------------------------------+
+| Arrival          | Contractor checks in via mobile app. You'll get a notif. |
+| Access Needed    | Contractor needs access to main water line, basement/    |
+|                  | crawl space, and an exterior outlet (extension cord).    |
+| WiFi Required    | For software setup — have your WiFi name & password ready|
+| During Install   | Water shut off ~1-2 hrs during pressure reducer install. |
+| Completion       | Contractor demonstrates system; you'll get a notif.      |
++------------------+----------------------------------------------------------+
+
+PREPARATION CHECKLIST
+☐ Clear access to main water line area
+☐ Ensure WiFi is working and password is available
+☐ Make sure someone 18+ will be home during installation
+☐ Have your phone available for any questions
+
+FINAL PAYMENT REMINDER
+Your remaining balance of $[Balance] will be due upon completion. You will receive
+an email with a secure payment link after the work is finished.
+
+NEED TO RESCHEDULE?
+If you need to change your installation date, please contact us immediately at
+(714) 686-1800.
+
+Sincerely,
+MrSurety Compliance Team
+(714) 686-1800
+
+This is an automated message. Please do not reply directly to this email.
 ```
 
 #### H7 – Contractor Arrived
@@ -330,19 +439,45 @@ Contractor will check in via app upon arrival.
 - **Trigger:** Contractor GPS check-in on job day
 - **Body should include:** Contractor name, arrival timestamp, property address
 
-**Full Email Body (Email 7 – Contractor Check-In Notification):**
+**Full Email Body (Email 7 – Contractor Check-In Notification) — v1.4.4:**
 ```
 Subject: 📍 Your Contractor Has Arrived
+From: notifications@mrsurety.com
+To: [homeowner_email]
 
-Dear [Homeowner],
+Dear [Homeowner Name],
 
-Your contractor has arrived at your property.
+Your contractor from [Contractor Name] has arrived at your property.
 
-• Time:     [Time]
-• Date:     [Date]
-• Location: [Address] (GPS verified)
+CHECK-IN DETAILS
++----------------------+-----------------------------------------------+
+| Field                | Information                                   |
++----------------------+-----------------------------------------------+
+| Time                 | [Time]                                        |
+| Date                 | [Date]                                        |
+| Location             | [Address]                                     |
+| GPS Verification     | ✅ Confirmed – Contractor is at your property |
+| Contractor           | [Technician Name], Lead Technician            |
++----------------------+-----------------------------------------------+
 
-Work has begun.
+WHAT'S HAPPENING NOW
+Work will now begin on your water leak prevention installation. The contractor will:
+• Review the scope of work with you
+• Shut off water to install the pressure reducer and shutoff valve
+• Install all components and run the extension cable
+• Set up the [Device Name] software and connect to your WiFi
+• Test the complete system
+
+NEXT NOTIFICATION
+You will receive another notification when the work is complete and final payment
+is due.
+
+TRACK LIVE: https://mrsurety.com/job/[Job ID]
+
+Thank you for choosing MrSurety!
+MrSurety Compliance Team
+
+This is an automated message. Please do not reply directly to this email.
 ```
 
 #### H8 – Change Order Created
@@ -350,18 +485,53 @@ Work has begun.
 - **Trigger:** Contractor creates a change order during job
 - **Body should include:** Description of change, new price, Approve/Decline link
 
-**Full Email Body (Email 8 – Change Order Created):**
+**Full Email Body (Email 8 – Change Order Created) — v1.4.4:**
 ```
 Subject: ⚠️ ACTION REQUIRED: Change Order for Your Installation
+From: notifications@mrsurety.com
+To: [homeowner_email]
 
-Dear [Homeowner],
+Dear [Homeowner Name],
 
-Additional work has been identified:
+During installation at your property, your contractor has identified additional
+work needed to complete your water leak prevention system properly.
 
-• Description:      [Description]
-• Additional Cost:  $[Amount] (includes tax and Service Fee proportion)
+CHANGE ORDER DETAILS
++------------------+------------------------------------------------------+
+| Field            | Information                                          |
++------------------+------------------------------------------------------+
+| Job ID           | [Job ID]                                             |
+| Contractor       | [Contractor Name]                                    |
+| Description      | [Description of additional work required]            |
+| Additional Parts | $[Parts]                                             |
+| Additional Tax   | $[Tax]                                               |
+| TOTAL ADDITIONAL | $[Total Additional]                                  |
++------------------+------------------------------------------------------+
 
-APPROVE OR DECLINE: [Link]
+UPDATED PROJECT TOTAL
++---------------------------+-----------+
+| Item                      | Amount    |
++---------------------------+-----------+
+| Original Total            | $[Orig]   |
+| Change Order              | +$[Add]   |
+| NEW TOTAL (if approved)   | $[New]    |
++---------------------------+-----------+
+
+APPROVAL REQUIRED
+Please review and approve or decline at the link below:
+
+REVIEW CHANGE ORDER: https://mrsurety.com/change-order/[Job ID]
+
+If APPROVED: contractor will proceed with additional work; amount added to balance.
+If DECLINED: contractor completes original scope only (may affect warranty).
+
+Please respond within 30 minutes to avoid delays.
+
+Thank you,
+MrSurety Compliance Team
+(714) 686-1800
+
+This is an automated message. Please do not reply directly to this email.
 ```
 
 #### H9 – Critical Release Required
@@ -374,29 +544,77 @@ APPROVE OR DECLINE: [Link]
 - **Trigger:** Job marked complete by contractor
 - **Body should include:** Final invoice amount, payment link
 
-**Full Email Body (Email 9 – Work Completed – Final Payment Required):**
+**Full Email Body (Email 9 – Work Completed – Final Payment Required) — v1.4.4:**
 ```
 Subject: ✅ Work Complete - Final Payment Required
+From: payments@mrsurety.com
+To: [homeowner_email]
 
-Dear [Homeowner],
+Dear [Homeowner Name],
 
-Your installation is complete.
+Great news! Your water leak prevention installation has been completed by
+[Contractor Name].
 
-FINAL INVOICE:
-Parts & Fittings:      $[Parts]
-Pressure Reducer:      $[Pressure]
-Device:                $[Device]
-Software Setup:        $[Software]
-Labor:                 $[Labor]
-Subtotal:              $[Subtotal]
-Service Fee:           $95.00
-Tax:                   $[Tax]
-TOTAL:                 $[Total]
+FINAL INVOICE
++------------------------------------------+----------+
+| Description                              | Amount   |
++------------------------------------------+----------+
+| Parts & Fittings                         | $[Parts] |
+| Pressure Reducer (required)              | $[Pres]  |
+| [Device Name]                            | $[Dev]   |
+| Software Setup & Configuration           | $[Soft]  |
+| Professional Installation Labor          | $[Labor] |
+| Subtotal (Work & Materials)              | $[Sub]   |
+| Service Fee                              | $95.00   |
+| Total Before Tax                         | $[TBT]   |
+| Sales Tax ([rate]%)                      | $[Tax]   |
+| TOTAL PROJECT COST                       | $[Total] |
++------------------------------------------+----------+
 
-Deposit Paid:          $[Deposit]
-REMAINING BALANCE:     $[Balance]
+PAYMENT SUMMARY
++--------------------------------+----------+
+| Item                           | Amount   |
++--------------------------------+----------+
+| Deposit Paid ([Date])          | -$[Dep]  |
+| REMAINING BALANCE DUE          | $[Bal]   |
++--------------------------------+----------+
 
-PAY FINAL BALANCE: [Link]
+COMPLETED WORK VERIFICATION
+The contractor has uploaded the following documentation:
+✓ Before Photos – [N] photos of the work area before installation
+✓ During Photos – [N] photos showing installation progress
+✓ After Photos  – [N] photos of completed installation
+✓ Device Serial Numbers – Recorded and verified
+✓ Software Confirmation – System connected to WiFi, app configured, auto-shutoff tested
+
+TO COMPLETE YOUR JOB:
+1. Review the completed work photos at the link below
+2. Click the secure link to pay your remaining balance
+3. Once paid, your compliance documents will be generated and emailed to you
+   and your agent
+
+PAY FINAL BALANCE:     https://payments.mrsurety.com/final/[Job ID]
+VIEW COMPLETION PHOTOS: https://mrsurety.com/job/[Job ID]/photos
+
+WHAT HAPPENS AFTER PAYMENT
++------------------------------------------------+---------------------+
+| Step                                           | Timeline            |
++------------------------------------------------+---------------------+
+| Payment processed                              | Immediate           |
+| Certificate package generated                  | Within 1 hour       |
+| Documents emailed to you                       | Within 1 hour       |
+| Documents emailed to your agent                | Within 1 hour       |
+| Unconditional Lien Release signed by contractor| 3-5 days after clear|
++------------------------------------------------+---------------------+
+
+Thank you for choosing MrSurety!
+
+Sincerely,
+MrSurety Payments Team
+1253 E Imperial Hwy, Placentia, CA 92870
+(714) 686-1800
+
+This is an automated message. Please do not reply directly to this email.
 ```
 
 #### H11 – Payment Received
@@ -404,41 +622,145 @@ PAY FINAL BALANCE: [Link]
 - **Trigger:** Final payment processed
 - **Body should include:** Receipt, amount, transaction date, thank-you message
 
+**Full Email Body (Email 10 – Payment Received – Processing) — v1.4.4:**
+```
+Subject: 💳 Payment Received - Thank You!
+From: payments@mrsurety.com
+To: [homeowner_email]
+
+Dear [Homeowner Name],
+
+Thank you! Your final payment of $[Amount] has been successfully processed.
+
+PAYMENT CONFIRMATION
++----------------------+----------------------------------+
+| Field                | Information                      |
++----------------------+----------------------------------+
+| Job ID               | [Job ID]                         |
+| Payment Amount       | $[Amount]                        |
+| Payment Date         | [Date]                           |
+| Payment Method       | [Method] ending in [Last4]       |
+| Confirmation Number  | [Confirmation #]                 |
++----------------------+----------------------------------+
+
+PROJECT PAID IN FULL
++--------------------+----------+
+| Item               | Amount   |
++--------------------+----------+
+| Total Project Cost | $[Total] |
+| Total Paid         | $[Total] |
+| BALANCE            | $0.00    |
++--------------------+----------+
+
+WHAT HAPPENS NEXT
++------------------------------------------------+---------------------+
+| Step                                           | Estimated Timeline  |
++------------------------------------------------+---------------------+
+| Certificate package generation                 | Within 1 hour       |
+| Documents emailed to you                       | Within 1 hour       |
+| Documents emailed to your agent                | Within 1 hour       |
+| Contractor signs Unconditional Lien Release    | 3-5 days after clear|
+| Final documents added to your portal           | Within 5 days       |
++------------------------------------------------+---------------------+
+
+You will receive a separate email when your certificate package is ready for download.
+
+Thank you for choosing MrSurety for your loss prevention needs!
+
+Sincerely,
+MrSurety Payments Team
+(714) 686-1800
+
+This is an automated message. Please do not reply directly to this email.
+```
+
 #### H12 – Certificate Ready
 - **To:** Homeowner
 - **Trigger:** All DocuSign documents signed
 - **Body should include:** Certificate download link
 
-**Full Email Body (Email 10 – Job Complete – Certificate Ready):**
+**Full Email Body (Email 11 – Job Complete – Certificate Ready) — v1.4.4:**
 ```
 Subject: 📄 Your Job is Complete - Certificate Ready for Download
+From: certificates@mrsurety.com
+To: [homeowner_email]
 
-Dear [Homeowner],
+Dear [Homeowner Name],
 
-Your installation is complete and all documents are ready.
+Your water leak prevention installation is now complete and all compliance documents
+are ready for download.
 
-FINAL INVOICE SUMMARY:
-• Total Project Cost: $[Total] (includes $95 Service Fee)
-• Status: PAID IN FULL
+JOB SUMMARY
++-------------------+------------------------------------------+
+| Field             | Information                              |
++-------------------+------------------------------------------+
+| Job ID            | [Job ID]                                 |
+| Property          | [Address]                                |
+| Completion Date   | [Date]                                   |
+| Contractor        | [Contractor Name] (CSLB #[License])      |
+| Agent             | [Agent Name], [Insurance Company]        |
++-------------------+------------------------------------------+
+
+FINAL INVOICE (PAID IN FULL)
++------------------------------------------+----------+
+| Description                              | Amount   |
++------------------------------------------+----------+
+| Parts & Fittings                         | $[Parts] |
+| Pressure Reducer (required)              | $[Pres]  |
+| [Device Name]                            | $[Dev]   |
+| Software Setup & Configuration           | $[Soft]  |
+| Professional Installation Labor          | $[Labor] |
+| Subtotal                                 | $[Sub]   |
+| Service Fee                              | $95.00   |
+| Total Before Tax                         | $[TBT]   |
+| Sales Tax                                | $[Tax]   |
+| TOTAL PAID                               | $[Total] |
++------------------------------------------+----------+
 
 SERVICE FEE INCLUDED:
-✓ Contractor license verification
-✓ Affidavit of Service
-✓ Lien Releases
-✓ Certificate of Completion
-✓ Agent portal access
-✓ Document storage
+✓ Contractor License Verification (CSLB #[License] – Active)
+✓ Insurance Verification (Liability – Active)
+✓ Affidavit of Service (signed under penalty of perjury)
+✓ Conditional Lien Release (protects property during payment)
+✓ Unconditional Lien Release (pending – will be added when signed)
+✓ Certificate of Completion (for insurance agent)
+✓ Agent Portal Access ([Agent Name], [Company])
+✓ Perpetual Document Storage
 
-DOCUMENTS AVAILABLE:
-1. Certificate of Completion
-2. Affidavit of Service
-3. Unconditional Lien Release
-4. Final Invoice
-5. Photos
+DOCUMENTS AVAILABLE FOR DOWNLOAD
++----+-----------------------------------+-------------------------------+
+| #  | Document                          | Description                   |
++----+-----------------------------------+-------------------------------+
+| 1  | Certificate of Completion         | Official document for insurance|
+| 2  | Affidavit of Service              | Signed under penalty of perjury|
+| 3  | Conditional Lien Release          | Signed by contractor          |
+| 4  | Final Invoice                     | Detailed invoice              |
+| 5  | Photos of Completed Work          | [N] photos                    |
++----+-----------------------------------+-------------------------------+
 
-DOWNLOAD: [Link]
+FOR YOUR INSURANCE AGENT
+Your agent has also been notified and can access all documents through their agent
+portal. You may also forward the certificate package directly to your underwriter.
 
-Your agent has also been notified.
+DOWNLOAD ALL DOCUMENTS (ZIP): https://mrsurety.com/certificates/[Job ID]/download-all
+
+VERIFY THIS CERTIFICATE
+To verify the authenticity of this certificate, visit:
+https://verify.mrsurety.com/[Job ID]
+
+QUESTIONS?
+If you have any questions about your documents or need additional copies, please
+contact our compliance team at (714) 686-1800.
+
+Thank you for choosing MrSurety!
+
+Sincerely,
+MrSurety Compliance Team
+1253 E Imperial Hwy, Placentia, CA 92870
+(714) 686-1800
+compliance@mrsurety.com
+
+This is an automated message. Please do not reply directly to this email.
 ```
 
 #### H13 – Return Service Scheduled
@@ -553,7 +875,19 @@ NEXT STEPS FOR YOU
 | 7 | Receive payment upon admin approval                                |
 +---+--------------------------------------------------------------------+
 
-CONTRACTOR PORTAL: https://contractors.mrsurety.com/jobs/[Job ID]
+CONTRACTOR PORTAL ACCESS
+Login Link:    https://contractor.mrsurety.com/login
+Job Dashboard: https://contractor.mrsurety.com/jobs/[Job ID]
+
+Thank you for partnering with MrSurety to provide quality loss prevention services!
+
+Sincerely,
+MrSurety Operations Team
+1253 E Imperial Hwy, Placentia, CA 92870
+(714) 686-1800
+operations@mrsurety.com
+
+This is an automated message. Please do not reply directly to this email.
 ```
 
 #### C5 – Sign Work Order
@@ -576,22 +910,128 @@ CONTRACTOR PORTAL: https://contractors.mrsurety.com/jobs/[Job ID]
 - **Trigger:** Admin approves work
 - **Body should include:** Payment amount, expected deposit timing
 
+**Full Email Body (Email 13 – Payment Sent to Contractor) — v1.4.4:**
+```
+Subject: 💵 Payment Sent - Job [Job ID]
+From: payments@mrsurety.com
+To: [contractor_email]
+
+Dear [Contractor Name],
+
+Payment has been sent for Job [Job ID] ([Address]).
+
+PAYMENT DETAILS
++------------------------+----------------------------------+
+| Field                  | Information                      |
++------------------------+----------------------------------+
+| Job ID                 | [Job ID]                         |
+| Payment Amount         | $[Amount]                        |
+| Payment Date           | [Date]                           |
+| Payment Method         | ACH Transfer to your bank account|
+| Estimated Clear Date   | [Date + 3 business days]         |
++------------------------+----------------------------------+
+
+PAYMENT BREAKDOWN
++------------------------------------------+----------+
+| Component                                | Amount   |
++------------------------------------------+----------+
+| Parts (Fittings & Misc + Cable)          | $[Parts] |
+| Pressure Reducer ([size]")               | $[Pres]  |
+| Device ([Device Name])                   | $[Dev]   |
+| Software Setup                           | $[Soft]  |
+| Labor                                    | $[Labor] |
+| TOTAL                                    | $[Total] |
++------------------------------------------+----------+
+
+WHAT HAPPENS NEXT
++----------------------------------------------+---------------------------+
+| Step                                         | Timeline                  |
++----------------------------------------------+---------------------------+
+| Funds clear in your account                  | 2-3 business days         |
+| Unconditional Lien Release sent via DocuSign | After payment clears      |
+| Sign Unconditional Lien Release              | Required for platform     |
++----------------------------------------------+---------------------------+
+
+UNCONDITIONAL LIEN RELEASE NOTICE
+Once your payment has cleared (approximately [Clear Date]), you will receive a
+DocuSign email for the Unconditional Lien Release. Please note: Your access to
+the MrSurety contractor platform will be limited until this document is signed.
+
+Thank you for your excellent work on this job!
+
+Sincerely,
+MrSurety Payments Team
+(714) 686-1800
+
+This is an automated message. Please do not reply directly to this email.
+```
+
 #### C9 – Unconditional Lien Required
 - **To:** Contractor
 - **Trigger:** Payment clears (3 days after admin approval)
 - **Body should include:** DocuSign link for Unconditional Lien Release; **portal access is limited until signed**
 
-**Full Email Body (Email 12 – Unconditional Lien Release Required):**
+**Full Email Body (Email 14 – Unconditional Lien Release Required) — v1.4.4:**
 ```
-Subject: ⚠️ URGENT: Unconditional Lien Release Required - [Job ID]
+Subject: ⚠️ URGENT: Unconditional Lien Release Required - Job [Job ID]
+From: docusign@mrsurety.com
+To: [contractor_email]
 
-Dear [Contractor],
+Dear [Contractor Name],
 
-Payment for Job [Job ID] has cleared. Please sign the Unconditional Lien Release.
+Payment for Job [Job ID] ([Address]) has cleared. Please sign the Unconditional
+Lien Release to complete this job.
 
-IMPORTANT: Platform access will be limited until signed.
+IMPORTANT NOTICE
+Your access to the MrSurety contractor platform is currently LIMITED.
+You will not be able to:
+  • View new job opportunities
+  • Access your contractor dashboard
+  • Submit bids on new requests
+  • Receive job assignments
+Until you sign the Unconditional Lien Release for this job.
 
-SIGN NOW: [Link]
+JOB DETAILS
++----------------------+------------------------------------------+
+| Field                | Information                              |
++----------------------+------------------------------------------+
+| Job ID               | [Job ID]                                 |
+| Property             | [Address]                                |
+| Homeowner            | [Homeowner Name]                         |
+| Payment Amount       | $[Amount]                                |
+| Payment Clear Date   | [Date]                                   |
++----------------------+------------------------------------------+
+
+ACTION REQUIRED
+Please click the link below to review and sign the Unconditional Lien Release
+via DocuSign:
+
+SIGN UNCONDITIONAL LIEN RELEASE NOW: [DocuSign Link]
+
+This document confirms that:
+• You have received final payment in full
+• You have no further claims against the property
+• All subcontractors and suppliers have been paid
+
+AFTER SIGNING
+Once you sign this document:
+✓ Your platform access will be restored immediately
+✓ The job will be marked as complete in our system
+✓ The homeowner and their agent will receive the final certificate
+
+QUESTIONS?
+If you believe this document has been sent in error or have questions, please
+contact our compliance team immediately at (714) 686-1800.
+
+Thank you for your prompt attention to this matter.
+
+Sincerely,
+MrSurety Compliance Team
+1253 E Imperial Hwy, Placentia, CA 92870
+(714) 686-1800
+compliance@mrsurety.com
+
+This is an automated message from DocuSign. Please do not reply directly to this email.
 ```
 
 #### C10 – Critical Assignment
@@ -643,30 +1083,95 @@ SIGN NOW: [Link]
 - **Trigger:** All signed documents complete
 - **Body should include:** Certificate availability, client info
 
-**Full Email Body (Email 11 – Job Complete – Certificate for Agent):**
+**Full Email Body (Email 12 – Job Complete – Certificate for Agent) — v1.4.4:**
 ```
 Subject: 📄 Client Job Complete: [Address] - Certificate Attached
+From: certificates@mrsurety.com
+To: [agent_email]
+CC: [homeowner_email]
 
-Dear [Agent],
+Dear [Agent Name],
 
-Your client, [Homeowner], has completed a loss prevention installation.
+Your client, [Homeowner Name], has completed a loss prevention installation through
+MrSurety. The compliance documentation is now available for underwriting purposes.
 
-PROPERTY:    [Address]
-COMPLETION:  [Date]
-CONTRACTOR:  [Contractor] (CSLB #[License])
+CLIENT & PROPERTY DETAILS
++----------------------+------------------------------------------+
+| Field                | Information                              |
++----------------------+------------------------------------------+
+| Client Name          | [Homeowner Name]                         |
+| Property Address     | [Address]                                |
+| Policy Number        | [Policy # if provided]                   |
+| Completion Date      | [Date]                                   |
+| Service Type         | Water Leak Prevention                    |
++----------------------+------------------------------------------+
 
-SERVICES PERFORMED:
-• [List of services]
+SERVICES PERFORMED
++---------------------------+-----------------------------------------------+
+| Service                   | Description                                   |
++---------------------------+-----------------------------------------------+
+| Pressure Reducer Install  | Required for homes over 5 yrs – [size] regulator installed |
+| [Device Name]             | Complete system with leak detectors & shutoff |
+| Software Setup            | WiFi config, app setup, auto-shutoff testing  |
+| Professional Installation | Complete install by licensed contractor       |
++---------------------------+-----------------------------------------------+
 
-DOCUMENTS ATTACHED:
-1. Certificate of Completion
-2. Affidavit of Service
-3. Unconditional Lien Release
-4. Photos
+CONTRACTOR INFORMATION
++------------------+-------------------------------------------+
+| Field            | Information                               |
++------------------+-------------------------------------------+
+| Contractor       | [Contractor Name]                         |
+| CSLB License     | #[License]                                |
+| License Status   | Verified Active as of [Date]              |
+| Insurance        | Liability insurance verified and active   |
++------------------+-------------------------------------------+
 
-DOWNLOAD: [Link]
+PROJECT FINANCIALS
++---------------------+----------+
+| Item                | Amount   |
++---------------------+----------+
+| Total Project Cost  | $[Total] |
+| Status              | PAID IN FULL |
++---------------------+----------+
 
-Submit to underwriter to bind policy or remove requirement.
+DOCUMENTS ATTACHED
+The following documents are included in this certificate package:
++----+----------------------------------+---------------------------------------+
+| #  | Document                         | Description                           |
++----+----------------------------------+---------------------------------------+
+| 1  | Certificate of Completion        | Official summary for underwriting     |
+| 2  | Affidavit of Service             | Signed by contractor under perjury    |
+| 3  | Unconditional Lien Release       | Signed by contractor (no further claims)|
+| 4  | Photos of Completed Work         | [N] photos documenting installation   |
+| 5  | License Verification             | CSLB license screenshot               |
++----+----------------------------------+---------------------------------------+
+
+DOWNLOAD CERTIFICATE PACKAGE
+AGENT PORTAL ACCESS:  https://agent.mrsurety.com/login
+Direct Download Link: https://mrsurety.com/agent/certificates/[Job ID]
+
+VERIFICATION
+To verify this certificate, visit:
+https://verify.mrsurety.com/[Job ID]
+
+UNDERWRITING INSTRUCTIONS
+This certificate confirms that the required loss prevention work has been completed
+by a licensed contractor and documented by MrSurety. Please forward this package
+to the underwriter to bind the policy or remove the requirement.
+
+QUESTIONS?
+If you need additional information, please contact our compliance team at
+(714) 686-1800.
+
+Thank you for partnering with MrSurety!
+
+Sincerely,
+MrSurety Compliance Team
+1253 E Imperial Hwy, Placentia, CA 92870
+(714) 686-1800
+compliance@mrsurety.com
+
+This is an automated message. Please do not reply directly to this email.
 ```
 
 #### A7 – Client Renewal Reminder
