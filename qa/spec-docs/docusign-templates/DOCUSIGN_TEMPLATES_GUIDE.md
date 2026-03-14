@@ -40,6 +40,48 @@
   - `docusign_D1_master-services-agreement_page1.png`
   - `docusign_D1_master-services-agreement_signature.png`
 
+**Full Document Template (DocuSign 1):**
+```
+CONTRACTOR MASTER SERVICES AGREEMENT
+
+BETWEEN:
+MrSurety, Inc. ("Company")
+1253 E Imperial Hwy, Placentia, CA 92870
+
+AND:
+[Contractor Name] ("Contractor")
+CSLB #: [License]
+
+1. SERVICES: Contractor performs loss prevention services assigned through platform.
+
+2. INDEPENDENT CONTRACTOR: Contractor is independent, not employee.
+
+3. COMPENSATION: Paid per Work Order within 15 days of completion and approval.
+
+4. WORK ORDERS: Each job requires signed Work Order.
+
+5. DOCUMENTATION: For each job, Contractor must provide:
+   - Photos
+   - Affidavit of Service
+   - Conditional Lien Release
+   - Unconditional Lien Release
+
+6. RESALE CERTIFICATE: Company holds valid Resale Certificate. Contractor may
+   accept per job.
+
+7. NON-CIRCUMVENTION: No direct solicitation of homeowners for 24 months.
+
+8. GOVERNING LAW: California.
+
+IN WITNESS WHEREOF:
+
+____________________________________
+[Contractor] - [Date]
+
+____________________________________
+MrSurety Representative - [Date]
+```
+
 ---
 
 ### D2 – Work Order / Task Contract
@@ -58,6 +100,53 @@
   - `docusign_D2_work-order-contract_page1.png` – Full first page
   - `docusign_D2_work-order-contract_page2.png` – Additional pages if present
   - `docusign_D2_work-order-contract_signature.png` – Signature/completion page
+
+**Full Document Template (DocuSign 2):**
+```
+WORK ORDER AND TASK CONTRACT
+
+Work Order #: [WO#]
+Date: [Date]
+
+BETWEEN:
+MrSurety, Inc. ("Company")
+and
+[Contractor] ("Contractor") - CSLB #[License]
+
+JOB DETAILS:
+Job ID:                          [Job ID]
+Property:                        [Address]
+Owner:                           [Name]
+Software Setup Assistance Required: [Yes/No]
+
+SCOPE OF WORK:
+• Install Pressure Reducer (if required)
+• Install Device (if contractor-provided)
+• Install parts, fittings, cable
+• Complete software setup assistance (if requested)
+
+COMPENSATION (CONTRACTOR PRICING):
+Company promises to pay Contractor $[Total]:
+   • Parts:                  $[Parts]
+   • Pressure Reducer:       $[Pressure]
+   • Device:                 $[Device]
+   • Software Setup:         $[Software]
+   • Labor:                  $[Labor]
+
+NOTE: Homeowner pays separate $95 Service Fee to MrSurety for compliance docs.
+
+RESALE CERTIFICATE: [Accepted/Not Accepted]
+
+SCHEDULE: [Date] @ [Time]
+
+AUTHORIZED:
+
+____________________________________
+MrSurety Representative - [Date]
+
+____________________________________
+Contractor - [Date]
+```
 
 ---
 
@@ -104,6 +193,40 @@
   - `docusign_D5_affidavit-of-service_page1.png`
   - `docusign_D5_affidavit-of-service_signature.png`
 
+**Full Document Template (DocuSign 3):**
+```
+AFFIDAVIT OF SERVICE
+
+I, [Contractor Name], declare:
+
+1. I am owner/authorized representative of [Business Name],
+   licensed contractor in California. License #[License].
+
+2. On [Date], I performed services at:
+   [Address]
+
+   • Pressure Reducer: [Model/Serial if applicable]
+   • Device:           [Model/Serial if applicable]
+   • Software Setup:   [Yes/No]
+   • Parts & Labor:    Completed
+
+3. All work completed in workmanlike manner per specifications.
+
+4. Attached photographs are true and accurate.
+
+I declare under penalty of perjury under California law that the foregoing
+is true.
+
+Executed on [Date].
+
+____________________________________
+[Contractor Name]
+[Business Name]
+CSLB #[License]
+
+[Electronically signed via DocuSign]
+```
+
 ---
 
 ### D6 – Conditional Lien Release w/ Invoice
@@ -120,6 +243,48 @@
   - `docusign_D6_conditional-lien-release_page1.png` – Full document
   - `docusign_D6_conditional-lien-release_initials.png` – Page requiring initials
   - `docusign_D6_conditional-lien-release_signature.png` – Signature page
+
+**Full Document Template (DocuSign 4):**
+```
+CONDITIONAL WAIVER AND RELEASE UPON FINAL PAYMENT
+
+Job ID:          [Job ID]
+Property:        [Address]
+Owner:           [Name]
+Contractor:      [Business Name]
+CSLB #:          [License]
+Payment Amount:  $[Contractor Total]
+
+INVOICE REFERENCE:
+Invoice #:          [Invoice#]
+Date:               [Date]
+Parts:              $[Parts]
+Pressure Reducer:   $[Pressure]
+Device:             $[Device]
+Software Setup:     $[Software]
+Labor:              $[Labor]
+TOTAL:              $[Total]
+
+CONTRACTOR VERIFICATION:
+
+_____ (initials) The work described in the attached invoice has been completely
+                 performed at the property address shown above.
+
+_____ (initials) All items listed were installed at this property.
+
+_____ (initials) The invoice is true and accurate.
+
+This release is CONDITIONAL upon clearance of the payment identified above.
+
+Executed this [Date].
+
+____________________________________
+[Contractor Name]
+[Business Name]
+CSLB #[License]
+
+ATTACHMENT: Invoice #[Invoice#]
+```
 
 ---
 
@@ -138,6 +303,36 @@
   - `docusign_D7_unconditional-lien-release_signature.png` – Signature page
   - `docusign_D7_portal-access-locked.png` – Screenshot of limited portal access BEFORE signing
   - `docusign_D7_portal-access-restored.png` – Screenshot of full portal access AFTER signing
+
+**Full Document Template (DocuSign 5):**
+```
+UNCONDITIONAL WAIVER AND RELEASE UPON FINAL PAYMENT
+
+Job ID:          [Job ID]
+Property:        [Address]
+Owner:           [Name]
+Contractor:      [Business Name]
+CSLB #:          [License]
+Payment Amount:  $[Contractor Total]
+
+The undersigned contractor acknowledges RECEIPT of the above-referenced
+payment in full and UNCONDITIONALLY waives and releases any and all claims,
+mechanics liens, stop notices, or rights against the above-referenced property
+for labor, services, and materials furnished through [Completion Date].
+
+PLATFORM ACCESS NOTICE:
+Execution of this document is required for continued access to the MrSurety
+contractor platform.
+
+Executed this [Date].
+
+____________________________________
+[Contractor Name]
+[Business Name]
+CSLB #[License]
+
+[Electronically signed via DocuSign]
+```
 
 ---
 

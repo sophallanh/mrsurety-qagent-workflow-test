@@ -95,35 +95,180 @@ Use the table below as the definitive checklist during testing.
 - **Trigger:** Form submit
 - **Body should include:** Request reference number, property address, service type, "contractors will be notified" message
 
+**Full Email Body (Email 1 – Service Request Confirmation):**
+```
+Subject: Your MrSurety Service Request Has Been Received
+
+Dear [Homeowner],
+
+Thank you for submitting your service request for:
+[Address]
+
+YOUR REQUEST DETAILS:
+• Service Type: [Installation/Assessment]
+• Square Footage: [sq ft]
+• Pressure Reducer: [Required/Not Required]
+• Software Setup Assistance: [Yes/No]
+• Estimated Extension Cord: [ft]
+
+Qualified contractors will review your request and submit estimates.
+You will be notified when estimates are ready.
+
+Track your request: [Link]
+
+MrSurety Compliance Team
+(714) 686-1800
+```
+
 #### H3 – Estimates Ready
 - **To:** Homeowner
 - **Trigger:** First contractor bid submitted
 - **Body should include:** Link to estimate page (shows **retail prices only** – no contractor prices visible)
+
+**Full Email Body (Email 2 – New Estimate Available):**
+```
+Subject: ✅ Estimates Ready for Your Review - MrSurety
+
+Dear [Homeowner],
+
+Contractors have submitted estimates for your service request at:
+[Address]
+
+ESTIMATES SUMMARY:
+[Contractor 1] (⭐⭐⭐⭐⭐)  Total: $[Total] (includes $95 Service Fee)
+[Contractor 2] (⭐⭐⭐⭐)    Total: $[Total] (includes $95 Service Fee)
+[Contractor 3] (⭐⭐⭐)      Total: $[Total] (includes $95 Service Fee)
+
+The $95 Service Fee covers contractor verification, compliance documentation,
+lien releases, and your insurance certificate.
+
+REVIEW ESTIMATES: [Link]
+```
 
 #### H4 – Deposit Required
 - **To:** Homeowner
 - **Trigger:** Contractor selected (Approve & Schedule)
 - **Body should include:** Deposit amount (10% of total), payment link, contractor name
 
+**Full Email Body (Email 3 – Estimate Selected – Deposit Required):**
+```
+Subject: ⚠️ ACTION REQUIRED: Complete Your Deposit to Confirm Installation
+
+Dear [Homeowner],
+
+Thank you for selecting [Contractor] for your installation at:
+[Address]
+
+YOUR ESTIMATE DETAILS:
+Parts & Fittings:       $[Parts]
+Pressure Reducer:       $[Pressure]
+Device:                 $[Device]
+Software Setup:         $[Software]
+Labor:                  $[Labor]
+Subtotal:               $[Subtotal]
+Service Fee:            $95.00
+Total Before Tax:       $[TotalBeforeTax]
+Tax:                    $[Tax]
+TOTAL:                  $[Total]
+
+DEPOSIT REQUIRED (10%): $[Deposit]
+
+WHAT THE SERVICE FEE COVERS:
+✓ Contractor license & insurance verification
+✓ Affidavit of Service (signed under penalty of perjury)
+✓ Conditional & Unconditional Lien Releases
+✓ Certificate of Completion for your insurance agent
+✓ Agent portal access
+✓ Perpetual document storage
+
+PAY DEPOSIT & SCHEDULE: [Link]
+```
+
 #### H5 – Installation Confirmed
 - **To:** Homeowner
 - **Trigger:** Deposit paid
 - **Body should include:** Service date, contractor name and contact, property address
+
+**Full Email Body (Email 5 – Deposit Received – Job Confirmed):**
+```
+Subject: ✅ Job Confirmed! Your Installation is Scheduled
+
+Dear [Homeowner],
+
+Your deposit has been received and your installation is confirmed.
+
+JOB DETAILS:
+• Date: [Date] @ [Time]
+• Contractor: [Contractor]
+• Property: [Address]
+
+YOUR PAYMENT SUMMARY:
+• Total Project Cost: $[Total] (includes $95 Service Fee)
+• Deposit Paid:       $[Deposit]
+• Remaining Balance:  $[Balance]
+
+Track your job: [Link]
+```
 
 #### H6 – Reminder – Tomorrow
 - **To:** Homeowner
 - **Trigger:** 24 hours before scheduled installation date
 - **Body should include:** Date/time of service, contractor contact info
 
+**Full Email Body (Email 6 – Reminder: Upcoming Installation):**
+```
+Subject: ⏰ Reminder: Your Installation is Tomorrow
+
+Dear [Homeowner],
+
+Reminder: Your installation is scheduled for TOMORROW.
+
+• Date:       [Date]
+• Time:       [Time]
+• Contractor: [Contractor]
+• Address:    [Address]
+
+Contractor will check in via app upon arrival.
+```
+
 #### H7 – Contractor Arrived
 - **To:** Homeowner
 - **Trigger:** Contractor GPS check-in on job day
 - **Body should include:** Contractor name, arrival timestamp, property address
 
+**Full Email Body (Email 7 – Contractor Check-In Notification):**
+```
+Subject: 📍 Your Contractor Has Arrived
+
+Dear [Homeowner],
+
+Your contractor has arrived at your property.
+
+• Time:     [Time]
+• Date:     [Date]
+• Location: [Address] (GPS verified)
+
+Work has begun.
+```
+
 #### H8 – Change Order Created
 - **To:** Homeowner
 - **Trigger:** Contractor creates a change order during job
 - **Body should include:** Description of change, new price, Approve/Decline link
+
+**Full Email Body (Email 8 – Change Order Created):**
+```
+Subject: ⚠️ ACTION REQUIRED: Change Order for Your Installation
+
+Dear [Homeowner],
+
+Additional work has been identified:
+
+• Description:      [Description]
+• Additional Cost:  $[Amount] (includes tax and Service Fee proportion)
+
+APPROVE OR DECLINE: [Link]
+```
 
 #### H9 – Critical Release Required
 - **To:** Homeowner
@@ -135,6 +280,31 @@ Use the table below as the definitive checklist during testing.
 - **Trigger:** Job marked complete by contractor
 - **Body should include:** Final invoice amount, payment link
 
+**Full Email Body (Email 9 – Work Completed – Final Payment Required):**
+```
+Subject: ✅ Work Complete - Final Payment Required
+
+Dear [Homeowner],
+
+Your installation is complete.
+
+FINAL INVOICE:
+Parts & Fittings:      $[Parts]
+Pressure Reducer:      $[Pressure]
+Device:                $[Device]
+Software Setup:        $[Software]
+Labor:                 $[Labor]
+Subtotal:              $[Subtotal]
+Service Fee:           $95.00
+Tax:                   $[Tax]
+TOTAL:                 $[Total]
+
+Deposit Paid:          $[Deposit]
+REMAINING BALANCE:     $[Balance]
+
+PAY FINAL BALANCE: [Link]
+```
+
 #### H11 – Payment Received
 - **To:** Homeowner
 - **Trigger:** Final payment processed
@@ -144,6 +314,38 @@ Use the table below as the definitive checklist during testing.
 - **To:** Homeowner
 - **Trigger:** All DocuSign documents signed
 - **Body should include:** Certificate download link
+
+**Full Email Body (Email 10 – Job Complete – Certificate Ready):**
+```
+Subject: 📄 Your Job is Complete - Certificate Ready for Download
+
+Dear [Homeowner],
+
+Your installation is complete and all documents are ready.
+
+FINAL INVOICE SUMMARY:
+• Total Project Cost: $[Total] (includes $95 Service Fee)
+• Status: PAID IN FULL
+
+SERVICE FEE INCLUDED:
+✓ Contractor license verification
+✓ Affidavit of Service
+✓ Lien Releases
+✓ Certificate of Completion
+✓ Agent portal access
+✓ Document storage
+
+DOCUMENTS AVAILABLE:
+1. Certificate of Completion
+2. Affidavit of Service
+3. Unconditional Lien Release
+4. Final Invoice
+5. Photos
+
+DOWNLOAD: [Link]
+
+Your agent has also been notified.
+```
 
 #### H13 – Return Service Scheduled
 - **To:** Homeowner
@@ -179,6 +381,36 @@ Use the table below as the definitive checklist during testing.
 - **Trigger:** Homeowner selects contractor
 - **Body should include:** Homeowner name and contact (now revealed), property address, service date, next steps (DocuSign, deposit confirmation)
 
+**Full Email Body (Email 4 – New Job Assignment):**
+```
+Subject: 🔨 NEW JOB ASSIGNMENT: Water Leak Prevention - [Job ID]
+
+Dear [Contractor],
+
+Congratulations! You have been selected for a new job.
+
+JOB DETAILS:
+• Job ID:                  [Job ID]
+• Homeowner:               [Name]
+• Property:                [Address]
+• Sq Ft:                   [sq ft]
+• Date:                    [Date] @ [Time]
+• Software Setup Required: [Yes/No]
+
+YOUR PRICING (Accepted):
+• Parts:              $[Parts]
+• Pressure Reducer:   $[Pressure]
+• Device:             $[Device]
+• Software Setup:     $[Software]
+• Labor:              $[Labor]
+• Contractor Total:   $[Total]
+
+Note: Homeowner pays a separate $95 Service Fee to MrSurety for compliance
+documentation. This does not affect your payment.
+
+CONTRACTOR PORTAL: [Link]
+```
+
 #### C5 – Sign Work Order
 - **To:** Contractor
 - **Trigger:** Deposit paid
@@ -203,6 +435,19 @@ Use the table below as the definitive checklist during testing.
 - **To:** Contractor
 - **Trigger:** Payment clears (3 days after admin approval)
 - **Body should include:** DocuSign link for Unconditional Lien Release; **portal access is limited until signed**
+
+**Full Email Body (Email 12 – Unconditional Lien Release Required):**
+```
+Subject: ⚠️ URGENT: Unconditional Lien Release Required - [Job ID]
+
+Dear [Contractor],
+
+Payment for Job [Job ID] has cleared. Please sign the Unconditional Lien Release.
+
+IMPORTANT: Platform access will be limited until signed.
+
+SIGN NOW: [Link]
+```
 
 #### C10 – Critical Assignment
 - **To:** Contractor
@@ -252,6 +497,32 @@ Use the table below as the definitive checklist during testing.
 - **To:** Agent
 - **Trigger:** All signed documents complete
 - **Body should include:** Certificate availability, client info
+
+**Full Email Body (Email 11 – Job Complete – Certificate for Agent):**
+```
+Subject: 📄 Client Job Complete: [Address] - Certificate Attached
+
+Dear [Agent],
+
+Your client, [Homeowner], has completed a loss prevention installation.
+
+PROPERTY:    [Address]
+COMPLETION:  [Date]
+CONTRACTOR:  [Contractor] (CSLB #[License])
+
+SERVICES PERFORMED:
+• [List of services]
+
+DOCUMENTS ATTACHED:
+1. Certificate of Completion
+2. Affidavit of Service
+3. Unconditional Lien Release
+4. Photos
+
+DOWNLOAD: [Link]
+
+Submit to underwriter to bind policy or remove requirement.
+```
 
 #### A7 – Client Renewal Reminder
 - **To:** Agent
@@ -305,6 +576,22 @@ Use the table below as the definitive checklist during testing.
 - **To:** Admin
 - **Trigger:** End of quarter
 - **Body should include:** Tax data summary for the quarter, downloadable report
+
+**Full Email Body (Email 13 – Quarterly Tax Report Ready):**
+```
+Subject: 📊 Quarterly Sales Tax Report Ready - [Quarter]
+
+Dear Admin,
+
+The quarterly sales tax report for [Quarter] is ready.
+
+SUMMARY:
+• Jobs:         [Count]
+• Total Sales:  $[Total]
+• Tax Collected: $[Tax]
+
+DOWNLOAD REPORT: [Link]
+```
 
 ---
 
