@@ -8,12 +8,18 @@
 > You are at `~` (your Mac home directory). Paste everything below in one go.
 
 ```bash
-# ── 0. Clone the repo (skip if you already have it) ──────────────────────────
-git clone https://github.com/sophallanh/mrsurety-qagent-workflow-test \
+# ── 0. Clone the repo (the QA branch — do this once) ─────────────────────────
+git clone --branch copilot/openclaw-integration-steps \
+  https://github.com/sophallanh/mrsurety-qagent-workflow-test \
   ~/mrsurety-qagent-workflow-test 2>/dev/null || true
 
 # ── Go into the repo ─────────────────────────────────────────────────────────
 cd ~/mrsurety-qagent-workflow-test
+
+# ── Make sure you are on the right branch ────────────────────────────────────
+git fetch origin copilot/openclaw-integration-steps --quiet
+git checkout copilot/openclaw-integration-steps --quiet
+git pull --ff-only --quiet
 
 # ── One-time setup ────────────────────────────────────────────────────────────
 pip3 install playwright python-dotenv
@@ -244,9 +250,13 @@ Re-run `--workflow agent-signup` to generate a fresh one before `--workflow home
 ## All Commands in One Block (same as the top — copy-paste from `~`)
 
 ```bash
-git clone https://github.com/sophallanh/mrsurety-qagent-workflow-test \
+git clone --branch copilot/openclaw-integration-steps \
+  https://github.com/sophallanh/mrsurety-qagent-workflow-test \
   ~/mrsurety-qagent-workflow-test 2>/dev/null || true
 cd ~/mrsurety-qagent-workflow-test
+git fetch origin copilot/openclaw-integration-steps --quiet
+git checkout copilot/openclaw-integration-steps --quiet
+git pull --ff-only --quiet
 pip3 install playwright python-dotenv
 playwright install chromium
 cp qa/openclaw/.env.example qa/openclaw/.env

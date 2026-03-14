@@ -60,22 +60,21 @@ echo ""
 
 # ── Step 0: Clone or pull repo ─────────────────────────────────────────────────
 section "Step 0: Clone / Update Repo"
+BRANCH="copilot/openclaw-integration-steps"
 if [ -d "$REPO_DIR/.git" ]; then
-    info "Repo already exists at $REPO_DIR — pulling latest ..."
+    info "Repo already exists at $REPO_DIR — switching to QA branch and pulling ..."
     cd "$REPO_DIR"
-    git pull --ff-only origin copilot/openclaw-integration-steps 2>/dev/null \
-        || git pull --ff-only origin main 2>/dev/null \
+    git fetch origin "$BRANCH" --quiet 2>/dev/null || true
+    git checkout "$BRANCH" --quiet 2>/dev/null \
+        || warn "Could not switch to $BRANCH — already on it or branch unavailable"
+    git pull --ff-only --quiet 2>/dev/null \
         || warn "Could not pull (network issue or already up to date)"
-    ok "Repo updated"
+    ok "Repo updated (branch: $BRANCH)"
 else
-    info "Cloning $REPO_URL into $REPO_DIR ..."
-    git clone "$REPO_URL" "$REPO_DIR"
+    info "Cloning $REPO_URL (branch: $BRANCH) into $REPO_DIR ..."
+    git clone --branch "$BRANCH" "$REPO_URL" "$REPO_DIR"
     cd "$REPO_DIR"
-    # Checkout the branch with the latest scripts
-    git checkout copilot/openclaw-integration-steps 2>/dev/null \
-        || git checkout main 2>/dev/null \
-        || true
-    ok "Repo cloned"
+    ok "Repo cloned (branch: $BRANCH)"
 fi
 cd "$REPO_DIR"
 
