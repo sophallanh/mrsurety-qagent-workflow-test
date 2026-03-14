@@ -10,74 +10,96 @@ Automated QA for Agent Referral Workflows and all platform workflows for MrSuret
 
 ### Option A – Node.js / Playwright (TypeScript tests)
 
-Run from the **repo root** (no need to `cd tests`):
+Run each command **one at a time** from the **repo root**:
 
 ```bash
-# 1. Clone and enter the repo
 git clone https://github.com/sophallanh/mrsurety-qagent-workflow-test.git
 cd mrsurety-qagent-workflow-test
-
-# 2. Copy credentials file (edit if needed – defaults work for the test environment)
+git pull
 cp .env.example .env
-
-# 3. Install dependencies and Chromium
 npm install
 npx playwright install chromium
-
-# 4. Run all tests
 npm test
+```
 
-# 5. Run a single spec (just the filename – no path prefix needed)
+Run a single spec file:
+
+```bash
 npx playwright test homeowner-workflow-guide-doc5.spec.ts
 npx playwright test admin-dashboard.spec.ts
 npx playwright test agent-referral-workflow.spec.ts
+```
 
-# 6. Run with a visible browser
+Run with a visible browser:
+
+```bash
 npm run test:headed
+```
 
-# 7. Open the HTML report
+Open the HTML report:
+
+```bash
 npm run test:report
 ```
 
-> **Why `.env` instead of `export`?**
-> The admin password contains `!`. In zsh (macOS default), `!` inside
-> double quotes triggers history expansion and causes a `dquote>` hang.
-> Using a `.env` file avoids all shell-quoting issues. If you prefer
-> exporting manually, use **single quotes**: `export ADMIN_PASSWORD='MrSurety2026!'`
+> **Important – run `npm install` before `npx playwright test`.**
+> Without it, `npx playwright` downloads a temporary copy that has no project
+> config, so it cannot find any test files and prints "No tests found".
 
-> **Note:** All browser tests require network access to `frontend-tan-five-46.vercel.app`.
+> **Why `.env` instead of `export ADMIN_PASSWORD="..."`?**
+> The password contains `!`. In zsh (macOS default) `!` inside double quotes
+> triggers history expansion and causes a `dquote>` hang.
+> A `.env` file avoids all shell-quoting issues entirely.
+> If you must export, use single quotes: `export ADMIN_PASSWORD='MrSurety2026!'`
 
 ---
 
 ### Option B – Python / Playwright (agent referral smoke test)
 
+Run each command **one at a time**:
+
 ```bash
-# 1. Clone and enter the repo
 git clone https://github.com/sophallanh/mrsurety-qagent-workflow-test.git
 cd mrsurety-qagent-workflow-test
-
-# 2. Create a virtual environment (required on macOS with Homebrew Python)
+git pull
 python3 -m venv venv
-source venv/bin/activate          # Windows: venv\Scripts\activate
-
-# 3. Install dependencies
-pip install -r requirements.txt
-python -m playwright install chromium
-
-# 4. Set admin password – use SINGLE quotes so zsh does not expand '!'
-export ADMIN_PASSWORD='MrSurety2026!'
-
-# 5. Run the agent referral smoke test
-python test_mrsurety_agent_referral.py
-
-# Run with a visible browser (useful for debugging)
-HEADLESS=false python test_mrsurety_agent_referral.py
 ```
 
-> **Tip:** If you see `dquote>` in your terminal, press **Ctrl+C** to cancel,
-> then re-run the export with single quotes as shown above.
+Activate the virtual environment:
+
+```bash
+source venv/bin/activate
+```
+
+Install dependencies and run:
+
+```bash
+pip install -r requirements.txt
+python -m playwright install chromium
+export ADMIN_PASSWORD='MrSurety2026!'
+python test_mrsurety_agent_referral.py
+```
+
+> **Windows users:** replace `source venv/bin/activate` with `venv\Scripts\activate`
+
+> **Tip:** If you see `dquote>` press **Ctrl+C**, then re-run the export line
+> with single quotes as shown above.
 
 Screenshots are saved to `screenshots/` (git-ignored).
+
+---
+
+## Troubleshooting
+
+| Error | Cause | Fix |
+|---|---|---|
+| `No tests found` | `npx playwright test` run before `npm install` | Run `npm install` first, then re-run |
+| `npm error: package.json not found` | Repo clone is out of date | Run `git pull` inside the repo folder |
+| `requirements.txt: No such file or directory` | Wrong working directory | `cd mrsurety-qagent-workflow-test` first |
+| `cp: defaults is not a directory` | Pasted a command that had an inline `# comment` attached | Copy and run commands **one line at a time**, not as a pasted block |
+| `dquote>` hang after `export ADMIN_PASSWORD="..."` | `!` in double quotes triggers zsh history expansion | Press **Ctrl+C**, then use single quotes: `export ADMIN_PASSWORD='MrSurety2026!'` |
+| `export: not valid in this context` | Pasted a line that included a `# comment` with special Unicode characters | Run the `export` line alone, without any trailing comment text |
+| `zsh: command not found: #` | A `#` comment line was pasted into the terminal as a command | Skip comment-only lines; only paste the actual command |
 
 ---
 
