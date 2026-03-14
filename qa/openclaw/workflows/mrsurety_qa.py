@@ -36,9 +36,11 @@ All 9 Workflows
 
 Quick Start
 -----------
-  # Step 0: Install dependencies (one time)
-  pip install playwright python-dotenv
-  playwright install chromium
+  # Step 0: Install dependencies (one time) — or just run the script and it
+  # will auto-create a virtual environment and install everything for you.
+  python3 -m venv qa/openclaw/.venv
+  qa/openclaw/.venv/bin/pip install playwright python-dotenv
+  qa/openclaw/.venv/bin/playwright install chromium
 
   # Step 1: Configure (one time)
   cp qa/openclaw/.env.example qa/openclaw/.env
@@ -60,32 +62,96 @@ import argparse
 import csv
 import json
 import os
+import subprocess
 import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
-_VENV_FIX = (
-    "\nFix: Use a virtual environment (avoids macOS PEP 668 error):\n"
-    "   python3 -m venv qa/openclaw/.venv\n"
-    "   source qa/openclaw/.venv/bin/activate\n"
-    "   pip install playwright python-dotenv\n"
-    "   playwright install chromium\n"
-    "Then re-run: python3 qa/openclaw/workflows/mrsurety_qa.py --check-connection\n\n"
-)
+
+# ── Auto-bootstrap: create venv and re-exec if dependencies are missing ───────
+def _bootstrap() -> None:
+    """Create a virtual environment and re-exec inside it if packages are missing.
+
+    This allows the script to be run directly with the system Python even on
+    macOS Homebrew (PEP 668 "externally-managed-environment").  The venv is
+    created at  qa/openclaw/.venv  relative to this script's parent directory
+    (i.e., always next to the .env file, regardless of where you run from).
+
+    Chromium browser installation is NOT done here — run once separately:
+        qa/openclaw/.venv/bin/playwright install chromium
+    """
+    _script_dir = Path(__file__).parent
+    _venv_dir = _script_dir.parent / ".venv"
+    _venv_python = _venv_dir / "bin" / "python3"
+
+    # 1. Already running from inside our venv.
+    #    sys.prefix is set by Python from pyvenv.cfg — reliable regardless of symlinks.
+    if Path(sys.prefix).resolve() == _venv_dir.resolve():
+        return
+
+    # 2. Packages available in the current interpreter (e.g., user installed them globally).
+    try:
+        import dotenv  # noqa: F401
+        import playwright  # noqa: F401
+        return
+    except ImportError:
+        pass
+
+    # 3. Venv already exists — try to re-exec directly without reinstalling.
+    if _venv_python.exists():
+        _check = subprocess.run(
+            [str(_venv_python), "-c", "import dotenv, playwright"],
+            capture_output=True,
+        )
+        if _check.returncode == 0:
+            os.execv(str(_venv_python), [str(_venv_python)] + sys.argv)
+            # os.execv replaces the process; the lines below only run if it fails.
+
+    # 4. Create the venv if it does not exist yet.
+    if not _venv_python.exists():
+        print("[SETUP] Creating Python virtual environment ...", flush=True)
+        subprocess.check_call([sys.executable, "-m", "venv", str(_venv_dir)])
+
+    # 5. Install the required packages into the venv.
+    print("[SETUP] Installing playwright and python-dotenv ...", flush=True)
+    subprocess.check_call(
+        [str(_venv_dir / "bin" / "pip"), "install", "--quiet", "--upgrade",
+         "playwright", "python-dotenv"]
+    )
+
+    # 6. Re-exec with the venv Python so all imports succeed.
+    print("[SETUP] Re-launching with virtual environment Python ...", flush=True)
+    os.execv(str(_venv_python), [str(_venv_python)] + sys.argv)
+
+
+_bootstrap()
+
 
 try:
     from dotenv import load_dotenv
 except ImportError:
-    sys.stderr.write("\n[ERROR] python-dotenv is not installed for this Python interpreter.\n")
-    sys.stderr.write(_VENV_FIX)
+    sys.stderr.write(
+        "\n[ERROR] python-dotenv is not installed and auto-bootstrap failed.\n"
+        "Manual fix:\n"
+        "   python3 -m venv qa/openclaw/.venv\n"
+        "   qa/openclaw/.venv/bin/pip install playwright python-dotenv\n"
+        "   qa/openclaw/.venv/bin/playwright install chromium\n"
+        "   qa/openclaw/.venv/bin/python qa/openclaw/workflows/mrsurety_qa.py --check-connection\n\n"
+    )
     sys.exit(1)
 
 try:
     from playwright.sync_api import Browser, BrowserContext, Page, sync_playwright
 except ImportError:
-    sys.stderr.write("\n[ERROR] playwright is not installed for this Python interpreter.\n")
-    sys.stderr.write(_VENV_FIX)
+    sys.stderr.write(
+        "\n[ERROR] playwright is not installed and auto-bootstrap failed.\n"
+        "Manual fix:\n"
+        "   python3 -m venv qa/openclaw/.venv\n"
+        "   qa/openclaw/.venv/bin/pip install playwright python-dotenv\n"
+        "   qa/openclaw/.venv/bin/playwright install chromium\n"
+        "   qa/openclaw/.venv/bin/python qa/openclaw/workflows/mrsurety_qa.py --check-connection\n\n"
+    )
     sys.exit(1)
 
 # ── Load environment ──────────────────────────────────────────────────────────

@@ -23,19 +23,18 @@ git pull --ff-only --quiet
 
 # ── One-time setup ────────────────────────────────────────────────────────────
 python3 -m venv qa/openclaw/.venv
-source qa/openclaw/.venv/bin/activate
-pip install playwright python-dotenv
-playwright install chromium
+qa/openclaw/.venv/bin/pip install --quiet playwright python-dotenv
+qa/openclaw/.venv/bin/playwright install chromium
 cp qa/openclaw/.env.example qa/openclaw/.env
 
 # ── Step 1: Verify the live app is reachable ──────────────────────────────────
-python3 qa/openclaw/workflows/mrsurety_qa.py --check-connection
+qa/openclaw/.venv/bin/python qa/openclaw/workflows/mrsurety_qa.py --check-connection
 
 # ── Step 2: Create all 8 QA test accounts on the live app ────────────────────
-python3 qa/openclaw/workflows/mrsurety_qa.py --workflow create-accounts
+qa/openclaw/.venv/bin/python qa/openclaw/workflows/mrsurety_qa.py --workflow create-accounts
 
 # ── Step 3: Run all 9 workflows (captures 50+ screenshots + videos) ───────────
-python3 qa/openclaw/workflows/mrsurety_qa.py --workflow all
+qa/openclaw/.venv/bin/python qa/openclaw/workflows/mrsurety_qa.py --workflow all
 
 # ── Step 4: Run the full npm test suite (1,418 tests) ─────────────────────────
 cd tests && npm install && npm test && cd ..
@@ -47,6 +46,11 @@ cd qa/openclaw && ./workflows/run_daily.sh && cd ../..
 > **After Step 5:** A zip file named `MrSurety_QA_<today>.zip` appears in  
 > `~/mrsurety-qagent-workflow-test/qa/openclaw/`.  
 > Upload that zip to Google Drive and email **c.palmer@mrsurety.com**.
+
+> **Directory check:** All commands above must be run from `~/mrsurety-qagent-workflow-test`  
+> (the repo root). The virtual environment lives at `qa/openclaw/.venv/` inside that folder.  
+> If you see "no such file or directory" for the venv, run `python3 -m venv qa/openclaw/.venv`  
+> from the repo root first.
 
 ---
 
@@ -68,13 +72,12 @@ cd qa/openclaw && ./workflows/run_daily.sh && cd ../..
 ```bash
 # Create a virtual environment (avoids macOS PEP 668 "externally-managed" error)
 python3 -m venv qa/openclaw/.venv
-source qa/openclaw/.venv/bin/activate
 
-# Install Python dependencies
-pip install playwright python-dotenv
+# Install Python dependencies directly into the venv (no activation needed)
+qa/openclaw/.venv/bin/pip install playwright python-dotenv
 
 # Install Chromium browser
-playwright install chromium
+qa/openclaw/.venv/bin/playwright install chromium
 
 # Configure (copy the pre-filled template — already points to live app)
 cp qa/openclaw/.env.example qa/openclaw/.env
@@ -264,13 +267,12 @@ git fetch origin copilot/openclaw-integration-steps --quiet
 git checkout copilot/openclaw-integration-steps --quiet
 git pull --ff-only --quiet
 python3 -m venv qa/openclaw/.venv
-source qa/openclaw/.venv/bin/activate
-pip install playwright python-dotenv
-playwright install chromium
+qa/openclaw/.venv/bin/pip install --quiet playwright python-dotenv
+qa/openclaw/.venv/bin/playwright install chromium
 cp qa/openclaw/.env.example qa/openclaw/.env
-python3 qa/openclaw/workflows/mrsurety_qa.py --check-connection
-python3 qa/openclaw/workflows/mrsurety_qa.py --workflow create-accounts
-python3 qa/openclaw/workflows/mrsurety_qa.py --workflow all
+qa/openclaw/.venv/bin/python qa/openclaw/workflows/mrsurety_qa.py --check-connection
+qa/openclaw/.venv/bin/python qa/openclaw/workflows/mrsurety_qa.py --workflow create-accounts
+qa/openclaw/.venv/bin/python qa/openclaw/workflows/mrsurety_qa.py --workflow all
 cd tests && npm install && npm test && cd ..
 cd qa/openclaw && ./workflows/run_daily.sh && cd ../..
 ```

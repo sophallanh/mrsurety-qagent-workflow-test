@@ -403,6 +403,13 @@ test.describe('§D – Python workflow script (mrsurety_qa.py)', () => {
     expect(script).toContain('record_video=True');
     expect(script).toContain('contractor_invite_full.mp4');
   });
+
+  test('§D.19 Auto-bootstraps virtual environment when dependencies are missing', () => {
+    expect(script).toContain('_bootstrap');
+    expect(script).toContain('subprocess.check_call');
+    expect(script).toContain('os.execv');
+    expect(script).toContain('.venv');
+  });
 });
 
 // ── §E – Daily runner script ───────────────────────────────────────────────
