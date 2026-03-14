@@ -22,17 +22,27 @@ This is the condensed workflow reference guide. Use it during testing as a quick
 
 ## WORKFLOW 1: AGENT REFERRAL
 
-**Method A – Referral Link**
-1. Agent logs in → copies referral link (`mrsurety.com/ref/AGENT123`)
-2. Incognito → paste link → "Brought to you by [Agent Name]"
-3. Complete service request → job links to agent
-4. Agent portal shows new client
+**Method A – Referral Link (from in-app Agent Referral Workflow guide)**
+1. Agent logs in → dashboard shows unique referral link + QR code
+2. Agent copies link or downloads QR code → shares via text, email, or in person
+3. Homeowner clicks link → quick signup (4 fields only: name, email, phone, password)
+4. Homeowner logs in → sees **"Finish Your Referral from [Agent Name]"** card on dashboard
+5. Homeowner clicks card → fills full service request form → agent automatically linked
+6. Agent views referred clients under **Clients** tab on dashboard
 
 **Method B – Homeowner Adds Agent Email**
 1. Homeowner goes direct (no link) → standard form
 2. Insurance section → enter agent email
 3. Submit → pending agent record created
 4. Admin approves → agent gets welcome email
+
+> ⚠️ **Referral only converts when homeowner completes the service request form.**  
+> If homeowner signs up but doesn't complete the form, referral is NOT counted.
+
+**Agent Rewards Program**
+- Earn **100 points** for every paid work order from referrals
+- Tiers: **Bronze → Silver → Gold**
+- Track points and tier progress on agent dashboard
 
 ---
 

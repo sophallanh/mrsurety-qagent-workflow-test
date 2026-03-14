@@ -6,7 +6,8 @@
     "test": "playwright test",
     "test:headed": "playwright test --headed",
     "test:report": "playwright show-report",
-    "test:openclaw-integration": "playwright test openclaw-integration.spec.ts"
+    "test:openclaw-integration": "playwright test openclaw-integration.spec.ts",
+    "test:app-workflow-guides": "playwright test app-workflow-guides.spec.ts"
   },
   "devDependencies": {
     "@playwright/test": "^1.42.0"

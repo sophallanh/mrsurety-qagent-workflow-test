@@ -29,6 +29,19 @@ Or create them manually at: **https://frontend-tan-five-46.vercel.app/signup**
 
 ---
 
+## Built-In App Test Accounts (pre-seeded by Christopher, from in-app Full Workflow guide)
+
+> These accounts are pre-seeded in the app for quick manual testing.
+> Use the @outlook.com accounts below for automated/email testing.
+
+| Role | Email | Password |
+|------|-------|----------|
+| Homeowner | testowner@mrsurety.com | MrSurety2026! |
+| Contractor | testpro@mrsurety.com | MrSurety2026! |
+| Agent | testagent2@mrsurety.com | MrSurety2026! |
+
+---
+
 ## Agents
 
 | Email | Password | Name | Company | Workflow |
