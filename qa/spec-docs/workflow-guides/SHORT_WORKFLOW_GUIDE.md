@@ -10,7 +10,20 @@
 
 ---
 
-## User Types & Test Accounts
+## Primary User Types to Create
+
+Per the Palmer email (Mar 13, 2026), the **3 primary user types** to create for testing are:
+- **Agent** – insurance agent who generates referral codes/links
+- **Contractor** – licensed contractor who bids on jobs (CSLB required; use 999888 for testing)
+- **Homeowner** – property owner requesting service
+
+All user accounts should be created by the tester. Use Outlook.com or another email service so you can receive emails during testing.
+
+> 📸 **Screenshot Requirement:** Screenshot **all email documents** for verbiage review, including email updates and DocuSign documents. This will be **over 50 items**. Upload all to the Google Drive folder.
+
+---
+
+## User Types & Test Accounts (Full List)
 
 Per Christopher's Testing Guide Part 1 & Part 8:
 
@@ -30,13 +43,13 @@ Per Christopher's Testing Guide Part 1 & Part 8:
 
 ## Workflow 1 – Agent Referral (Two Methods)
 
-### Method A – Agent Creates Referral Link
-1. Agent logs in → copies unique referral link (format: `mrsurety.com/ref/AGENT123`)
+### Method A – Agent Creates Referral Link (Referral Code)
+1. Agent logs in → copies unique referral link/code (format: `mrsurety.com/ref/AGENT123`)
 2. Open incognito browser, paste link → landing page shows **"Brought to you by [Agent Name]"**
 3. Homeowner completes service request form → job automatically linked to agent
 4. Check agent portal → new client appears in agent's dashboard
 
-> ⚠️ **Referral link can be used multiple times – each use creates a SEPARATE job.** All linked homeowners appear in the agent portal.
+> ⚠️ **Referral Code Validity:** Each referral code is valid only for the specific request form it was created for. It **will not carry over to future request forms**. Test both methods multiple times.
 
 ### Method B – Homeowner Adds Agent Email
 1. Homeowner goes directly to site (no referral link)
@@ -51,6 +64,8 @@ Per Christopher's Testing Guide Part 1 & Part 8:
 **Service Types:** Installation vs Assessment
 
 **Form Sections:** Account, Service Type, Property Address, Insurance Info (agent email + policy number), Home Specifics (sq ft + year built), Device Info, Water Main Photo **(REQUIRED)**, LiDar (optional), Access Notes, Contact
+
+> ⚠️ **Multiple Addresses & Permit Types:** Homeowners may have multiple addresses in their profile. Test with different addresses **and different permit types** to verify each request is tracked separately.
 
 ### Pipe Size Logic
 | Sq Ft | Pipe Size |

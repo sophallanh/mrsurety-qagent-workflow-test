@@ -29,7 +29,8 @@
     "test:service-form-assessment-doc": "playwright test service-form-assessment-doc-spec.spec.ts",
     "test:platform-v43-crosscheck": "playwright test platform-v43-crosscheck.spec.ts",
     "test:platform-v44-spec": "playwright test platform-v44-spec.spec.ts",
-    "test:qa-testing-guide": "playwright test qa-testing-guide.spec.ts"
+    "test:qa-testing-guide": "playwright test qa-testing-guide.spec.ts",
+    "test:palmer-email-supplement": "playwright test palmer-email-supplement.spec.ts"
   },
   "devDependencies": {
     "@playwright/test": "^1.58.2"
