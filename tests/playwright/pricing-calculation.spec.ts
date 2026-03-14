@@ -726,3 +726,80 @@ test.describe('V4.4 Scenario D – No Device + No Software', () => {
     });
   });
 });
+
+// ---------------------------------------------------------------------------
+// V4.3 Cross-Reference Audit (Platform Spec V4.3 – "PAST VERSION" / Doc #4)
+//
+// V4.3 was the immediate predecessor to V4.4. V4.4 is the authoritative spec.
+// This section documents every material difference found during cross-reference
+// so future developers have a clear audit trail.
+//
+// DIFFERENCES FOUND:
+//   1. Scenario 4 (No Device + No Software) – ROUNDING ERROR in V4.3:
+//        V4.3 published:  tax = $117.87, TOTAL = $1,638.62   ← typo/rounding bug
+//        V4.4 corrected:  tax = $117.86, TOTAL = $1,638.61   ← mathematically correct
+//        Proof: $1,520.75 × 0.0775 = $117.858125 → rounds to $117.86
+//
+//   2. V4.3 only listed 3 DocuSign documents (Work Order, Affidavit,
+//      Conditional Lien Release). V4.4 expanded to 5 (added Unconditional
+//      Lien Release and Release of Liability). All 5 are already tested.
+//
+//   3. V4.3 had an 11-step job flow; V4.4 expanded to 23 steps. All steps
+//      are already tested via the programmer-summary and job-flow specs.
+//
+//   4. All four pricing scenario totals are identical between V4.3 and V4.4
+//      EXCEPT for the Scenario 4 rounding correction noted above.
+//
+// CONCLUSION: All V4.3 content is fully covered by existing tests. No
+// additional test cases are required beyond this rounding correction record.
+// ---------------------------------------------------------------------------
+
+/**
+ * V4.3 → V4.4 Rounding Correction: Scenario 4 (No Device + No Software)
+ *
+ * V4.3 (Doc #4 – Past Version) published:
+ *   Tax: $117.87  ← rounding error (off by $0.01)
+ *   Total: $1,638.62 ← rounding error (off by $0.01)
+ *
+ * V4.4 corrected to:
+ *   Tax: $117.86  ← mathematically correct
+ *   Total: $1,638.61 ← mathematically correct
+ *
+ * This test proves V4.4's values are correct and supersede V4.3's typo.
+ */
+test.describe('V4.3→V4.4 Rounding Correction – Scenario 4 (No Device + No Software)', () => {
+  test('V4.4 corrected Scenario 4 tax from V4.3 $117.87 to $117.86 (proof: $1,520.75 × 0.0775 = $117.858125)', async () => {
+    const totalBeforeTax = 1520.75; // Subtotal $1,425.75 + Service Fee $95.00
+    const taxRate        = 0.0775;
+
+    // Raw calculation
+    const rawTax = totalBeforeTax * taxRate;
+
+    // Correct rounding (2 decimal places)
+    const correctTax = round2(rawTax);
+
+    // V4.3 claimed $117.87 (rounding error)
+    const v43ClaimedTax = 117.87;
+
+    // V4.4 corrects to $117.86
+    const v44CorrectTax = 117.86;
+
+    // Proof: raw value is closer to $117.86 than $117.87
+    expect(rawTax).toBeGreaterThan(117.858);
+    expect(rawTax).toBeLessThan(117.859);
+
+    // Correct 2-decimal rounding = $117.86 (V4.4), NOT $117.87 (V4.3)
+    expect(correctTax).toBe(v44CorrectTax);
+    expect(correctTax).not.toBe(v43ClaimedTax);
+
+    // HOMEOWNER TOTAL: V4.4 $1,638.61, V4.3 had $1,638.62
+    const homeownerTotal = round2(totalBeforeTax + correctTax);
+    expect(homeownerTotal).toBe(1638.61); // V4.4 correct
+    expect(homeownerTotal).not.toBe(1638.62); // V4.3 was wrong by $0.01
+
+    test.info().annotations.push({
+      type: 'info',
+      description: 'V4.3 had rounding error: tax $117.87 / total $1,638.62. V4.4 corrected to $117.86 / $1,638.61. Proof: $1,520.75 × 0.0775 = $117.858125 → rounds to $117.86.',
+    });
+  });
+});
