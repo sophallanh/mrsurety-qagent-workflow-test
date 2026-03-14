@@ -142,5 +142,21 @@ vite.config.ts.timestamp-*
 qa/test-results/
 tests/test-results/
 
+# OpenClaw generated output (screenshots, videos, CSVs, reports – uploaded to Drive separately)
+qa/openclaw/output/screenshots/*
+qa/openclaw/output/videos/*
+qa/openclaw/output/reports/*
+qa/openclaw/output/data/test_accounts.csv
+qa/openclaw/output/data/findings.csv
+qa/openclaw/output/data/email_inventory.csv
+qa/openclaw/output/data/admin_users.csv
+qa/openclaw/output/data/daily_findings.json
+qa/openclaw/output/data/referral_link.txt
+qa/openclaw/output_archive/
+MrSurety_QA_*.zip
+
+# OpenClaw .env (contains secrets – never commit)
+qa/openclaw/.env
+
 # Lock files (generated; not committed)
 tests/package-lock.json

@@ -57,7 +57,31 @@ mrsurety-qagent-workflow-test/
 
 ---
 
-## Quick Start
+## OpenClaw Automated QA
+
+OpenClaw provides a self-hosted, multi-agent browser automation layer on top of the Playwright
+test suite. All 6 workflows (admin login, agent signup, homeowner service request, email/DocuSign
+screenshots, contractor upload invite, admin verification) run from a single command and produce
+organized output (screenshots, videos, CSVs, daily report).
+
+**Setup:** See [`qa/openclaw/OPENCLAW_SETUP_GUIDE.md`](openclaw/OPENCLAW_SETUP_GUIDE.md)  
+**Run everything:** `python3 qa/openclaw/workflows/mrsurety_qa.py --workflow all`  
+**Daily cron:** `qa/openclaw/workflows/run_daily.sh`
+
+```
+qa/openclaw/
+├── OPENCLAW_SETUP_GUIDE.md      # 15-step guide: install → connect → run → upload
+├── docker-compose.yml           # OpenClaw + Chromium + Redis
+├── .env.example                 # All required environment variables
+├── workflows/
+│   ├── mrsurety_qa.py           # Complete Python workflow script (all 6 workflows)
+│   └── run_daily.sh             # Daily automated cron runner
+└── output/                      # Generated artifacts (not committed to Git)
+    ├── screenshots/             # 100+ sequentially-numbered PNGs
+    ├── videos/                  # MP4 screen recordings
+    ├── data/                    # test_accounts.csv, findings.csv, email_inventory.csv
+    └── reports/                 # YYYY-MM-DD_findings.md daily reports
+```
 
 ### 1. Install Dependencies
 

@@ -1,0 +1,5 @@
+role,email,password,creation_date,screenshot_path
+agent,testagent_YYYYMMDD@outlook.com,MrSuretyQA2026!,YYYY-MM-DD HH:MM,screenshots/agent_00_signup_form.png
+homeowner,testhomeowner_a_YYYYMMDD@outlook.com,MrSuretyQA2026!,YYYY-MM-DD HH:MM,screenshots/homeowner_01_method_a_form.png
+homeowner,testhomeowner_b_YYYYMMDD@outlook.com,MrSuretyQA2026!,YYYY-MM-DD HH:MM,screenshots/homeowner_04_method_b_agent_email.png
+contractor,testcontractor_YYYYMMDD@outlook.com,MrSuretyQA2026!,YYYY-MM-DD HH:MM,screenshots/contractor_00_dashboard.png
