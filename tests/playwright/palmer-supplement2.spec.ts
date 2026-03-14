@@ -361,3 +361,34 @@ test.describe('§G – Guide Integrity After Palmer Supplement 2 Additions', () 
   });
 });
 
+// ===========================================================================
+// §H – LIVE APP URL VERIFICATION
+// ===========================================================================
+test.describe('§H – Live App URL Verified Across Config Files', () => {
+  const LIVE_URL = 'https://frontend-tan-five-46.vercel.app';
+
+  test('Live app URL is documented in SHORT_WORKFLOW_GUIDE.md', () => {
+    expect(guide).toContain(LIVE_URL);
+  });
+
+  test('Live app URL is configured in playwright.config.ts', () => {
+    const configPath = path.join(__dirname, '../../playwright.config.ts');
+    const config = fs.readFileSync(configPath, 'utf8');
+    expect(config).toContain(LIVE_URL);
+  });
+
+  test('Live app URL is set in .env.example as MRSURETY_BASE_URL', () => {
+    const envExamplePath = path.join(__dirname, '../../.env.example');
+    const envExample = fs.readFileSync(envExamplePath, 'utf8');
+    expect(envExample).toContain(`MRSURETY_BASE_URL=${LIVE_URL}`);
+  });
+
+  test('Live app URL uses HTTPS protocol', () => {
+    expect(LIVE_URL).toMatch(/^https:\/\//);
+  });
+
+  test('Live app URL is hosted on vercel.app domain', () => {
+    expect(LIVE_URL).toContain('vercel.app');
+  });
+});
+

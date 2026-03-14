@@ -60,10 +60,10 @@ All tests target this URL by default.
 | `platform-v44-spec.spec.ts` | Platform V4.4 full spec | 130 |
 | `qa-testing-guide.spec.ts` | Christopher's testing guide cross-validation | 153 |
 | `palmer-email-supplement.spec.ts` | Palmer Mar 14 email supplement | 40 |
-| `palmer-supplement2.spec.ts` | Palmer supplement 2 (upload invite) | 55 |
+| `palmer-supplement2.spec.ts` | Palmer supplement 2 (upload invite + §H live URL) | 60 |
 | `christopher-original-email.spec.ts` | Christopher's email cross-check (all 14 §§) | 62 |
 
-**Total: 1,606 tests across 34 spec files**
+**Total: 1,611 tests across 34 spec files**
 
 ---
 
