@@ -769,3 +769,300 @@ Final Payment:     $2,147.50
 | DocuSign: Work Order + Affidavit + Conditional Lien Release | ✅ Unchanged | Assessment generates assessment_report instead        |
 | Pipe size logic (sq ft → 3/4"/1"/1¼")                | ✅ Unchanged   | Used for installation requests only                      |
 | Pressure reducer if >5 years old                      | ✅ Unchanged   | Used for installation requests only                      |
+
+---
+
+## V4.4 Platform Spec Cross-Reference
+
+> Source: "MR SURETY – COMPLETE PLATFORM SPECIFICATION V4.4 (Complete Reference Document)"
+> V4.4 expands V4.3 with complete company info, detailed contractor estimate methods,
+> full email templates, complete DocuSign content, database schema, and API integrations.
+> Scenario 4 total is corrected to **$1,638.61** (V4.3 listed $1,638.62).
+
+---
+
+### V4.4 Company Information
+
+| Field            | Value                                       |
+|-----------------|---------------------------------------------|
+| Legal Name      | MrSurety, Inc.                              |
+| Address         | 1253 E Imperial Hwy, Placentia, CA 92870   |
+| Phone           | (714) 686-1800                              |
+| Email           | support@mrsurety.com                        |
+| Website         | www.mrsurety.com                            |
+| Resale Cert     | California Seller's Permit #XXXXXX          |
+
+---
+
+### V4.4 Contractor Base Prices (Example)
+
+| Component                      | Contractor Price |
+|-------------------------------|-----------------|
+| Parts (Fittings & Misc + Cable) | $260.00        |
+| Pressure Reducer (1")          | $310.00         |
+| Device (Moen System)           | $599.99         |
+| Software Setup                 | $75.00          |
+| Labor                          | $525.00         |
+| **Contractor Total**           | **$1,769.99**   |
+
+---
+
+### V4.4 Service Request – Homeowner Input Fields
+
+| Field               | Description                        | Example                              |
+|--------------------|-------------------------------------|--------------------------------------|
+| Property Address   | Full address                        | 4568 Sycamore Lane, Anaheim, CA      |
+| Square Footage     | Home size                           | 2,200 sq ft                          |
+| Service Category   | Dropdown                            | Water Mitigation                     |
+| Specific Request   | Free text                           | "Install water leak detection"       |
+| Distance Preference| Miles                               | Within 15 miles                      |
+| Device Source      | Radio                               | Insurance / Homeowner / Contractor   |
+| Software Setup     | Yes/No                              | YES                                  |
+
+### V4.4 System Auto-Calculations
+
+| Calculation              | Logic                         | Example Result |
+|-------------------------|-------------------------------|---------------|
+| Pressure Reducer Required| IF age >5 years THEN Yes      | YES           |
+| Extension Cord Length    | Distance to outlet × 1.5      | 25 ft         |
+| Pipe Size                | Based on sq ft                | 1 inch        |
+
+### V4.4 Pipe Size Chart
+
+| Home Size         | Pipe Size   |
+|------------------|-------------|
+| Up to 2000 sq ft | 3/4 inch    |
+| 2001–3000 sq ft  | 1 inch      |
+| 3001–5000 sq ft  | 1 1/4 inch  |
+
+---
+
+### V4.4 Contractor Estimate Methods
+
+#### Method A: Upload Written Estimate
+
+| Step | Description                                         |
+|-----|------------------------------------------------------|
+| 1   | Contractor uploads PDF or photo of written estimate  |
+| 2   | Contractor enters parts total with description       |
+| 3   | Contractor enters pressure reducer cost              |
+| 4   | Contractor enters device cost (if applicable)        |
+| 5   | Contractor enters software setup (if requested)      |
+| 6   | Contractor enters labor amount                       |
+| 7   | System stores contractor prices                      |
+
+#### Method B: System Estimate Creator
+
+| Qty  | Description              | Type     | Unit Price | Total     |
+|-----|--------------------------|----------|-----------|-----------|
+| 1   | Moen Smart Water System  | Device   | $599.99   | $599.99   |
+| 1   | Pressure Reducer (1")    | Required | $310.00   | $310.00   |
+| 1   | Pipe Fittings & Misc Kit | Part     | $210.00   | $210.00   |
+| 25 ft| Extension Cable         | Part     | $2.00/ft  | $50.00    |
+| 1   | Software Setup           | Setup    | $75.00    | $75.00    |
+| —   | **CONTRACTOR TOTAL**     | —        | —         | **$1,769.99** |
+
+---
+
+### V4.4 Corrected Scenario 4 Total
+
+Scenario 4 (No Device + No Software) corrected total: **$1,638.61**
+- Subtotal: $1,425.75
+- Service Fee: $95.00
+- Tax Base: $1,520.75 × 7.75% = **$117.86**
+- Total: $1,425.75 + $95.00 + $117.86 = **$1,638.61**
+
+> ⚠️ V4.3 listed $1,638.62 (rounding difference). V4.4 corrects to $1,638.61.
+
+---
+
+### V4.4 Service Fee Coverage (11 Items)
+
+| Service                        | Description                                          |
+|-------------------------------|------------------------------------------------------|
+| Contractor License Verification| Ensure work done by licensed, insured professionals  |
+| Background Checks              | All contractors vetted                               |
+| Insurance Verification         | Liability insurance confirmed                        |
+| Affidavit of Service           | Signed under penalty of perjury                      |
+| Conditional Lien Release       | Protects property during payment period              |
+| Unconditional Lien Release     | Final proof contractor has no claim                  |
+| Certificate of Completion      | Official documentation for insurance                 |
+| Agent Portal Access            | Agent tracks progress in real-time                   |
+| Document Storage               | Perpetual access to all records                      |
+| Compliance Monitoring          | System ensures all steps completed                   |
+| Tax Reporting                  | Sales tax properly handled and remitted              |
+
+> V4.3 listed 6 items; V4.4 adds: Background Checks, Insurance Verification, Compliance Monitoring, Tax Reporting.
+
+---
+
+### V4.4 Complete Job Flow (23 Steps)
+
+| Step | Who        | Action                                              | Document              |
+|-----|-----------|------------------------------------------------------|-----------------------|
+| 1   | Homeowner  | Submits service request with all details            | —                     |
+| 2   | System     | Finds contractors within distance, sends notifications | —                  |
+| 3   | Contractor | Reviews request, submits bid with prices            | —                     |
+| 4   | System     | Applies markups, adds service fee, calculates tax   | —                     |
+| 5   | Homeowner  | Reviews estimate, selects contractor                | —                     |
+| 6   | Homeowner  | Pays 10% deposit                                    | Deposit receipt       |
+| 7   | Homeowner  | Selects installation date                           | —                     |
+| 8   | System     | Verifies contractor has all parts (inventory check) | —                     |
+| 9   | System     | Sends Work Order to contractor                      | DocuSign: Work Order  |
+| 10  | Contractor | Signs Work Order                                    | Work Order signed     |
+| 11  | Contractor | Arrives at job site, checks in via app (GPS, timestamp, photo) | Check-in record |
+| 12  | Contractor | Performs work                                       | —                     |
+| 13  | Contractor | IF change order needed: creates in app; homeowner approves | Change Order   |
+| 14  | Contractor | Completes work, uploads photos and invoice          | —                     |
+| 15  | Contractor | Signs Affidavit of Service                          | DocuSign: Affidavit   |
+| 16  | Contractor | Signs Conditional Lien Release w/ invoice           | DocuSign: Conditional |
+| 17  | Admin      | Reviews work, approves                              | —                     |
+| 18  | System     | Releases payment to contractor                      | —                     |
+| 19  | Contractor | Receives payment                                    | —                     |
+| 20  | System     | After payment clears, sends Unconditional Lien Release | DocuSign: Unconditional |
+| 21  | Contractor | Signs Unconditional Lien Release                    | —                     |
+| 22  | System     | Generates certificate package, emails homeowner + agent | Certificate     |
+| 23  | Agent      | Downloads certificate, submits to underwriter       | —                     |
+
+---
+
+### V4.4 All System Emails (13 Emails)
+
+| # | Subject                                            | Recipient  | Trigger                      |
+|--|---------------------------------------------------|------------|------------------------------|
+| 1 | Your MrSurety Service Request Has Been Received   | Homeowner  | Service request submitted    |
+| 2 | Estimates Ready for Your Review - MrSurety        | Homeowner  | Contractor bids received     |
+| 3 | Action Required: Complete Your Deposit to Confirm Installation | Homeowner | Estimate selected |
+| 4 | NEW JOB ASSIGNMENT: [Job ID]                       | Contractor | Job assigned after deposit   |
+| 5 | Job Confirmed! Your Installation is Scheduled     | Homeowner  | Deposit payment received     |
+| 6 | Reminder: Your Installation is Tomorrow           | Homeowner  | 24 hours before install      |
+| 7 | Your Contractor Has Arrived                       | Homeowner  | Contractor GPS check-in      |
+| 8 | Action Required: Change Order for Your Installation | Homeowner | Change order created        |
+| 9 | Work Complete - Final Payment Required            | Homeowner  | Work uploaded                |
+| 10| Your Job is Complete - Certificate Ready for Download | Homeowner | Payment cleared + docs done |
+| 11| Client Job Complete: [Address] - Certificate Attached | Agent | Job complete, cert generated |
+| 12| URGENT: Unconditional Lien Release Required - [Job ID] | Contractor | Payment cleared          |
+| 13| Quarterly Sales Tax Report Ready - [Quarter]      | Admin      | End of quarter               |
+
+#### Email 3 Content (Estimate Selected – Deposit Required)
+
+```
+YOUR ESTIMATE DETAILS:
+Parts & Fittings: $[Parts]
+Pressure Reducer: $[Pressure]
+Device: $[Device]
+Software Setup: $[Software]
+Labor: $[Labor]
+Subtotal: $[Subtotal]
+Service Fee: $95.00
+Tax: $[Tax]
+TOTAL: $[Total]
+DEPOSIT REQUIRED (10%): $[Deposit]
+```
+
+#### Email 9 Content (Work Complete – Final Payment Required)
+
+```
+FINAL INVOICE:
+Parts & Fittings: $[Parts]
+Pressure Reducer: $[Pressure]
+Device: $[Device]
+Software: $[Software]
+Labor: $[Labor]
+Subtotal: $[Subtotal]
+Service Fee: $95.00
+Tax: $[Tax]
+TOTAL: $[Total]
+Deposit Paid: $[Deposit]
+REMAINING BALANCE: $[Balance]
+```
+
+---
+
+### V4.4 All DocuSign Documents (5 Documents)
+
+| # | Document                              | Timing       | Signer     |
+|--|--------------------------------------|-------------|------------|
+| 1 | Contractor Master Services Agreement | One-time     | Contractor |
+| 2 | Work Order / Task Contract           | Per job      | Contractor |
+| 3 | Affidavit of Service                 | Per job      | Contractor |
+| 4 | Conditional Lien Release with Invoice| Per job      | Contractor |
+| 5 | Unconditional Lien Release           | After payment| Contractor |
+
+> V4.3 described 3 DocuSign documents; V4.4 adds: Contractor Master Services Agreement (one-time) and Unconditional Lien Release (per job, after payment).
+
+#### DocuSign 2: Work Order – Contractor Pricing
+
+```
+COMPENSATION (CONTRACTOR PRICING):
+Parts: $260.00
+Pressure Reducer: $310.00
+Device: $599.99
+Software Setup: $75.00
+Labor: $525.00
+NOTE: Homeowner pays separate $95 Service Fee to MrSurety.
+RESALE CERTIFICATE: [Accepted/Not Accepted]
+```
+
+#### DocuSign 4: Conditional Lien Release – Initialed Clauses
+
+```
+_____ (initials) The work described in the attached invoice has been completely 
+     performed at the property address shown above.
+_____ (initials) All items listed were installed at this property.
+_____ (initials) The invoice is true and accurate.
+```
+
+#### DocuSign 5: Unconditional Lien Release – Platform Access Notice
+
+```
+PLATFORM ACCESS NOTICE:
+Execution of this document is required for continued access to the MrSurety 
+contractor platform.
+```
+
+---
+
+### V4.4 Database Schema (8 Tables)
+
+| Table              | Key Fields                                                    |
+|-------------------|---------------------------------------------------------------|
+| users             | id, email, role (homeowner/contractor/agent/admin), name, phone |
+| service_requests  | id, homeowner_id, address, square_feet, property_age, device_source, software_required, distance_preference, status |
+| contractor_bids   | id, request_id, contractor_id, parts_price, pressure_price, device_price, software_price, labor_price, resale_cert_accepted, contractor_total, status |
+| jobs              | id, bid_id, homeowner_id, contractor_id, agent_id, installation_date, installation_time, deposit_amount, deposit_paid, final_total, tax_amount, service_fee (default 95.00), status |
+| line_items        | id, job_id, type (parts/pressure/device/software/labor), contractor_price, retail_price, markup_percent |
+| documents         | id, job_id, type (work_order/affidavit/conditional/unconditional/certificate), docusign_envelope_id, signed_url, signed_at, status |
+| check_ins         | id, job_id, timestamp, gps_lat, gps_long, photo_url          |
+| tax_reports       | id, quarter (YYYY-Q), total_sales, total_tax, filed_date, report_url |
+
+---
+
+### V4.4 API Integrations (9 Services)
+
+| Integration       | Purpose                                    |
+|------------------|--------------------------------------------|
+| Stripe           | Payment processing, deposits, payouts      |
+| DocuSign         | All legal documents                        |
+| Google Maps      | Address validation, distance calculation   |
+| Geocoding API    | Tax rate by address                        |
+| TaxJar/Avalara   | Sales tax calculation                      |
+| Twilio/SendGrid  | Email notifications                        |
+| Cloud Storage    | Photo/document storage                     |
+| GPS Services     | Check-in verification                      |
+| CSLB (implied)   | Contractor license verification            |
+
+---
+
+### V4.4 Programmer Summary (10 Points)
+
+1. Homeowner submits request: address, sq ft, property age, device source, software required
+2. System auto-calculates: pressure reducer if age >5 yrs, extension cord (25 ft default), pipe size by sq ft
+3. Contractors bid with 5 numbers: Parts $260, Pressure $310, Device $599.99, Software $75, Labor $525
+4. System applies markups: Parts ×1.35, Pressure ×1.35, Device ×1.00, Software ×1.25, Labor ×1.25, + $95 Service Fee, + tax by address
+5. Four retail totals: A=$2,386.11 (device+software), B=$2,285.10 (device, no software), C=$1,739.62 (no device, software), D=$1,638.61 (no device, no software)
+6. Homeowner pays 10% deposit, then final balance
+7. Contractor: signs Work Order → GPS check-in → uploads photos + invoice → signs Affidavit → signs Conditional Lien Release → gets paid $1,769.99 → signs Unconditional Lien Release
+8. System generates certificate package, emails homeowner + agent
+9. Service Fee ($95) is ALWAYS a separate line item on every estimate and invoice
+10. Quarterly tax reports generated for state filing
