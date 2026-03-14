@@ -28,8 +28,9 @@ import { doc5TestOwner, doc5DemoHomeowner } from './fixtures/test-users';
  *   7. Pay remaining balance – "Pay Now" link OR auto-charge saved card
  *   8. Homeowner Documents page (invoices, receipts, lien releases)
  *
- * Run against live app:
- *   cd tests && npx playwright test playwright/homeowner-workflow-guide-doc5.spec.ts
+ * Run against live app (from the REPO ROOT – do NOT cd into tests first):
+ *   npm install && npx playwright install chromium
+ *   npx playwright test homeowner-workflow-guide-doc5.spec.ts
  *   (baseURL is already set to https://frontend-tan-five-46.vercel.app in playwright.config.ts)
  */
 
