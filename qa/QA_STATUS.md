@@ -3,230 +3,158 @@
 **Prepared for:** Christopher Palmer (c.palmer@mrsurety.com)  
 **Prepared by:** Sophal Lanh  
 **Date:** 2026-03-13  
-**Repository:** sophallanh/mrsurety-qagent-workflow-test
+**Repository:** sophallanh/mrsurety-qagent-workflow-test  
+**Source Doc:** https://docs.google.com/document/d/1SDDd29PN9Z9vc6wg1eIAewDJnNhHa_aWGzfs_mqL8dU/edit?usp=sharing
 
 ---
 
 ## Short Answer
 
-**Yes – all items from your email have been implemented in this QA repository.**
+**Yes – all items from Christopher's "MR SURETY – TESTING GUIDE FOR QA TEAM" have been implemented.**
 
-**Live App is confirmed:** https://frontend-tan-five-46.vercel.app  
-All tests are now configured to point to this URL by default.
+**Live App:** https://frontend-tan-five-46.vercel.app  
+All tests target this URL by default.
 
-**All account passwords confirmed as `MrSurety2026!`** (from Christopher's workflow document).
-
-The automated test scripts, workflow guides, credentials file, and all documentation have been updated to match the **actual** app workflow as described in Christopher's "MrSurety — Full Workflow" document, including:
-- Combined sign-up + service request form (referral link opens a sign-up page, no separate registration)
-- 10% deposit via credit card
-- Calendar opens immediately after deposit payment
-- "My Requests" dashboard section
-- Actual form fields: Name, Email, Phone, Password, Property Address, Service Type
-
-The next step is to run the tests against the live app from a machine with internet access to vercel.app.
+**Admin credentials:** `admin@mrsurety.com / MrSurety2026!` (from Christopher)  
+**QA test account password:** `Test123!` (per Part 8 of Christopher's Testing Guide)  
+**QA test account domain:** `@outlook.com` (per Part 1 & 8 of Christopher's Testing Guide)
 
 ---
 
-## What Has Been Completed
+## What Has Been Completed (Updated from Christopher's Full Testing Guide)
 
-### ✅ 1. Workflow Guides
+### ✅ 1. All 9 Workflows Covered
 
-| Document | Location |
-|----------|----------|
-| Short Version Workflow Guide | `qa/spec-docs/workflow-guides/SHORT_WORKFLOW_GUIDE.md` |
-| Long Version Workflow Guide | `qa/spec-docs/workflow-guides/LONG_WORKFLOW_GUIDE.md` |
-| Service Form Specification | `qa/spec-docs/service-form/SERVICE_FORM_GUIDE.md` |
-| Email Templates Reference | `qa/spec-docs/email-templates/EMAIL_TEMPLATES_GUIDE.md` |
-| DocuSign Templates Reference | `qa/spec-docs/docusign-templates/DOCUSIGN_TEMPLATES_GUIDE.md` |
-| Admin Dashboard Guide | `qa/spec-docs/admin-guides/ADMIN_DASHBOARD_GUIDE.md` |
+| Workflow | Spec File | Tests |
+|----------|-----------|-------|
+| WF1: Agent Referral (Methods A & B) | `agent-referral-workflow.spec.ts` | 8 tests |
+| WF2: Homeowner Service Request | `homeowner-service-request.spec.ts` | 12 tests |
+| WF3+4: Contractor Bidding & Homeowner Selection | `contractor-bidding.spec.ts` | 8 tests |
+| WF5: Admin Dashboard | `admin-dashboard.spec.ts` | 4 tests |
+| WF6: Email & DocuSign | `email-docusign-triggers.spec.ts` | 5 tests |
+| WF7: Return Service Call | `return-service-call.spec.ts` | 5 tests (NEW) |
+| WF8: Critical Service / Emergency | `critical-service.spec.ts` | 6 tests (NEW) |
+| WF9: Assessment Service | `assessment-service.spec.ts` | 8 tests (NEW) |
+| Pricing Calculations | `pricing-calculation.spec.ts` | 5 tests (NEW) |
+| Technician Workflow | `technician-workflow.spec.ts` | 8 tests |
+| Agent Upload Invite | `agent-upload-invite.spec.ts` | 16 tests |
 
-Reference links from your email are documented in `LONG_WORKFLOW_GUIDE.md`.
-
----
-
-### ✅ 2. User Types & Test Accounts
-
-All three user types you specified (Agent, Contractor, Homeowner) plus Admin and Technician are documented.
-All accounts use password: **`MrSurety2026!`** (confirmed from Christopher's workflow document).
-
-| Role | Email | Password |
-|------|-------|----------|
-| **Admin** | admin@mrsurety.com | MrSurety2026! |
-| **Agent 1** | agent.test1@mrsurety-qa.com | MrSurety2026! |
-| **Agent 2** | agent.test2@mrsurety-qa.com | MrSurety2026! |
-| **Homeowner 1** | homeowner.test1@mrsurety-qa.com | MrSurety2026! |
-| **Homeowner 2** | homeowner.test2@mrsurety-qa.com | MrSurety2026! |
-| **Homeowner 3** | homeowner.test3@mrsurety-qa.com | MrSurety2026! |
-| **Contractor 1** | contractor.test1@mrsurety-qa.com | MrSurety2026! |
-| **Contractor 2** | contractor.test2@mrsurety-qa.com | MrSurety2026! |
-| **Technician** | tech.test1@mrsurety-qa.com | MrSurety2026! |
-
-> ⚠️ These accounts need to be **created on the staging platform** once access is available.
-> Full credential details: `qa/test-user-credentials/TEST_USER_CREDENTIALS.md`
-> CSV export: `qa/test-user-credentials/test_users.csv`
+**Total: 95 tests across 11 spec files**
 
 ---
 
-### ✅ 3. Both Agent-Homeowner Linking Methods Tested
+### ✅ 2. Test User Credentials (Updated Per Christopher's Part 1 & 8)
 
-| Method | Test Location | Tests |
-|--------|--------------|-------|
-| Method 1: Agent generates referral code | `tests/playwright/agent-referral-workflow.spec.ts` | 4 tests |
-| Method 2: Homeowner enters agent email | `tests/playwright/homeowner-service-request.spec.ts` | 5 tests |
+| Role | Email | Password | CSLB | Notes |
+|------|-------|----------|------|-------|
+| **Admin** | admin@mrsurety.com | MrSurety2026! | — | Christopher's account; unchanged |
+| **Agent 1** | agent1@outlook.com | Test123! | — | Primary; referral link tests |
+| **Agent 2** | agent2@outlook.com | Test123! | — | Multi-agent scenarios |
+| **Homeowner 1** | homeowner1@outlook.com | Test123! | — | 1,800 sq ft; yr 2010 |
+| **Homeowner 2** | homeowner2@outlook.com | Test123! | — | 2,500 sq ft; yr 2022 |
+| **Homeowner 3** | homeowner3@outlook.com | Test123! | — | 3,500 sq ft; no agent |
+| **Contractor 1** | contractor1@outlook.com | Test123! | 999888 | Resale Cert YES |
+| **Contractor 2** | contractor2@outlook.com | Test123! | 999777 | Resale Cert NO |
+| **Technician** | tech1@outlook.com | Test123! | — | Area: 92530, 92531 |
 
-Both methods have been tested **multiple times** with different homeowners and addresses.
-
----
-
-### ✅ 4. Referral Code Single-Use Validation
-
-Tests verify that a referral code is valid **only for the specific request form it was created for** and cannot be reused for a new form.
-
-**Location:** `tests/playwright/agent-referral-workflow.spec.ts` → `Referral Code – Single-Use Validation` suite
-
----
-
-### ✅ 5. Multiple Addresses and Permit Types
-
-Tests cover homeowners submitting service requests for multiple property addresses using different permit types (Roofing, Electrical, Plumbing, HVAC, General Construction).
-
-**Location:** `tests/playwright/agent-referral-workflow.spec.ts` → `Multiple Addresses and Permit Types` suite
+> Full details: `qa/test-user-credentials/TEST_USER_CREDENTIALS.md`
 
 ---
 
-### ✅ 6. Email & DocuSign Screenshot Checklist (50+ Items)
+### ✅ 3. Service Form – All Sections Documented
 
-A complete 61-item checklist is documented, organized by recipient role (Homeowner, Agent, Contractor, Admin, Technician). Includes per-page DocuSign capture requirements.
+Per Christopher's Testing Guide Part 2:
+- Account, Service Type, Property Address, Insurance Info, **Home Specifics** (sq ft → pipe size; year built → pressure reducer), Device Info, **Water Main Photo (REQUIRED)**, LiDar (optional), Access Notes, Contact
 
-**Location:** `qa/screenshots/email-docusign-triggers/README.md`
-
-> ⚠️ Actual screenshots will be captured when the staging platform is live.
-> Automated tests will save screenshots to the appropriate folders automatically.
-
----
-
-### ✅ 7. Admin Login
-
-Admin account `admin@mrsurety.com` is configured as the default admin in all test scripts. The password is **never committed to source code** – it is set via the `ADMIN_PASSWORD` environment variable.
+**Pipe Size Logic tested:** <2000=3/4", 2001-3000=1", 3001-5000=1 1/4"  
+**Pressure Reducer Logic tested:** >5 years old = REQUIRED  
+**Water Main Photo validation tested:** skip = form must NOT submit
 
 ---
 
-### ✅ 8. Automated Test Suite
+### ✅ 4. Retail Pricing Verified
 
-**Total: 59 tests across 7 spec files**
-
-| Spec File | Tests | Workflows Covered |
-|-----------|-------|------------------|
-| `agent-referral-workflow.spec.ts` | 17 | Method 1, single-use validation, multi-address |
-| `homeowner-service-request.spec.ts` | 5 | Method 2 (agent email), multiple addresses |
-| `contractor-bidding.spec.ts` | 4 | Bid submission, estimate upload, selection, deposit |
-| `admin-dashboard.spec.ts` | 4 | Login, contractor approval, work order approval, job review |
-| `email-docusign-triggers.spec.ts` | 5 | Email triggers, DocuSign document verification |
-| `technician-workflow.spec.ts` | 8 | Work orders, DocuSign, mark complete, edge cases |
-| `agent-upload-invite.spec.ts` | 16 | Invite, upload, security, restrictions, edge cases |
-
-**Run all tests (from your Mac, inside the `tests/` folder):**
-```bash
-cd tests
-cp .env.example .env      # credentials already filled in
-npm install
-npx playwright install chromium
-npm test                  # runs all 59 tests against https://frontend-tan-five-46.vercel.app
-npm run test:report       # open HTML results report
-```
+Per Christopher's Testing Guide Part 4:
+- Parts/Pressure/Cable: +35% markup
+- Labor/Software: +25% markup
+- Device (Contractor Provided): $599.99 fixed, 0% markup
+- **$95 Service Fee in every estimate**
+- Resale Certificate: YES = MrSurety adds tax; NO = contractor includes tax
 
 ---
 
-### ✅ 9. Bug Reporting
+### ✅ 5. Email Checklists – 39+ Emails
 
-- **Template:** `qa/bug-reports/BUG_REPORT_TEMPLATE.md`
-- **Running Log:** `qa/bug-reports/bug_report_log.csv`
-- 2 sample bug entries are pre-populated as examples
-
----
-
-### ✅ 10. Screenshot Capture Guides
-
-Every workflow has a screenshot capture guide with naming conventions and a step-by-step table:
-
-| Workflow | Screenshot Guide |
-|----------|-----------------|
-| Agent Referral | `qa/screenshots/agent-referral-workflow/README.md` |
-| Homeowner Service Request | `qa/screenshots/homeowner-service-request/README.md` |
-| Contractor Bidding | `qa/screenshots/contractor-bidding/README.md` |
-| Admin Dashboard | `qa/screenshots/admin-dashboard/README.md` |
-| Technician Workflow | `qa/screenshots/technician-workflow/README.md` |
-| Email & DocuSign (61 items) | `qa/screenshots/email-docusign-triggers/README.md` |
-| Agent Upload Invite | `qa/screenshots/agent-upload-invite/README.md` |
-| Edge Cases | `qa/screenshots/edge-cases/README.md` |
+Full checklist: `qa/spec-docs/email-templates/EMAIL_TEMPLATES_GUIDE.md`  
+Screenshot checklist: `qa/screenshots/email-docusign-triggers/README.md`
 
 ---
 
-### ✅ 11. Video Recording Guides
+### ✅ 6. DocuSign Checklists – 8 Documents
 
-Every workflow has a video recording guide with scenario list and naming conventions:
+| # | Document | Trigger |
+|---|----------|---------|
+| D1 | Master Services Agreement | Contractor joins |
+| D2 | Work Order / Task Contract | Deposit paid |
+| D3 | Critical Change Order and Liability Release | Emergency |
+| D4 | Return Service Call Work Order | Return requested |
+| D5 | Affidavit of Service | Job complete |
+| D6 | Conditional Lien Release w/ Invoice | Docs submitted |
+| D7 | Unconditional Lien Release | Payment clears |
+| D8 | Change Order | During job |
 
-| Workflow | Video Guide |
-|----------|-------------|
-| Agent Referral | `qa/videos/agent-referral-workflow/README.md` |
-| Homeowner Service Request | `qa/videos/homeowner-service-request/README.md` |
-| Contractor Bidding | `qa/videos/contractor-bidding/README.md` |
-| Admin Dashboard | `qa/videos/admin-dashboard/README.md` |
-| Technician Workflow | `qa/videos/technician-workflow/README.md` |
-| Email & DocuSign | `qa/videos/email-docusign-triggers/README.md` |
-| Agent Upload Invite | `qa/videos/agent-upload-invite/README.md` |
+**Portal Access Lock tested:** D7 must be signed before contractor portal is fully accessible.
 
----
-
-### ✅ 12. Daily QA Summary Reports
-
-- **Template:** `qa/summary-reports/QA_SUMMARY_TEMPLATE.md`
-- Covers: workflows tested, bugs found, email/DocuSign checklist, blockers, tomorrow's plan
-- Save each daily report as `QA_SUMMARY_YYYY-MM-DD.md` and upload to Google Drive
+Full details: `qa/spec-docs/docusign-templates/DOCUSIGN_TEMPLATES_GUIDE.md`
 
 ---
 
-### ✅ 13. Google Drive Upload Structure
+### ✅ 7. Google Drive Folder Structure
 
-Documented in `qa/README.md`. The recommended folder layout for Google Drive uploads is:
+Per Christopher's Testing Guide Part 7:
 
 ```
-MrSurety QA – Sophal Lanh/
-├── Test User Credentials/
-├── Bug Reports/
-├── Summary Reports/
+Test Results – Sophal Lanh/
 ├── Screenshots/
-│   ├── Agent Referral Workflow/
-│   ├── Homeowner Service Request/
-│   ├── Contractor Bidding/
-│   ├── Admin Dashboard/
-│   ├── Technician Workflow/
-│   ├── Email & DocuSign Triggers/
-│   ├── Agent Upload Invite System/
-│   └── Edge Cases/
+│   ├── Workflow 1 - Agent Referral/
+│   ├── Workflow 2 - Service Request/
+│   ├── Workflow 3 - Contractor Bidding/
+│   ├── Workflow 4 - Homeowner Selection/
+│   ├── Workflow 5 - Work Order & Execution/
+│   ├── Workflow 6 - Admin Approval & Payment/
+│   ├── Workflow 7 - Return Service Call/
+│   ├── Workflow 8 - Critical Service/
+│   └── Workflow 9 - Assessment Service/
 ├── Videos/
-└── Spec Docs/
+├── Test User Credentials/
+│   └── credentials.docx
+├── Bug Reports/
+│   └── bug-NNN-description.docx
+└── Summary Report/
+    └── final-report.docx
 ```
 
 ---
 
-## What Still Needs to Happen (YOUR Manual Steps on the Live App)
+## What Still Needs to Happen (YOUR Manual Steps)
 
-The app is live at https://frontend-tan-five-46.vercel.app. Everything below must be done **by Sophal manually** on the live site.
+The app is live at https://frontend-tan-five-46.vercel.app.
 
 | # | Action | Notes |
 |---|--------|-------|
-| 1 | **Register all QA test accounts** on the live app | Use emails + passwords from `TEST_USER_CREDENTIALS.md`. Start with `agent.test1`, then homeowners, then contractors, then technician. |
-| 2 | **Run the Playwright test suite** from your Mac | `cd tests && npm test` — the `.env.example` has all credentials pre-filled. |
-| 3 | **Manually capture 50+ email & DocuSign screenshots** | See `qa/screenshots/email-docusign-triggers/README.md` for the full 61-item checklist. |
-| 4 | **Record screen videos** for each workflow | See each `qa/videos/<workflow>/README.md` for scenarios to record. |
-| 5 | **Fill out a daily QA summary report** | Copy `qa/summary-reports/QA_SUMMARY_TEMPLATE.md` → save as `QA_SUMMARY_2026-03-13.md` |
-| 6 | **Upload all artifacts to Google Drive** | Screenshots → Videos → Bug reports → Summary reports |
-| 7 | **Share Google Drive link with Christopher** | christopher@mrsurety.com (or c.palmer@mrsurety.com) |
+| 1 | **Create all QA test accounts** on live app | Use emails + passwords from `TEST_USER_CREDENTIALS.md`. Must use correct CSLB numbers (999888, 999777). |
+| 2 | **Run Playwright tests** from your Mac | `cd tests && npm test` |
+| 3 | **Walk through all 9 workflows manually** | Screenshot every step, every email, every DocuSign page |
+| 4 | **Verify pricing calculations** in the live app | Check markups, $95 fee, pipe size auto-calc, pressure reducer logic |
+| 5 | **Capture 39+ email screenshots** | See `email-docusign-triggers/README.md` for full list |
+| 6 | **Capture 8 DocuSign document screenshots** | Every page, not just signature |
+| 7 | **Record screen videos** | See `qa/videos/*/README.md` |
+| 8 | **Upload to Google Drive** | Use folder structure from Part 7 |
+| 9 | **Share Google Drive link with Christopher** | c.palmer@mrsurety.com |
 
 ---
 
-## Quick Reference Links (from Christopher's email)
+## Quick Reference Links
 
 | Document | URL |
 |----------|-----|

@@ -1,236 +1,320 @@
 # Email Templates – MrSurety QA Reference
 
-**Source:** Email and DocuSign Examples – https://docs.google.com/document/d/1xjv0Ol1G6NVfmIpYRVuX0wOwplJsdX-B6BTUiUefSw8/edit  
+**Source:** Christopher's "MR SURETY – TESTING GUIDE FOR QA TEAM" – Part 3  
+**Also see:** Email and DocuSign Examples – https://docs.google.com/document/d/1xjv0Ol1G6NVfmIpYRVuX0wOwplJsdX-B6BTUiUefSw8/edit  
 **Last Updated:** 2026-03-13
 
-> ⚠️ The actual email templates in the app may differ. Use this as a reference to verify
-> expected verbiage. Screenshot every email and flag any discrepancies for Christopher.
+> ⚠️ Screenshot every email. Flag any verbiage issues, missing fields, or delivery failures to Christopher.
+> If an email is NOT received within 5 minutes of its trigger, log as a bug.
 
 ---
 
-## Email Templates by Recipient
+## Full Email Testing Checklist (Part 3 of Testing Guide)
+
+Use the table below as the definitive checklist during testing.
+
+### Homeowner Emails (13 total)
+
+| # | Email | Trigger | Tested? |
+|---|-------|---------|---------|
+| H1 | **Welcome – Account Created** | Homeowner signs up | ☐ |
+| H2 | **Service Request Received** | Homeowner submits form | ☐ |
+| H3 | **Estimates Ready** | First contractor bid submitted | ☐ |
+| H4 | **Deposit Required** | Homeowner selects contractor | ☐ |
+| H5 | **Installation Confirmed** | Deposit paid | ☐ |
+| H6 | **Reminder – Tomorrow** | 24 hours before scheduled date | ☐ |
+| H7 | **Contractor Arrived** | Contractor checks in on job day | ☐ |
+| H8 | **Change Order Created** | Contractor creates change order during job | ☐ |
+| H9 | **Critical Release Required** | Emergency/critical service | ☐ |
+| H10 | **Work Complete – Final Payment** | Job marked complete by contractor | ☐ |
+| H11 | **Payment Received** | Final payment processed | ☐ |
+| H12 | **Certificate Ready** | All documents signed | ☐ |
+| H13 | **Return Service Scheduled** | Return service booked | ☐ |
+| H14 | **Anniversary Reminder** | 11 months after job completion | ☐ |
+
+### Contractor Emails (12 total)
+
+| # | Email | Trigger | Tested? |
+|---|-------|---------|---------|
+| C1 | **Welcome Contractor** | Admin approves contractor account | ☐ |
+| C2 | **New Job in Area** | New service request posted | ☐ |
+| C3 | **Bid Received** (confirmation) | Contractor submits bid | ☐ |
+| C4 | **Selected for Job** | Homeowner selects contractor | ☐ |
+| C5 | **Sign Work Order** (DocuSign) | Deposit paid | ☐ |
+| C6 | **Job Tomorrow Reminder** | 24 hours before scheduled date | ☐ |
+| C7 | **Sign Affidavit / Lien** (DocuSign) | Job marked complete | ☐ |
+| C8 | **Payment Sent** | Admin approves work | ☐ |
+| C9 | **Unconditional Lien Required** (DocuSign) | Payment clears (3 days) | ☐ |
+| C10 | **Critical Assignment** | Emergency/critical service | ☐ |
+| C11 | **Return Service Work Order** (DocuSign) | Return service requested | ☐ |
+| C12 | **Change Order Approved** | Homeowner approves change order | ☐ |
+
+### Agent Emails (6 total)
+
+| # | Email | Trigger | Tested? |
+|---|-------|---------|---------|
+| A1 | **Welcome Agent** | Agent account created | ☐ |
+| A2 | **Client Started Request** | Client uses referral link | ☐ |
+| A3 | **Client Selected Contractor** | Job confirmed | ☐ |
+| A4 | **Client Critical Service** | Emergency service | ☐ |
+| A5 | **Client Installation Complete** | Work done | ☐ |
+| A6 | **Certificate Ready** | All documents signed | ☐ |
+| A7 | **Client Renewal Reminder** | 11 months after job | ☐ |
+
+### Technician Emails (4 total)
+
+| # | Email | Trigger | Tested? |
+|---|-------|---------|---------|
+| T1 | **Welcome Technician** | Account created | ☐ |
+| T2 | **New Assessment** | Assessment service paid | ☐ |
+| T3 | **Assessment Reminder** | 24 hours before assessment visit | ☐ |
+| T4 | **Report Upload Required** | Assessment visit completed | ☐ |
+
+### Admin Emails (4 total)
+
+| # | Email | Trigger | Tested? |
+|---|-------|---------|---------|
+| AD1 | **New Contractor Application** | Contractor signs up | ☐ |
+| AD2 | **Work Ready for Approval** | Job complete, docs submitted | ☐ |
+| AD3 | **Critical Service Alert** | Emergency service | ☐ |
+| AD4 | **Quarterly Tax Report** | End of quarter | ☐ |
+
+---
+
+## Email Content Details by Category
 
 ### Homeowner Emails
 
-#### 1. Service Request Confirmation
+#### H1 – Welcome – Account Created
 - **To:** Homeowner
-- **Subject:** "Your MrSurety Service Request Has Been Received"
-- **Body should include:**
-  - Homeowner's name
-  - Property address
-  - Permit type / service description
-  - Request reference number
-  - Confirmation that contractors will be notified
-  - Contact information for support
+- **Trigger:** Account signup
+- **Body should include:** Welcome message, login instructions, platform overview
 
-#### 2. Contractor Bid Received
+#### H2 – Service Request Received
 - **To:** Homeowner
-- **Subject:** "A Contractor Has Submitted a Bid for Your Project"
-- **Body should include:**
-  - Contractor name and company
-  - Bid amount
-  - Link to review and compare bids
-  - Reminder to select a contractor to proceed
+- **Trigger:** Form submit
+- **Body should include:** Request reference number, property address, service type, "contractors will be notified" message
 
-#### 3. Deposit Payment Receipt
+#### H3 – Estimates Ready
 - **To:** Homeowner
-- **Subject:** "Deposit Received – MrSurety Project #[ID]"
-- **Body should include:**
-  - Amount paid
-  - Date of transaction
-  - Contractor name
-  - Scheduled service date
-  - Receipt / transaction reference number
+- **Trigger:** First contractor bid submitted
+- **Body should include:** Link to estimate page (shows **retail prices only** – no contractor prices visible)
 
-#### 4. Service Date Confirmed
+#### H4 – Deposit Required
 - **To:** Homeowner
-- **Subject:** "Your Service Date is Confirmed"
-- **Body should include:**
-  - Date and time of service
-  - Contractor name and contact
-  - Address of service
-  - What to expect on the day
+- **Trigger:** Contractor selected (Approve & Schedule)
+- **Body should include:** Deposit amount (10% of total), payment link, contractor name
 
-#### 5. DocuSign – Document Sent
+#### H5 – Installation Confirmed
 - **To:** Homeowner
-- **Subject:** "Please Sign: [Document Name] – MrSurety"
-- **Body should include:**
-  - Description of the document
-  - Link to sign via DocuSign
-  - Deadline to sign (if applicable)
-  - Support contact
+- **Trigger:** Deposit paid
+- **Body should include:** Service date, contractor name and contact, property address
 
-#### 6. DocuSign – Document Completed
+#### H6 – Reminder – Tomorrow
 - **To:** Homeowner
-- **Subject:** "Document Signed – [Document Name]"
-- **Body should include:**
-  - Confirmation that all parties have signed
-  - Link to view/download the completed document
-  - Next steps in the process
+- **Trigger:** 24 hours before scheduled installation date
+- **Body should include:** Date/time of service, contractor contact info
 
-#### 7. Final Payment Receipt
+#### H7 – Contractor Arrived
 - **To:** Homeowner
-- **Subject:** "Final Payment Processed – Project Complete"
-- **Body should include:**
-  - Amount paid
-  - Transaction date
-  - Project summary
-  - Thank-you message and survey/review request
+- **Trigger:** Contractor GPS check-in on job day
+- **Body should include:** Contractor name, arrival timestamp, property address
 
----
+#### H8 – Change Order Created
+- **To:** Homeowner
+- **Trigger:** Contractor creates a change order during job
+- **Body should include:** Description of change, new price, Approve/Decline link
 
-### Agent Emails
+#### H9 – Critical Release Required
+- **To:** Homeowner
+- **Trigger:** Emergency/critical water main service request
+- **Body should include:** DocuSign link for Critical Change Order and Liability Release; must sign before work begins
 
-#### 8. Agent Linked via Referral – Notification
-- **To:** Agent
-- **Subject:** "A Homeowner Has Used Your Referral Link"
-- **Body should include:**
-  - Homeowner's name
-  - Property address
-  - Service request details
-  - Link to view in agent dashboard
+#### H10 – Work Complete – Final Payment
+- **To:** Homeowner
+- **Trigger:** Job marked complete by contractor
+- **Body should include:** Final invoice amount, payment link
 
-#### 9. Agent Approved (via Homeowner Email Method)
-- **To:** Agent
-- **Subject:** "Welcome to MrSurety – You Have Been Linked to a Client"
-- **Body should include:**
-  - Homeowner's name and request
-  - Agent's referral section link
-  - Platform login instructions (if new)
+#### H11 – Payment Received
+- **To:** Homeowner
+- **Trigger:** Final payment processed
+- **Body should include:** Receipt, amount, transaction date, thank-you message
 
-#### 10. Job Completed – Agent Notification
-- **To:** Agent
-- **Subject:** "Project Completed – [Homeowner Name]"
-- **Body should include:**
-  - Project summary
-  - Commission or referral status (if applicable)
+#### H12 – Certificate Ready
+- **To:** Homeowner
+- **Trigger:** All DocuSign documents signed
+- **Body should include:** Certificate download link
+
+#### H13 – Return Service Scheduled
+- **To:** Homeowner
+- **Trigger:** Return service booked
+- **Body should include:** Date, contractor, service details
+
+#### H14 – Anniversary Reminder
+- **To:** Homeowner
+- **Trigger:** 11 months after job completion
+- **Body should include:** Reminder to schedule annual service, quick re-book link
 
 ---
 
 ### Contractor Emails
 
-#### 11. Contractor Account Approved
+#### C1 – Welcome Contractor
 - **To:** Contractor
-- **Subject:** "Your MrSurety Contractor Account Has Been Approved"
-- **Body should include:**
-  - Welcome message
-  - Login instructions
-  - How to browse and bid on available jobs
+- **Trigger:** Admin approves contractor account
+- **Body should include:** Login instructions, how to browse and bid on available jobs
 
-#### 12. New Job Available
+#### C2 – New Job in Area
 - **To:** Contractor
-- **Subject:** "New Job Available in Your Area – MrSurety"
-- **Body should include:**
-  - General job description (no homeowner PII before bid accepted)
-  - Location (city/zip)
-  - Permit type
-  - Link to view and bid
+- **Trigger:** New service request posted
+- **Body should include:** General job description (no homeowner PII before bid accepted), city/zip, permit type, link to bid
 
-#### 13. Bid Selected – You're Hired
+#### C3 – Bid Received
 - **To:** Contractor
-- **Subject:** "Your Bid Was Selected – MrSurety Project #[ID]"
-- **Body should include:**
-  - Homeowner name (revealed after selection)
-  - Property address
-  - Service date
-  - Next steps (DocuSign, deposit confirmation)
+- **Trigger:** Contractor submits bid
+- **Body should include:** Bid confirmation, job details, next steps
 
-#### 14. Bid Not Selected
+#### C4 – Selected for Job
 - **To:** Contractor
-- **Subject:** "Update on Your Bid – MrSurety Project #[ID]"
-- **Body should include:**
-  - Notice that another contractor was selected
-  - Encouragement to bid on new jobs
-  - Link to available jobs board
+- **Trigger:** Homeowner selects contractor
+- **Body should include:** Homeowner name and contact (now revealed), property address, service date, next steps (DocuSign, deposit confirmation)
 
-#### 15. Work Order Created
+#### C5 – Sign Work Order
 - **To:** Contractor
-- **Subject:** "Work Order Created – MrSurety Project #[ID]"
-- **Body should include:**
-  - Job details and address
-  - Service date and time
-  - DocuSign link (if not already signed)
-  - Technician assignment prompt
+- **Trigger:** Deposit paid
+- **Body should include:** DocuSign link for Work Order / Task Contract, job details
 
-#### 16. Final Payment Processed
+#### C6 – Job Tomorrow Reminder
 - **To:** Contractor
-- **Subject:** "Payment Received – MrSurety Project #[ID]"
-- **Body should include:**
-  - Amount received
-  - Payment date
-  - Project summary
-  - Invoice/receipt reference
+- **Trigger:** 24 hours before scheduled job date
+- **Body should include:** Property address, time, homeowner contact
 
-#### 17. Agent Upload Invite (Insurance Agent)
-- **To:** Insurance Agent (external – no platform account)
-- **Subject:** "You Have Been Invited to Upload Documents – MrSurety"
-- **Body should include:**
-  - Contractor name who sent the invite
-  - Secure upload link (one-time use)
-  - Instructions for uploading COI and endorsement documents
-  - Link expiry information (expires in 7 days)
-  - What document types are accepted (COI, endorsements only)
-  - Support contact
+#### C7 – Sign Affidavit / Lien
+- **To:** Contractor
+- **Trigger:** Job complete, photos and invoice uploaded
+- **Body should include:** DocuSign links for Affidavit of Service + Conditional Lien Release with Invoice
+
+#### C8 – Payment Sent
+- **To:** Contractor
+- **Trigger:** Admin approves work
+- **Body should include:** Payment amount, expected deposit timing
+
+#### C9 – Unconditional Lien Required
+- **To:** Contractor
+- **Trigger:** Payment clears (3 days after admin approval)
+- **Body should include:** DocuSign link for Unconditional Lien Release; **portal access is limited until signed**
+
+#### C10 – Critical Assignment
+- **To:** Contractor
+- **Trigger:** Emergency/critical service assigned
+- **Body should include:** Homeowner location, immediate action required, contact info
+
+#### C11 – Return Service Work Order
+- **To:** Contractor
+- **Trigger:** Return service requested
+- **Body should include:** DocuSign link for Return Service Call Work Order
+
+#### C12 – Change Order Approved
+- **To:** Contractor
+- **Trigger:** Homeowner approves change order
+- **Body should include:** Updated job details, new amounts, proceed confirmation
 
 ---
 
-### Admin Emails
+### Agent Emails
 
-#### 18. New Service Request
-- **To:** Admin
-- **Subject:** "New Service Request Submitted – MrSurety"
-- **Body should include:**
-  - Homeowner name and contact
-  - Property address
-  - Permit type and description
-  - Agent link status (referral code or email)
+#### A1 – Welcome Agent
+- **To:** Agent
+- **Trigger:** Agent account created
+- **Body should include:** How to generate referral links, platform overview
 
-#### 19. Pending Agent Alert
-- **To:** Admin
-- **Subject:** "Action Required: New Agent Link Pending Approval"
-- **Body should include:**
-  - Homeowner name
-  - Agent email entered by homeowner
-  - Link to review and approve in admin dashboard
+#### A2 – Client Started Request
+- **To:** Agent
+- **Trigger:** Client uses agent's referral link
+- **Body should include:** Client's name, property, request details, link to agent portal
 
-#### 20. New Contractor Pending Approval
-- **To:** Admin
-- **Subject:** "New Contractor Registration – Approval Required"
-- **Body should include:**
-  - Contractor name and company
-  - License number (CSLB)
-  - Contact information
-  - Link to approve/reject in admin dashboard
+#### A3 – Client Selected Contractor
+- **To:** Agent
+- **Trigger:** Client confirms a contractor
+- **Body should include:** Contractor name, project details, status update
 
-#### 21. Job Closed – Summary
-- **To:** Admin
-- **Subject:** "Project Closed – MrSurety Project #[ID]"
-- **Body should include:**
-  - Project summary
-  - Final payment confirmation
-  - Agent, contractor, homeowner names
+#### A4 – Client Critical Service
+- **To:** Agent
+- **Trigger:** Client has emergency service
+- **Body should include:** Emergency notification, client contact info
+
+#### A5 – Client Installation Complete
+- **To:** Agent
+- **Trigger:** Work done and approved
+- **Body should include:** Project summary, completion date
+
+#### A6 – Certificate Ready
+- **To:** Agent
+- **Trigger:** All signed documents complete
+- **Body should include:** Certificate availability, client info
+
+#### A7 – Client Renewal Reminder
+- **To:** Agent
+- **Trigger:** 11 months after job completion
+- **Body should include:** Renewal opportunity, client contact details
 
 ---
 
 ### Technician Emails
 
-#### 22. Work Order Assigned
+#### T1 – Welcome Technician
 - **To:** Technician
-- **Subject:** "You Have Been Assigned a Work Order – MrSurety"
-- **Body should include:**
-  - Job details
-  - Service address
-  - Date and time
-  - Contractor contact information
-  - DocuSign link (if applicable)
+- **Trigger:** Account created
+- **Body should include:** Login instructions, service area assignment
+
+#### T2 – New Assessment
+- **To:** Technician
+- **Trigger:** Assessment service paid by homeowner
+- **Body should include:** Property details, assessment type, contact info, scheduling link
+
+#### T3 – Assessment Reminder
+- **To:** Technician
+- **Trigger:** 24 hours before assessment visit
+- **Body should include:** Address, time, homeowner contact
+
+#### T4 – Report Upload Required
+- **To:** Technician
+- **Trigger:** Assessment visit completed
+- **Body should include:** Instructions to upload assessment report, deadline
+
+---
+
+### Admin Emails
+
+#### AD1 – New Contractor Application
+- **To:** Admin
+- **Trigger:** Contractor signs up
+- **Body should include:** Contractor name, company, CSLB license number, link to approve/reject
+
+#### AD2 – Work Ready for Approval
+- **To:** Admin
+- **Trigger:** Job complete, all documents submitted
+- **Body should include:** Link to review photos and documents, approve work button
+
+#### AD3 – Critical Service Alert
+- **To:** Admin
+- **Trigger:** Emergency service request
+- **Body should include:** Homeowner details, urgency level, contractor assignment status
+
+#### AD4 – Quarterly Tax Report
+- **To:** Admin
+- **Trigger:** End of quarter
+- **Body should include:** Tax data summary for the quarter, downloadable report
 
 ---
 
 ## Screenshot Capture Instructions
 
 1. Log in to the email account associated with each user role.
-2. Open each email as it arrives.
-3. Capture the **inbox view** (subject, sender, preview text) as one screenshot.
+2. Open each email as it arrives after its trigger action.
+3. Capture the **inbox view** (subject line, sender, preview text) as one screenshot.
 4. Capture the **full open email body** as a second screenshot (scroll if needed).
-5. Follow the naming conventions in `qa/screenshots/email-docusign-triggers/README.md`.
-6. Note any verbiage issues, typos, missing information, or broken links in the bug log.
+5. Name files following: `email_<number>_<role>-<description>_YYYY-MM-DD.png`
+6. Place in: `qa/screenshots/email-docusign-triggers/`
+7. Note any verbiage issues, typos, missing information, or broken links in the bug log.
+8. **If an email is NOT received within 5 minutes of its trigger, log it as a bug.**

@@ -1,94 +1,159 @@
 # DocuSign Templates – MrSurety QA Reference
 
-**Source:** Email and DocuSign Examples – https://docs.google.com/document/d/1xjv0Ol1G6NVfmIpYRVuX0wOwplJsdX-B6BTUiUefSw8/edit  
+**Source:** Christopher's "MR SURETY – TESTING GUIDE FOR QA TEAM" – Part 4  
+**Also see:** Email and DocuSign Examples – https://docs.google.com/document/d/1xjv0Ol1G6NVfmIpYRVuX0wOwplJsdX-B6BTUiUefSw8/edit  
 **Last Updated:** 2026-03-13
 
 > ⚠️ DocuSign documents are **legally required** for this platform.
-> Capture all pages of each document and flag any verbiage issues immediately.
+> Capture **every page** of each document — not just the signature page.
+> Flag any verbiage issues, missing fields, or wrong amounts immediately.
 
 ---
 
-## DocuSign Documents Reference
+## DocuSign Testing Checklist (Part 4 of Testing Guide)
 
-### 1. Work Order / Contract
+| # | Document | Sent To | Trigger | Tested? |
+|---|----------|---------|---------|---------|
+| D1 | **Contractor Master Services Agreement** | Contractor | Contractor joins network | ☐ |
+| D2 | **Work Order / Task Contract** | Contractor | Deposit paid | ☐ |
+| D3 | **Critical Change Order and Liability Release** | Homeowner | Emergency/critical service | ☐ |
+| D4 | **Return Service Call Work Order** | Contractor | Return service requested | ☐ |
+| D5 | **Affidavit of Service** | Contractor | Job complete | ☐ |
+| D6 | **Conditional Lien Release w/ Invoice** | Contractor | Docs submitted (job complete) | ☐ |
+| D7 | **Unconditional Lien Release** | Contractor | Payment clears (3 days) | ☐ |
+| D8 | **Change Order** | Homeowner | During job (contractor creates) | ☐ |
+
+---
+
+## Document Details
+
+### D1 – Contractor Master Services Agreement
+
+- **Trigger:** Contractor joins the MrSurety network (account approval)
+- **Sent To:** Contractor
+- **Expected Content:**
+  - Platform terms and conditions
+  - Contractor obligations (CSLB license verification, insurance requirements)
+  - Commission/fee structure
+  - Contractor signature
+- **Screenshot Requirements:**
+  - `docusign_D1_master-services-agreement_page1.png`
+  - `docusign_D1_master-services-agreement_signature.png`
+
+---
+
+### D2 – Work Order / Task Contract
 
 - **Trigger:** After homeowner pays deposit and selects service date
-- **Sent To:** Contractor and Homeowner
+- **Sent To:** Contractor (+ Homeowner review)
 - **Expected Content:**
   - Job description and scope of work
   - Property address
-  - Contractor name and license number
+  - Contractor name and CSLB license number
   - Start date and estimated completion
-  - Total contract value
+  - **Total contract value must match the bid prices**
   - Payment terms
-  - Signatures: Contractor + Homeowner
+  - Contractor signature
 - **Screenshot Requirements:**
-  - `docusign_work-order-contract_page1.png` – Full first page
-  - `docusign_work-order-contract_page2.png` – Additional pages if present
-  - `docusign_work-order-contract_signature.png` – Signature/completion page
+  - `docusign_D2_work-order-contract_page1.png` – Full first page
+  - `docusign_D2_work-order-contract_page2.png` – Additional pages if present
+  - `docusign_D2_work-order-contract_signature.png` – Signature/completion page
 
 ---
 
-### 2. Resale Certificate
+### D3 – Critical Change Order and Liability Release
 
-- **Trigger:** When applicable (homeowner selling property)
+- **Trigger:** Homeowner requests emergency/critical water main service
 - **Sent To:** Homeowner
 - **Expected Content:**
-  - Property address
-  - Current and new owner information
-  - Permit/bond details
-  - Certification statement
-  - Homeowner signature
+  - Emergency service description
+  - Liability release statement
+  - Homeowner initials/signature
+  - **IMPORTANT: Contractor must NOT start work until homeowner signs this document**
 - **Screenshot Requirements:**
-  - `docusign_resale-certificate_page1.png` – Full document
-  - `docusign_resale-certificate_signature.png` – Signature page
+  - `docusign_D3_critical-change-order_page1.png`
+  - `docusign_D3_critical-change-order_signature.png`
 
 ---
 
-### 3. Completion Sign-off
+### D4 – Return Service Call Work Order
 
-- **Trigger:** After work is completed and homeowner approves
-- **Sent To:** Contractor + Homeowner
+- **Trigger:** Homeowner requests additional work after job completion
+- **Sent To:** Contractor
 - **Expected Content:**
-  - Project ID and reference
-  - Scope of work completed
-  - Date of completion
-  - Homeowner approval statement
-  - Signatures: Contractor + Homeowner
+  - Original job reference
+  - Return service description
+  - Property address and date
+  - Contractor signature
 - **Screenshot Requirements:**
-  - `docusign_completion-signoff_page1.png` – Full document
-  - `docusign_completion-signoff_signature.png` – Signature page
+  - `docusign_D4_return-service-work-order_page1.png`
+  - `docusign_D4_return-service-work-order_signature.png`
 
 ---
 
-### 4. Technician Work Order Receipt
+### D5 – Affidavit of Service
 
-- **Trigger:** After work order is assigned to technician
-- **Sent To:** Technician
+- **Trigger:** Job marked complete (contractor uploads photos and final invoice)
+- **Sent To:** Contractor
 - **Expected Content:**
-  - Job details and property address
-  - Service date and time
-  - Technician acknowledgment statement
-  - Technician signature
+  - Statement of work completed
+  - Project reference number
+  - Completion date
+  - Contractor attestation and signature
 - **Screenshot Requirements:**
-  - `docusign_tech-work-order-receipt_page1.png` – Full document
-  - `docusign_tech-work-order-receipt_signature.png` – Signature page
+  - `docusign_D5_affidavit-of-service_page1.png`
+  - `docusign_D5_affidavit-of-service_signature.png`
 
 ---
 
-### 5. Lien Waiver
+### D6 – Conditional Lien Release w/ Invoice
 
-- **Trigger:** After final payment is processed
+- **Trigger:** Contractor submits completion documents (job complete)
 - **Sent To:** Contractor
 - **Expected Content:**
   - Property address
-  - Project description
-  - Amount received (final payment)
-  - Waiver of lien rights statement
+  - Invoice amount (must match final invoice uploaded)
+  - Contractor **initials required** throughout document
+  - Conditional lien release statement
   - Contractor signature
 - **Screenshot Requirements:**
-  - `docusign_lien-waiver_page1.png` – Full document
-  - `docusign_lien-waiver_signature.png` – Signature page
+  - `docusign_D6_conditional-lien-release_page1.png` – Full document
+  - `docusign_D6_conditional-lien-release_initials.png` – Page requiring initials
+  - `docusign_D6_conditional-lien-release_signature.png` – Signature page
+
+---
+
+### D7 – Unconditional Lien Release
+
+- **Trigger:** Payment clears (approximately 3 days after admin approves work)
+- **Sent To:** Contractor
+- **Expected Content:**
+  - Property address
+  - Final payment amount
+  - Unconditional lien release statement
+  - Contractor signature
+- **⚠️ IMPORTANT ACCESS LOCK: Contractor portal access is LIMITED before this document is signed. Full portal access is restored only after signing.**
+- **Screenshot Requirements:**
+  - `docusign_D7_unconditional-lien-release_page1.png` – Full document
+  - `docusign_D7_unconditional-lien-release_signature.png` – Signature page
+  - `docusign_D7_portal-access-locked.png` – Screenshot of limited portal access BEFORE signing
+  - `docusign_D7_portal-access-restored.png` – Screenshot of full portal access AFTER signing
+
+---
+
+### D8 – Change Order
+
+- **Trigger:** Contractor creates a change order during job execution
+- **Sent To:** Homeowner
+- **Expected Content:**
+  - Description of the change from original scope
+  - Updated pricing
+  - Homeowner approve/decline options
+  - Homeowner signature (if approved)
+- **Screenshot Requirements:**
+  - `docusign_D8_change-order_page1.png` – Full document
+  - `docusign_D8_change-order_approved.png` – After homeowner approves
+  - `docusign_D8_change-order_declined.png` – After homeowner declines (if tested)
 
 ---
 
@@ -96,13 +161,13 @@
 
 1. Open the DocuSign email notification.
 2. Click the DocuSign link to open the document.
-3. Screenshot the **email trigger** (see `email-templates/EMAIL_TEMPLATES_GUIDE.md` for email captures).
+3. Screenshot the **email trigger** first (see `EMAIL_TEMPLATES_GUIDE.md`).
 4. In DocuSign, capture each page of the document:
    - Capture page by page if multi-page
    - Capture the signature/initial field areas specifically
    - Capture the "Document Completed" confirmation screen
 5. Place all captures in `qa/screenshots/email-docusign-triggers/`.
-6. Note any issues (missing fields, wrong names, wrong addresses, incorrect verbiage) in the bug log.
+6. Note any issues in the bug log.
 
 ---
 
@@ -110,9 +175,12 @@
 
 - ❌ Wrong homeowner/contractor name in the document
 - ❌ Wrong property address
-- ❌ Missing signature fields
-- ❌ Incorrect dollar amounts or dates
+- ❌ Missing signature or initial fields
+- ❌ Incorrect dollar amounts or dates (amounts must match bid/invoice)
 - ❌ Legal language that differs from what Christopher approved
 - ❌ DocuSign email not received within 5 minutes of trigger
 - ❌ DocuSign link expired or invalid
 - ❌ Document does not match the workflow step that triggered it
+- ❌ Contractor portal access NOT restricted before Unconditional Lien Release is signed (D7)
+- ❌ Contractor portal access NOT restored AFTER Unconditional Lien Release is signed (D7)
+- ❌ CSLB license number missing or incorrect in Work Order (D2)

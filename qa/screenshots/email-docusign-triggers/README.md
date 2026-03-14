@@ -2,93 +2,85 @@
 
 Place screenshots verifying **email and DocuSign trigger** delivery in this folder.
 
-> **Christopher's Request:** Capture all email and DocuSign document screenshots for verbiage review.
-> Target: **50+ items** covering all email updates and DocuSign documents.
+> **Source:** Christopher's "MR SURETY – TESTING GUIDE FOR QA TEAM" – Parts 3 & 4  
+> **Target:** Document every email and DocuSign document with screenshots.
 
 ## Naming Convention
 
-`<trigger-name>_<YYYY-MM-DD>.png`
+`email_<XX>_<role>-<description>_YYYY-MM-DD.png`  
+`docusign_<DX>_<document-name>_<page-or-type>.png`
 
 ---
 
-## Email Screenshots Checklist (Inbox View)
+## Email Screenshots Checklist
 
-Capture the full inbox entry (subject line, sender, preview) **and** the opened email body for each trigger.
+Capture the full **inbox entry** (subject, sender, preview) AND the **opened email body** for each trigger.
 
-### Homeowner Emails
+### Homeowner Emails (14 triggers)
 
-| # | Trigger | Recipient | Filename |
-|---|---------|-----------|----------|
-| 1 | Service request submitted – confirmation | Homeowner | `email_01_homeowner-service-request-confirm.png` |
-| 2 | Contractor bid received – notification | Homeowner | `email_02_homeowner-bid-received.png` |
-| 3 | Contractor bid received (2nd contractor) | Homeowner | `email_03_homeowner-bid-received-2nd.png` |
-| 4 | Deposit payment receipt | Homeowner | `email_04_homeowner-deposit-receipt.png` |
-| 5 | Service date confirmed | Homeowner | `email_05_homeowner-date-confirmed.png` |
-| 6 | Work order created | Homeowner | `email_06_homeowner-work-order-created.png` |
-| 7 | DocuSign – Work Order Contract sent | Homeowner | `email_07_homeowner-docusign-sent-work-order.png` |
-| 8 | DocuSign – Work Order Contract signed reminder | Homeowner | `email_08_homeowner-docusign-reminder.png` |
-| 9 | DocuSign – Work Order Contract completed | Homeowner | `email_09_homeowner-docusign-completed.png` |
-| 10 | DocuSign – Resale Certificate sent | Homeowner | `email_10_homeowner-docusign-sent-resale-cert.png` |
-| 11 | DocuSign – Resale Certificate completed | Homeowner | `email_11_homeowner-docusign-completed-resale-cert.png` |
-| 12 | DocuSign – Completion Sign-off sent | Homeowner | `email_12_homeowner-docusign-sent-completion.png` |
-| 13 | DocuSign – Completion Sign-off completed | Homeowner | `email_13_homeowner-docusign-completed-completion.png` |
-| 14 | Job completed – final payment prompt | Homeowner | `email_14_homeowner-job-complete-payment.png` |
-| 15 | Final payment receipt | Homeowner | `email_15_homeowner-final-payment-receipt.png` |
-| 16 | Job closed – summary | Homeowner | `email_16_homeowner-job-closed-summary.png` |
+| # | Email | Trigger | Filename | Done? |
+|---|-------|---------|----------|-------|
+| H1 | Welcome – Account Created | Signup | `email_H1_homeowner-welcome.png` | ☐ |
+| H2 | Service Request Received | Form submit | `email_H2_homeowner-service-request-received.png` | ☐ |
+| H3 | Estimates Ready | First contractor bid | `email_H3_homeowner-estimates-ready.png` | ☐ |
+| H4 | Deposit Required | Contractor selected | `email_H4_homeowner-deposit-required.png` | ☐ |
+| H5 | Installation Confirmed | Deposit paid | `email_H5_homeowner-installation-confirmed.png` | ☐ |
+| H6 | Reminder – Tomorrow | 24hr before service | `email_H6_homeowner-tomorrow-reminder.png` | ☐ |
+| H7 | Contractor Arrived | Check-in | `email_H7_homeowner-contractor-arrived.png` | ☐ |
+| H8 | Change Order Created | Contractor creates change order | `email_H8_homeowner-change-order-created.png` | ☐ |
+| H9 | Critical Release Required | Emergency service | `email_H9_homeowner-critical-release-required.png` | ☐ |
+| H10 | Work Complete – Final Payment | Job done | `email_H10_homeowner-work-complete-final-payment.png` | ☐ |
+| H11 | Payment Received | Final paid | `email_H11_homeowner-payment-received.png` | ☐ |
+| H12 | Certificate Ready | All signed | `email_H12_homeowner-certificate-ready.png` | ☐ |
+| H13 | Return Service Scheduled | Return booked | `email_H13_homeowner-return-service-scheduled.png` | ☐ |
+| H14 | Anniversary Reminder | 11 months | `email_H14_homeowner-anniversary-reminder.png` | ☐ |
 
-### Agent Emails
+### Contractor Emails (12 triggers)
 
-| # | Trigger | Recipient | Filename |
-|---|---------|-----------|----------|
-| 17 | Agent linked via referral code – notification | Agent | `email_17_agent-referral-link-notification.png` |
-| 18 | Agent linked via homeowner email – welcome | Agent | `email_18_agent-welcome-approved.png` |
-| 19 | Service request update – linked homeowner | Agent | `email_19_agent-service-request-update.png` |
-| 20 | Job awarded to contractor – notification | Agent | `email_20_agent-job-awarded.png` |
-| 21 | Job completed – notification | Agent | `email_21_agent-job-completed.png` |
+| # | Email | Trigger | Filename | Done? |
+|---|-------|---------|----------|-------|
+| C1 | Welcome Contractor | Admin approves | `email_C1_contractor-welcome.png` | ☐ |
+| C2 | New Job in Area | Request posted | `email_C2_contractor-new-job-in-area.png` | ☐ |
+| C3 | Bid Received | Bid submitted | `email_C3_contractor-bid-received.png` | ☐ |
+| C4 | Selected for Job | Homeowner selects | `email_C4_contractor-selected-for-job.png` | ☐ |
+| C5 | Sign Work Order (DocuSign) | Deposit paid | `email_C5_contractor-sign-work-order.png` | ☐ |
+| C6 | Job Tomorrow Reminder | 24hr before | `email_C6_contractor-job-tomorrow-reminder.png` | ☐ |
+| C7 | Sign Affidavit / Lien (DocuSign) | Job complete | `email_C7_contractor-sign-affidavit-lien.png` | ☐ |
+| C8 | Payment Sent | Admin approves | `email_C8_contractor-payment-sent.png` | ☐ |
+| C9 | Unconditional Lien Required | Payment clears | `email_C9_contractor-unconditional-lien-required.png` | ☐ |
+| C10 | Critical Assignment | Emergency | `email_C10_contractor-critical-assignment.png` | ☐ |
+| C11 | Return Service Work Order | Return requested | `email_C11_contractor-return-service-work-order.png` | ☐ |
+| C12 | Change Order Approved | Homeowner approves | `email_C12_contractor-change-order-approved.png` | ☐ |
 
-### Contractor Emails
+### Agent Emails (7 triggers)
 
-| # | Trigger | Recipient | Filename |
-|---|---------|-----------|----------|
-| 22 | Contractor account approved by admin | Contractor | `email_22_contractor-account-approved.png` |
-| 23 | New job available – notification | Contractor | `email_23_contractor-new-job-available.png` |
-| 24 | Bid submitted – confirmation | Contractor | `email_24_contractor-bid-submitted-confirm.png` |
-| 25 | Bid selected by homeowner | Contractor | `email_25_contractor-bid-selected.png` |
-| 26 | Bid not selected (alternative contractor chosen) | Contractor | `email_26_contractor-bid-not-selected.png` |
-| 27 | Deposit received – work confirmed | Contractor | `email_27_contractor-deposit-received.png` |
-| 28 | Service date confirmed | Contractor | `email_28_contractor-date-confirmed.png` |
-| 29 | Work order created – notification | Contractor | `email_29_contractor-work-order-created.png` |
-| 30 | DocuSign – Work Order Contract sent | Contractor | `email_30_contractor-docusign-sent-work-order.png` |
-| 31 | DocuSign – Work Order Contract completed | Contractor | `email_31_contractor-docusign-completed-work-order.png` |
-| 32 | DocuSign – Completion Sign-off sent | Contractor | `email_32_contractor-docusign-sent-completion.png` |
-| 33 | DocuSign – Completion Sign-off completed | Contractor | `email_33_contractor-docusign-completed-completion.png` |
-| 34 | Final payment processed | Contractor | `email_34_contractor-final-payment.png` |
-| 35 | Agent Upload Invite – secure link sent | Insurance Agent | `email_35_insurance-agent-upload-invite.png` |
+| # | Email | Trigger | Filename | Done? |
+|---|-------|---------|----------|-------|
+| A1 | Welcome Agent | Account created | `email_A1_agent-welcome.png` | ☐ |
+| A2 | Client Started Request | Client uses link | `email_A2_agent-client-started-request.png` | ☐ |
+| A3 | Client Selected Contractor | Job confirmed | `email_A3_agent-client-selected-contractor.png` | ☐ |
+| A4 | Client Critical Service | Emergency | `email_A4_agent-client-critical-service.png` | ☐ |
+| A5 | Client Installation Complete | Work done | `email_A5_agent-client-installation-complete.png` | ☐ |
+| A6 | Certificate Ready | All signed | `email_A6_agent-certificate-ready.png` | ☐ |
+| A7 | Client Renewal Reminder | 11 months | `email_A7_agent-client-renewal-reminder.png` | ☐ |
 
-### Admin Emails
+### Technician Emails (4 triggers)
 
-| # | Trigger | Recipient | Filename |
-|---|---------|-----------|----------|
-| 36 | New service request submitted | Admin | `email_36_admin-new-service-request.png` |
-| 37 | Pending agent alert (homeowner email method) | Admin | `email_37_admin-pending-agent-alert.png` |
-| 38 | New contractor registration pending approval | Admin | `email_38_admin-contractor-pending-approval.png` |
-| 39 | Contractor approved – confirmation | Admin | `email_39_admin-contractor-approved-confirm.png` |
-| 40 | Deposit received – payment notification | Admin | `email_40_admin-deposit-received.png` |
-| 41 | Job awarded (contractor selected) | Admin | `email_41_admin-job-awarded.png` |
-| 42 | Work order created | Admin | `email_42_admin-work-order-created.png` |
-| 43 | DocuSign documents completed | Admin | `email_43_admin-docusign-completed.png` |
-| 44 | Job completed | Admin | `email_44_admin-job-completed.png` |
-| 45 | Final payment processed | Admin | `email_45_admin-final-payment.png` |
-| 46 | Job closed | Admin | `email_46_admin-job-closed.png` |
+| # | Email | Trigger | Filename | Done? |
+|---|-------|---------|----------|-------|
+| T1 | Welcome Technician | Account created | `email_T1_tech-welcome.png` | ☐ |
+| T2 | New Assessment | Assessment paid | `email_T2_tech-new-assessment.png` | ☐ |
+| T3 | Assessment Reminder | 24hr before | `email_T3_tech-assessment-reminder.png` | ☐ |
+| T4 | Report Upload Required | Visit done | `email_T4_tech-report-upload-required.png` | ☐ |
 
-### Technician Emails
+### Admin Emails (4 triggers)
 
-| # | Trigger | Recipient | Filename |
-|---|---------|-----------|----------|
-| 47 | Work order assigned | Technician | `email_47_tech-work-order-assigned.png` |
-| 48 | DocuSign – Work order receipt sent | Technician | `email_48_tech-docusign-sent-work-order.png` |
-| 49 | DocuSign – Work order receipt completed | Technician | `email_49_tech-docusign-completed-work-order.png` |
-| 50 | Job completion confirmed | Technician | `email_50_tech-job-completion-confirmed.png` |
+| # | Email | Trigger | Filename | Done? |
+|---|-------|---------|----------|-------|
+| AD1 | New Contractor Application | Contractor signs up | `email_AD1_admin-new-contractor-application.png` | ☐ |
+| AD2 | Work Ready for Approval | Job complete | `email_AD2_admin-work-ready-for-approval.png` | ☐ |
+| AD3 | Critical Service Alert | Emergency | `email_AD3_admin-critical-service-alert.png` | ☐ |
+| AD4 | Quarterly Tax Report | Quarter end | `email_AD4_admin-quarterly-tax-report.png` | ☐ |
 
 ---
 
@@ -96,19 +88,28 @@ Capture the full inbox entry (subject line, sender, preview) **and** the opened 
 
 For each DocuSign document, capture **every page** of the document, not just the signature page.
 
-| # | Document | Parties | Filename |
-|---|----------|---------|----------|
-| D1 | Work Order / Contract – Page 1 | Contractor + Homeowner | `docusign_work-order-contract_page1.png` |
-| D2 | Work Order / Contract – Page 2 | Contractor + Homeowner | `docusign_work-order-contract_page2.png` |
-| D3 | Work Order / Contract – Signature Page | Contractor + Homeowner | `docusign_work-order-contract_signature.png` |
-| D4 | Resale Certificate – Page 1 | Homeowner | `docusign_resale-certificate_page1.png` |
-| D5 | Resale Certificate – Signature Page | Homeowner | `docusign_resale-certificate_signature.png` |
-| D6 | Completion Sign-off – Full Document | Contractor + Homeowner | `docusign_completion-signoff_page1.png` |
-| D7 | Completion Sign-off – Signature Page | Contractor + Homeowner | `docusign_completion-signoff_signature.png` |
-| D8 | Technician Work Order Receipt – Full | Technician | `docusign_tech-work-order-receipt_page1.png` |
-| D9 | Technician Work Order Receipt – Signature | Technician | `docusign_tech-work-order-receipt_signature.png` |
-| D10 | Lien Waiver – Full Document | Contractor | `docusign_lien-waiver_page1.png` |
-| D11 | Lien Waiver – Signature Page | Contractor | `docusign_lien-waiver_signature.png` |
+| # | Document | Sent To | Trigger | Filename | Done? |
+|---|----------|---------|---------|----------|-------|
+| D1 | Contractor Master Services Agreement | Contractor | Joins network | `docusign_D1_master-services-agreement_page1.png` | ☐ |
+| D1 sig | Master Services Agreement – Signature | Contractor | Joins network | `docusign_D1_master-services-agreement_signature.png` | ☐ |
+| D2 | Work Order / Task Contract – Page 1 | Contractor | Deposit paid | `docusign_D2_work-order-contract_page1.png` | ☐ |
+| D2p2 | Work Order / Task Contract – Page 2 | Contractor | Deposit paid | `docusign_D2_work-order-contract_page2.png` | ☐ |
+| D2 sig | Work Order / Task Contract – Signature | Contractor | Deposit paid | `docusign_D2_work-order-contract_signature.png` | ☐ |
+| D3 | Critical Change Order and Liability Release | Homeowner | Emergency | `docusign_D3_critical-change-order_page1.png` | ☐ |
+| D3 sig | Critical Change Order – Signature | Homeowner | Emergency | `docusign_D3_critical-change-order_signature.png` | ☐ |
+| D4 | Return Service Call Work Order | Contractor | Return requested | `docusign_D4_return-service-work-order_page1.png` | ☐ |
+| D4 sig | Return Service Call Work Order – Signature | Contractor | Return requested | `docusign_D4_return-service-work-order_signature.png` | ☐ |
+| D5 | Affidavit of Service | Contractor | Job complete | `docusign_D5_affidavit-of-service_page1.png` | ☐ |
+| D5 sig | Affidavit of Service – Signature | Contractor | Job complete | `docusign_D5_affidavit-of-service_signature.png` | ☐ |
+| D6 | Conditional Lien Release w/ Invoice – Page 1 | Contractor | Docs submitted | `docusign_D6_conditional-lien-release_page1.png` | ☐ |
+| D6 init | Conditional Lien Release – Initials Page | Contractor | Docs submitted | `docusign_D6_conditional-lien-release_initials.png` | ☐ |
+| D6 sig | Conditional Lien Release – Signature | Contractor | Docs submitted | `docusign_D6_conditional-lien-release_signature.png` | ☐ |
+| D7 | Unconditional Lien Release | Contractor | Payment clears | `docusign_D7_unconditional-lien-release_page1.png` | ☐ |
+| D7 sig | Unconditional Lien Release – Signature | Contractor | Payment clears | `docusign_D7_unconditional-lien-release_signature.png` | ☐ |
+| D7 lock | Portal Access – LOCKED (before D7 signing) | Contractor | Before signing | `docusign_D7_portal-access-locked.png` | ☐ |
+| D7 open | Portal Access – RESTORED (after D7 signing) | Contractor | After signing | `docusign_D7_portal-access-restored.png` | ☐ |
+| D8 | Change Order – Full Document | Homeowner | During job | `docusign_D8_change-order_page1.png` | ☐ |
+| D8 app | Change Order – Homeowner Approved | Homeowner | During job | `docusign_D8_change-order_approved.png` | ☐ |
 
 ---
 
@@ -120,6 +121,7 @@ For each DocuSign document, capture **every page** of the document, not just the
 4. Place the file in this folder: `qa/screenshots/email-docusign-triggers/`
 5. Log any verbiage issues or discrepancies in `qa/bug-reports/bug_report_log.csv`.
 
-> 🐛 Capture missing, delayed, or incorrect email content and DocuSign document issues.
-> If an email is NOT received within 5 minutes of the trigger action, log it as a bug.
+> 🐛 **If an email is NOT received within 5 minutes of the trigger action, log it as a bug.**
+> Capture missing, delayed, or incorrect email content.
+> Capture all DocuSign document pages (not just the signature page).
 
