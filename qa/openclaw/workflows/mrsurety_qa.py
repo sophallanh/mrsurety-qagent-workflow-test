@@ -1321,6 +1321,9 @@ def check_connection() -> None:
             page.wait_for_url(lambda url: "/login" not in url, timeout=TIMEOUT)
             print(f"  ✅ Admin login verified ({ADMIN_EMAIL})")
 
+        except KeyboardInterrupt:
+            print("\n  ⚠️  Interrupted (Ctrl+C) — exiting.")
+            sys.exit(0)
         except Exception as exc:
             print(f"  ❌ Connection check failed: {exc}")
             sys.exit(1)
@@ -1425,6 +1428,9 @@ def main() -> None:
 
             _generate_reports()
 
+        except KeyboardInterrupt:
+            print("\n\n  ⚠️  Interrupted by user (Ctrl+C) — exiting cleanly.\n")
+            sys.exit(0)
         finally:
             browser.close()
 
@@ -1445,4 +1451,8 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\n\n  ⚠️  Interrupted by user (Ctrl+C) — exiting cleanly.\n")
+        sys.exit(0)
