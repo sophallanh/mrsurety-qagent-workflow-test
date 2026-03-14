@@ -22,6 +22,9 @@
     "test:email-examples-doc": "playwright test email-docusign-examples-doc.spec.ts",
     "test:platform-spec-v63": "playwright test platform-spec-v63-gaps.spec.ts",
     "test:platform-spec-v63-complete": "playwright test platform-spec-v63-sections13to18.spec.ts",
+    "test:email-v144-content": "playwright test email-v144-content.spec.ts",
+    "test:email-v144-emails5to14": "playwright test email-v144-emails5to14.spec.ts",
+    "test:email-v144-emails15to16-docusign": "playwright test email-v144-emails15to16-docusign.spec.ts",
     "test:email-v144-longform": "playwright test email-v144-longform-supplement.spec.ts"
   },
   "devDependencies": {
