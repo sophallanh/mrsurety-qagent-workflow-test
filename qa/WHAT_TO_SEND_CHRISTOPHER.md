@@ -135,6 +135,67 @@ Everything in the GitHub repo is built and ready. As of today (2026-03-14), the 
 > Sophal Lanh
 > ---
 
+### 2b. Short Email Draft (All Links Filled In)
+
+> ---
+> **To:** c.palmer@mrsurety.com  
+> **Subject:** MrSurety QA – Code & Tests Complete (1,426 Tests / 34 Spec Files)
+>
+> Hi Christopher,
+>
+> I have completed the code and tests for the project. The final count is **1,426 tests across 34 spec files**, and I have updated the documentation in `qa/QA_STATUS.md` and `qa/WHAT_TO_SEND_CHRISTOPHER.md` to reflect these figures.
+>
+> The following resources are now ready for your review:
+>
+> **🔗 GitHub Repository (QA Test Suite):**  
+> https://github.com/sophallanh/mrsurety-qagent-workflow-test
+>
+> **🌐 Live App (tested against):**  
+> https://frontend-tan-five-46.vercel.app
+>
+> **🔑 Admin Credentials:**  
+> admin@mrsurety.com / MrSurety2026!
+>
+> **📂 Reference Docs — GitHub Directory Links:**
+>
+> | Document | GitHub Link |
+> |----------|-------------|
+> | **All Spec Docs (directory)** | https://github.com/sophallanh/mrsurety-qagent-workflow-test/tree/main/qa/spec-docs |
+> | **Short Workflow Guide** | https://github.com/sophallanh/mrsurety-qagent-workflow-test/blob/main/qa/spec-docs/workflow-guides/SHORT_WORKFLOW_GUIDE.md |
+> | **Long Workflow Guide** | https://github.com/sophallanh/mrsurety-qagent-workflow-test/blob/main/qa/spec-docs/workflow-guides/LONG_WORKFLOW_GUIDE.md |
+> | **Service Form Spec** | https://github.com/sophallanh/mrsurety-qagent-workflow-test/blob/main/qa/spec-docs/service-form/SERVICE_FORM_GUIDE.md |
+> | **Email & DocuSign Examples** | https://github.com/sophallanh/mrsurety-qagent-workflow-test/blob/main/qa/spec-docs/email-templates/EMAIL_TEMPLATES_GUIDE.md |
+> | **DocuSign Templates Guide** | https://github.com/sophallanh/mrsurety-qagent-workflow-test/blob/main/qa/spec-docs/docusign-templates/DOCUSIGN_TEMPLATES_GUIDE.md |
+> | **Admin Dashboard Guide** | https://github.com/sophallanh/mrsurety-qagent-workflow-test/blob/main/qa/spec-docs/admin-guides/ADMIN_DASHBOARD_GUIDE.md |
+> | **All Playwright Spec Files** | https://github.com/sophallanh/mrsurety-qagent-workflow-test/tree/main/tests/playwright |
+> | **QA Status Summary** | https://github.com/sophallanh/mrsurety-qagent-workflow-test/blob/main/qa/QA_STATUS.md |
+> | **Test User Credentials** | https://github.com/sophallanh/mrsurety-qagent-workflow-test/tree/main/qa/test-user-credentials |
+> | **Bug Reports** | https://github.com/sophallanh/mrsurety-qagent-workflow-test/tree/main/qa/bug-reports |
+> | **Screenshots (by workflow)** | https://github.com/sophallanh/mrsurety-qagent-workflow-test/tree/main/qa/screenshots |
+>
+> **📋 Original Google Docs References:**
+> - Short Workflow Guide: https://docs.google.com/document/d/1CUxJ-ArzwghjGvoZydzT1u9NgQCgjH_1ltBg9P8pJAI/edit
+> - Long Workflow Guide: https://docs.google.com/document/d/1V-WCoz8HbMHRYNo5NTINoX11MXjwEcRJuWVry0TgciM/edit
+> - Service Form Spec: https://docs.google.com/document/d/1jXC_fU0wY3HKzIhmDQpfIiz6h3o0wBzsFMFScWoatis/edit
+> - Email & DocuSign Examples: https://docs.google.com/document/d/1xjv0Ol1G6NVfmIpYRVuX0wOwplJsdX-B6BTUiUefSw8/edit
+> - Testing Organization Doc: https://docs.google.com/document/d/1SDDd29PN9Z9vc6wg1eIAewDJnNhHa_aWGzfs_mqL8dU/edit?usp=sharing
+>
+> Please note that the draft message now explicitly mentions the **Agent Upload Invite System**.
+>
+> I am now moving on to the final manual execution steps from my Mac, which include:
+> 1. Creating QA test accounts on the live app
+> 2. Running `npm test` to capture screenshots
+> 3. Manually walking through all 9 workflows and the Agent Upload Invite System to capture 50+ screenshots
+> 4. Uploading these screenshots to Google Drive to share with you
+>
+> Best regards,  
+> Sophal Lanh
+> ---
+
+> 🔒 **Privacy note for you:** He can only see repository files and commit history — **NOT** your chat messages, AI conversations, or anything you copy/paste in chat windows. See the Q&A at the top of this document for full details.
+
+---
+
 ### 3. QA Status Summary (also in repo)
 > **File in repo:** `qa/QA_STATUS.md`  
 > Shows the full 1,426-test breakdown by spec file
