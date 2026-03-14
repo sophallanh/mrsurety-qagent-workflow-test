@@ -20,23 +20,23 @@ npx playwright install chromium
 npm test
 ```
 
-> **Credentials** are already built into the test defaults.
-> For a clean, reproducible setup (recommended) copy the example `.env` file **once**:
+> **Credentials** are built into the test defaults, but copying the `.env` file is strongly
+> recommended. It prevents test failures caused by stale shell variables (e.g. an old
+> `export MRSURETY_BASE_URL=https://staging.mrsurety.com` overriding the correct URL).
 >
-> **From the repo root:**
+> **Run this command once, from the right directory:**
+>
+> | Where you are | Command to run |
+> |---|---|
+> | Repo root (`mrsurety-qagent-workflow-test/`) | `cp tests/.env.example tests/.env` |
+> | Inside `tests/` (`mrsurety-qagent-workflow-test/tests/`) | `cp .env.example .env` |
+>
+> ⚠️ **Common mistake:** If your prompt ends with `tests %` you are already *inside* `tests/`.
+> Use `cp .env.example .env` — **not** `cp tests/.env.example ...`.
+> Running `cp tests/.env.example` with no destination prints a `usage:` error; just add `.env`:
 > ```bash
 > cp .env.example .env
 > ```
-> **From the `tests/` subdirectory:**
-> ```bash
-> cp .env.example .env
-> ```
->
-> The `.env` file tells the tests to use the live Vercel app URL and correct credentials,
-> and it **overrides any stale `MRSURETY_BASE_URL` you may have exported to your shell**
-> (a common cause of `net::ERR_NAME_NOT_RESOLVED` failures).
-> If you skip this step, the hardcoded defaults are used — which is fine as long as you
-> have not previously run `export MRSURETY_BASE_URL=...` in your terminal session.
 
 > **`npm error: package.json not found`?** The root-level `package.json` may not be in
 > the branch you cloned. Run from the `tests/` subdirectory instead:
@@ -129,6 +129,8 @@ Screenshots are saved to `screenshots/` (git-ignored).
 | `No tests found` | `npx playwright test` run before `npm install` | Run `npm install` first, then re-run |
 | `npm error: package.json not found` | Root-level `package.json` missing from the branch you cloned | Run from `tests/` instead: `cd tests && cp .env.example .env && npm install && npx playwright install chromium && npm test` |
 | `net::ERR_NAME_NOT_RESOLVED` on `staging.mrsurety.com` | Stale `MRSURETY_BASE_URL` exported in your shell overrides the config | Run `cp tests/.env.example tests/.env` (or `cp .env.example .env` from inside `tests/`) — the `.env` file overrides the stale shell variable |
+| `usage: cp [-R [-H \| -L \| -P]] ...` | Ran `cp tests/.env.example` with no destination argument while already inside `tests/` | You're already in `tests/` — run `cp .env.example .env` (no `tests/` prefix needed) |
+| `cp: tests/.env.example: No such file or directory` | Ran `cp tests/.env.example tests/.env` while already inside `tests/` | You're already in `tests/` — run `cp .env.example .env` instead |
 | `fatal: not a git repository` | Folder was downloaded as a ZIP or copied manually, not cloned with git | Delete the folder; run `git clone https://github.com/sophallanh/mrsurety-qagent-workflow-test.git` |
 | `cp: .env.example: No such file or directory` | `.env.example` not present in this clone – it is optional | Skip the `cp` step; tests run fine with built-in defaults. To customize credentials later, create `.env` manually from the template in [`.env.example`](.env.example) |
 | `requirements.txt: No such file or directory` | Wrong working directory | `cd mrsurety-qagent-workflow-test` first |
