@@ -141,6 +141,24 @@ vite.config.ts.timestamp-*
 # Playwright test results
 qa/test-results/
 tests/test-results/
-
-# Lock files (generated; not committed)
+test-results/
 tests/package-lock.json
+package-lock.json
+
+# Python – virtual environment and cache
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+
+# Python Playwright screenshots captured locally (committed in qa/screenshots/ instead)
+screenshots/
+
+# Root node_modules (from root-level package.json)
+node_modules/

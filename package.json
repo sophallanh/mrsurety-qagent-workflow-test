@@ -1,0 +1,18 @@
+{
+  "name": "mrsurety-qagent-workflow-test",
+  "version": "1.0.0",
+  "description": "MrSurety QA – Playwright automated tests for all platform workflows",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:report": "playwright show-report",
+    "test:admin": "playwright test admin-dashboard.spec.ts",
+    "test:homeowner": "playwright test homeowner-service-request.spec.ts homeowner-workflow-guide-doc5.spec.ts",
+    "test:contractor": "playwright test contractor-bidding.spec.ts",
+    "test:agent": "playwright test agent-referral-workflow.spec.ts agent-upload-invite.spec.ts",
+    "test:doc5": "playwright test homeowner-workflow-guide-doc5.spec.ts"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.42.0"
+  }
+}
