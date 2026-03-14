@@ -17,18 +17,17 @@ Run from the **repo root** (no need to `cd tests`):
 git clone https://github.com/sophallanh/mrsurety-qagent-workflow-test.git
 cd mrsurety-qagent-workflow-test
 
-# 2. Install dependencies and Chromium
+# 2. Copy credentials file (edit if needed – defaults work for the test environment)
+cp .env.example .env
+
+# 3. Install dependencies and Chromium
 npm install
 npx playwright install chromium
-
-# 3. (Optional) set credentials via env vars
-export MRSURETY_BASE_URL=https://frontend-tan-five-46.vercel.app
-export ADMIN_PASSWORD=MrSurety2026!
 
 # 4. Run all tests
 npm test
 
-# 5. Run a single spec (no path prefix needed – just the filename)
+# 5. Run a single spec (just the filename – no path prefix needed)
 npx playwright test homeowner-workflow-guide-doc5.spec.ts
 npx playwright test admin-dashboard.spec.ts
 npx playwright test agent-referral-workflow.spec.ts
@@ -40,8 +39,13 @@ npm run test:headed
 npm run test:report
 ```
 
-> **Note:** All 16 browser tests require network access to `frontend-tan-five-46.vercel.app`.
-> They pass on any machine with internet access.
+> **Why `.env` instead of `export`?**
+> The admin password contains `!`. In zsh (macOS default), `!` inside
+> double quotes triggers history expansion and causes a `dquote>` hang.
+> Using a `.env` file avoids all shell-quoting issues. If you prefer
+> exporting manually, use **single quotes**: `export ADMIN_PASSWORD='MrSurety2026!'`
+
+> **Note:** All browser tests require network access to `frontend-tan-five-46.vercel.app`.
 
 ---
 
@@ -60,8 +64,8 @@ source venv/bin/activate          # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 python -m playwright install chromium
 
-# 4. Set admin password
-export ADMIN_PASSWORD=MrSurety2026!
+# 4. Set admin password – use SINGLE quotes so zsh does not expand '!'
+export ADMIN_PASSWORD='MrSurety2026!'
 
 # 5. Run the agent referral smoke test
 python test_mrsurety_agent_referral.py
@@ -69,6 +73,9 @@ python test_mrsurety_agent_referral.py
 # Run with a visible browser (useful for debugging)
 HEADLESS=false python test_mrsurety_agent_referral.py
 ```
+
+> **Tip:** If you see `dquote>` in your terminal, press **Ctrl+C** to cancel,
+> then re-run the export with single quotes as shown above.
 
 Screenshots are saved to `screenshots/` (git-ignored).
 

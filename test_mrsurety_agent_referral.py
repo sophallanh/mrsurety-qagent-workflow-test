@@ -11,7 +11,7 @@ Quick start (macOS / Linux):
     source venv/bin/activate
     pip install -r requirements.txt
     python -m playwright install chromium
-    export ADMIN_PASSWORD="MrSurety2026!"      # or your current password
+    export ADMIN_PASSWORD='MrSurety2026!'      # single quotes – avoids zsh dquote> trap
     python test_mrsurety_agent_referral.py
 
 What this script tests:

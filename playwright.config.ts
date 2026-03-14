@@ -1,22 +1,44 @@
 import { defineConfig, devices } from '@playwright/test';
+import * as fs from 'fs';
+import * as path from 'path';
 
 /**
  * MrSurety QA – Root-level Playwright Configuration
  *
- * This file lets you run tests from the REPO ROOT without needing to
- * cd into the tests/ subdirectory first:
- *
- *   npm install && npx playwright install chromium
- *   npx playwright test                                       # run all tests
- *   npx playwright test homeowner-workflow-guide-doc5.spec.ts # run one file
- *   npx playwright test admin-dashboard.spec.ts               # run admin tests
+ * Quick start (from the REPO ROOT):
+ *   cp .env.example .env          # credentials live in .env – no shell quoting needed
+ *   npm install
+ *   npx playwright install chromium
+ *   npx playwright test                                        # run all tests
+ *   npx playwright test homeowner-workflow-guide-doc5.spec.ts  # run one spec
+ *   npx playwright test admin-dashboard.spec.ts                # run admin tests
  *
  * Live App: https://frontend-tan-five-46.vercel.app
- * Admin:    admin@mrsurety.com  /  set ADMIN_PASSWORD env var
+ * Admin:    admin@mrsurety.com / see .env.example for default password
  *
- * Override base URL:
- *   MRSURETY_BASE_URL=https://frontend-tan-five-46.vercel.app npx playwright test
+ * Env vars can also be overridden inline:
+ *   MRSURETY_BASE_URL=https://staging.example.com npx playwright test
  */
+
+// ---------------------------------------------------------------------------
+// Load .env from the repo root if it exists.
+// This means you never need to run 'export VAR="value!"' in your shell
+// (which triggers zsh history expansion on '!').  Just edit .env instead.
+// ---------------------------------------------------------------------------
+try {
+  const envPath = path.join(__dirname, '.env');
+  const lines = fs.readFileSync(envPath, 'utf8').split('\n');
+  for (const line of lines) {
+    // Match KEY=value lines; skip comments and blank lines
+    const m = line.match(/^\s*([A-Z_][A-Z0-9_]*)\s*=\s*(.*?)\s*$/);
+    if (m) {
+      // Don't override variables that were already set in the shell environment
+      process.env[m[1]] ??= m[2];
+    }
+  }
+} catch {
+  // .env not found – that's fine; env vars may be set directly in the shell
+}
 export default defineConfig({
   testDir: './tests/playwright',
   timeout: 60_000,
