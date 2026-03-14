@@ -3,6 +3,45 @@
 
 ---
 
+## ⚡ COPY AND PASTE THIS ENTIRE BLOCK INTO YOUR TERMINAL
+
+> You are at `~` (your Mac home directory). Paste everything below in one go.
+
+```bash
+# ── 0. Clone the repo (skip if you already have it) ──────────────────────────
+git clone https://github.com/sophallanh/mrsurety-qagent-workflow-test \
+  ~/mrsurety-qagent-workflow-test 2>/dev/null || true
+
+# ── Go into the repo ─────────────────────────────────────────────────────────
+cd ~/mrsurety-qagent-workflow-test
+
+# ── One-time setup ────────────────────────────────────────────────────────────
+pip3 install playwright python-dotenv
+playwright install chromium
+cp qa/openclaw/.env.example qa/openclaw/.env
+
+# ── Step 1: Verify the live app is reachable ──────────────────────────────────
+python3 qa/openclaw/workflows/mrsurety_qa.py --check-connection
+
+# ── Step 2: Create all 8 QA test accounts on the live app ────────────────────
+python3 qa/openclaw/workflows/mrsurety_qa.py --workflow create-accounts
+
+# ── Step 3: Run all 9 workflows (captures 50+ screenshots + videos) ───────────
+python3 qa/openclaw/workflows/mrsurety_qa.py --workflow all
+
+# ── Step 4: Run the full npm test suite (1,418 tests) ─────────────────────────
+cd tests && npm install && npm test && cd ..
+
+# ── Step 5: Package everything for Google Drive ───────────────────────────────
+cd qa/openclaw && ./workflows/run_daily.sh && cd ../..
+```
+
+> **After Step 5:** A zip file named `MrSurety_QA_<today>.zip` appears in  
+> `~/mrsurety-qagent-workflow-test/qa/openclaw/`.  
+> Upload that zip to Google Drive and email **c.palmer@mrsurety.com**.
+
+---
+
 ## What's Left (4 Things, All Automated)
 
 | # | Task | OpenClaw Command | Time |
@@ -202,26 +241,18 @@ Re-run `--workflow agent-signup` to generate a fresh one before `--workflow home
 
 ---
 
-## All Commands in One Block (copy-paste)
+## All Commands in One Block (same as the top — copy-paste from `~`)
 
 ```bash
-# One-time setup
+git clone https://github.com/sophallanh/mrsurety-qagent-workflow-test \
+  ~/mrsurety-qagent-workflow-test 2>/dev/null || true
+cd ~/mrsurety-qagent-workflow-test
 pip3 install playwright python-dotenv
 playwright install chromium
 cp qa/openclaw/.env.example qa/openclaw/.env
-
-# Check connection
 python3 qa/openclaw/workflows/mrsurety_qa.py --check-connection
-
-# Create accounts (one time, before Step 3)
 python3 qa/openclaw/workflows/mrsurety_qa.py --workflow create-accounts
-
-# Run all 9 workflows
 python3 qa/openclaw/workflows/mrsurety_qa.py --workflow all
-
-# Run npm tests
-cd tests && npm test && cd ..
-
-# Package for Google Drive
+cd tests && npm install && npm test && cd ..
 cd qa/openclaw && ./workflows/run_daily.sh && cd ../..
 ```

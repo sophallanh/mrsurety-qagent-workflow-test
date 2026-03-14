@@ -144,8 +144,11 @@ tests/test-results/
 
 # OpenClaw generated output (screenshots, videos, CSVs, reports – uploaded to Drive separately)
 qa/openclaw/output/screenshots/*
+!qa/openclaw/output/screenshots/.gitkeep
 qa/openclaw/output/videos/*
+!qa/openclaw/output/videos/.gitkeep
 qa/openclaw/output/reports/*
+!qa/openclaw/output/reports/.gitkeep
 qa/openclaw/output/data/test_accounts.csv
 qa/openclaw/output/data/findings.csv
 qa/openclaw/output/data/email_inventory.csv
