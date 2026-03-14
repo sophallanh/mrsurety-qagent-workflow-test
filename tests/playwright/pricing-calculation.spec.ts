@@ -537,3 +537,192 @@ test.describe('V6.3 Scenario 4 – No Device, No Software', () => {
     });
   });
 });
+
+// ---------------------------------------------------------------------------
+// V4.4 Four Canonical Retail Scenarios (Platform Spec V4.4, Section 6)
+//
+// These use the ACTUAL job prices from Job JOB-WL-7890 / Email Templates v1.4.4:
+//   Parts:    $260.00 × 1.35 = $351.00
+//   Pressure: $310.00 × 1.35 = $418.50
+//   Device:   $599.99 × 1.00 = $599.99
+//   Software: $75.00  × 1.25 = $93.75
+//   Labor:    $525.00 × 1.25 = $656.25
+//
+// V4.4 is superseded by V6.3, but these four totals remain the canonical
+// reference figures used in all email-template tests (v1.4.4 long-form).
+// ---------------------------------------------------------------------------
+
+/**
+ * V4.4 Scenario A – With Device + With Software ($2,386.11)
+ *
+ * Platform Spec V4.4, Section 6, Scenario 1:
+ *   Subtotal = $2,119.49  →  + $95 = $2,214.49  →  + tax 7.75% = $2,386.11
+ */
+test.describe('V4.4 Scenario A – With Device + With Software', () => {
+  test('Scenario A arithmetic: subtotal $2,119.49 + $95 service fee + 7.75% tax = $2,386.11', async () => {
+    const parts    = 260.00;
+    const pressure = 310.00;
+    const device   = 599.99;
+    const software = 75.00;
+    const labor    = 525.00;
+    const serviceFee = 95.00;
+    const taxRate    = 0.0775;
+
+    const partsRetail    = round2(parts    * 1.35);
+    const pressureRetail = round2(pressure * 1.35);
+    const deviceRetail   = round2(device   * 1.00);
+    const softwareRetail = round2(software * 1.25);
+    const laborRetail    = round2(labor    * 1.25);
+
+    const subtotal       = round2(partsRetail + pressureRetail + deviceRetail + softwareRetail + laborRetail);
+    const totalBeforeTax = round2(subtotal + serviceFee);
+    const tax            = round2(totalBeforeTax * taxRate);
+    const homeownerTotal = round2(totalBeforeTax + tax);
+
+    expect(partsRetail).toBe(351.00);
+    expect(pressureRetail).toBe(418.50);
+    expect(deviceRetail).toBe(599.99);
+    expect(softwareRetail).toBe(93.75);
+    expect(laborRetail).toBe(656.25);
+    expect(subtotal).toBe(2119.49);
+    expect(totalBeforeTax).toBe(2214.49);
+    expect(tax).toBe(171.62);
+    expect(homeownerTotal).toBe(2386.11);
+
+    test.info().annotations.push({
+      type: 'info',
+      description: 'V4.4 Scenario A (With Device + With Software, Labor $525): Subtotal $2,119.49 + $95 fee = $2,214.49 + tax 7.75% ($171.62) = HOMEOWNER TOTAL $2,386.11',
+    });
+  });
+});
+
+/**
+ * V4.4 Scenario B – With Device + No Software ($2,285.10)
+ *
+ * Platform Spec V4.4, Section 6, Scenario 2:
+ *   Subtotal = $2,025.74  →  + $95 = $2,120.74  →  + tax 7.75% = $2,285.10
+ */
+test.describe('V4.4 Scenario B – With Device + No Software', () => {
+  test('Scenario B arithmetic: subtotal $2,025.74 + $95 service fee + 7.75% tax = $2,285.10', async () => {
+    const parts    = 260.00;
+    const pressure = 310.00;
+    const device   = 599.99;
+    const labor    = 525.00;
+    const serviceFee = 95.00;
+    const taxRate    = 0.0775;
+
+    const partsRetail    = round2(parts    * 1.35);
+    const pressureRetail = round2(pressure * 1.35);
+    const deviceRetail   = round2(device   * 1.00);
+    const laborRetail    = round2(labor    * 1.25);
+
+    const subtotal       = round2(partsRetail + pressureRetail + deviceRetail + laborRetail);
+    const totalBeforeTax = round2(subtotal + serviceFee);
+    const tax            = round2(totalBeforeTax * taxRate);
+    const homeownerTotal = round2(totalBeforeTax + tax);
+
+    expect(partsRetail).toBe(351.00);
+    expect(pressureRetail).toBe(418.50);
+    expect(deviceRetail).toBe(599.99);
+    expect(laborRetail).toBe(656.25);
+    expect(subtotal).toBe(2025.74);
+    expect(totalBeforeTax).toBe(2120.74);
+    expect(tax).toBe(164.36);
+    expect(homeownerTotal).toBe(2285.10);
+
+    test.info().annotations.push({
+      type: 'info',
+      description: 'V4.4 Scenario B (With Device + No Software, Labor $525): Subtotal $2,025.74 + $95 fee = $2,120.74 + tax 7.75% ($164.36) = HOMEOWNER TOTAL $2,285.10',
+    });
+  });
+});
+
+/**
+ * V4.4 Scenario C – No Device + With Software ($1,739.62)
+ *
+ * Platform Spec V4.4, Section 6, Scenario 3:
+ *   Parts $260 × 1.35 = $351.00
+ *   Pressure $310 × 1.35 = $418.50
+ *   Software $75 × 1.25 = $93.75
+ *   Labor $525 × 1.25 = $656.25
+ *   Subtotal = $1,519.50
+ *   + Service Fee $95 = $1,614.50
+ *   + Tax 7.75% ($125.12) = $1,739.62
+ */
+test.describe('V4.4 Scenario C – No Device + With Software', () => {
+  test('Scenario C arithmetic: subtotal $1,519.50 + $95 service fee + 7.75% tax = $1,739.62', async () => {
+    const parts    = 260.00;
+    const pressure = 310.00;
+    const software = 75.00;
+    const labor    = 525.00;
+    const serviceFee = 95.00;
+    const taxRate    = 0.0775;
+
+    const partsRetail    = round2(parts    * 1.35);
+    const pressureRetail = round2(pressure * 1.35);
+    const softwareRetail = round2(software * 1.25);
+    const laborRetail    = round2(labor    * 1.25);
+
+    const subtotal       = round2(partsRetail + pressureRetail + softwareRetail + laborRetail);
+    const totalBeforeTax = round2(subtotal + serviceFee);
+    const tax            = round2(totalBeforeTax * taxRate);
+    const homeownerTotal = round2(totalBeforeTax + tax);
+
+    expect(partsRetail).toBe(351.00);
+    expect(pressureRetail).toBe(418.50);
+    expect(softwareRetail).toBe(93.75);
+    expect(laborRetail).toBe(656.25);
+    expect(subtotal).toBe(1519.50);
+    expect(totalBeforeTax).toBe(1614.50);
+    expect(tax).toBe(125.12);
+    expect(homeownerTotal).toBe(1739.62);
+
+    test.info().annotations.push({
+      type: 'info',
+      description: 'V4.4 Scenario C (No Device + With Software, Labor $525): Subtotal $1,519.50 + $95 fee = $1,614.50 + tax 7.75% ($125.12) = HOMEOWNER TOTAL $1,739.62',
+    });
+  });
+});
+
+/**
+ * V4.4 Scenario D – No Device + No Software ($1,638.61)
+ *
+ * Platform Spec V4.4, Section 6, Scenario 4:
+ *   Parts $260 × 1.35 = $351.00
+ *   Pressure $310 × 1.35 = $418.50
+ *   Labor $525 × 1.25 = $656.25
+ *   Subtotal = $1,425.75
+ *   + Service Fee $95 = $1,520.75
+ *   + Tax 7.75% ($117.86) = $1,638.61
+ */
+test.describe('V4.4 Scenario D – No Device + No Software', () => {
+  test('Scenario D arithmetic: subtotal $1,425.75 + $95 service fee + 7.75% tax = $1,638.61', async () => {
+    const parts    = 260.00;
+    const pressure = 310.00;
+    const labor    = 525.00;
+    const serviceFee = 95.00;
+    const taxRate    = 0.0775;
+
+    const partsRetail    = round2(parts    * 1.35);
+    const pressureRetail = round2(pressure * 1.35);
+    const laborRetail    = round2(labor    * 1.25);
+
+    const subtotal       = round2(partsRetail + pressureRetail + laborRetail);
+    const totalBeforeTax = round2(subtotal + serviceFee);
+    const tax            = round2(totalBeforeTax * taxRate);
+    const homeownerTotal = round2(totalBeforeTax + tax);
+
+    expect(partsRetail).toBe(351.00);
+    expect(pressureRetail).toBe(418.50);
+    expect(laborRetail).toBe(656.25);
+    expect(subtotal).toBe(1425.75);
+    expect(totalBeforeTax).toBe(1520.75);
+    expect(tax).toBe(117.86);
+    expect(homeownerTotal).toBe(1638.61);
+
+    test.info().annotations.push({
+      type: 'info',
+      description: 'V4.4 Scenario D (No Device + No Software, Labor $525): Subtotal $1,425.75 + $95 fee = $1,520.75 + tax 7.75% ($117.86) = HOMEOWNER TOTAL $1,638.61',
+    });
+  });
+});
