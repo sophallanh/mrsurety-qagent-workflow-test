@@ -15,7 +15,8 @@
     "test:contractor-doc7": "playwright test contractor-workflow-guide-doc7.spec.ts",
     "test:admin-doc8": "playwright test admin-workflow-guide-doc8.spec.ts",
     "test:full-workflow": "playwright test full-workflow-guide.spec.ts",
-    "test:doc5": "playwright test homeowner-workflow-guide-doc5.spec.ts"
+    "test:doc5": "playwright test homeowner-workflow-guide-doc5.spec.ts",
+    "test:homeowner-referral": "playwright test homeowner-referral-workflow.spec.ts"
   },
   "devDependencies": {
     "@playwright/test": "^1.42.0"
