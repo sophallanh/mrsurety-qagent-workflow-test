@@ -181,6 +181,92 @@ Per Christopher's Testing Guide Part 1 & Part 8:
 
 ---
 
+## Agent Upload Invite System (Contractor Portal Feature)
+
+> **Source:** Christopher Palmer email, Mar 14, 2026  
+> This is a NEW feature built into the contractor portal that allows contractors to invite their insurance agent to upload insurance documents directly.
+
+### Contractor Side
+
+1. Contractor logs in → navigates to **Documents** page
+2. At the top of the page, a section called **"Invite Agent to Upload Documents"** is visible
+3. Contractor enters their insurance agent's email address
+4. Contractor clicks **"Send Invite"** button
+5. The agent receives an email with a **secure upload link**
+6. On the Documents page, the contractor can see:
+   - All **active invites** (by agent email)
+   - Number of **documents uploaded** through each invite
+   - **Revoke** button to immediately cancel an invite's access
+
+### Insurance Agent Side (No Login Required)
+
+1. Insurance agent clicks the secure link in their email
+2. They land on a page showing a **checklist of all insurance document types** needed (uploaded vs. still needed)
+3. Agent selects multiple files at once
+4. For each file, agent assigns:
+   - **Document type** (from dropdown)
+   - **Carrier name**
+   - **Effective date**
+5. Agent clicks **"Upload All"** → files save directly to the contractor's profile
+
+### Security Controls
+
+| Control | Detail |
+|---------|--------|
+| **Contractor-initiated only** | Only the contractor can send an invite — agents cannot self-register |
+| **Link locked to one contractor** | Each secure link is unique and tied to a single contractor |
+| **Upload only** | Agent can upload files only — they cannot view, download, or delete any existing documents |
+| **7-day expiry** | Invite links expire after 7 days automatically |
+| **Instant revoke** | Contractor can revoke access at any time; revoked link shows error/expired page |
+| **No browsing access** | Without the exact link, there is zero access — no searching, no finding other contractors |
+
+### Document Upload Restrictions
+
+| Document Type | Who Can Upload |
+|---------------|----------------|
+| COI (Certificate of Insurance) | Agent (via invite link) ✅ |
+| Endorsements | Agent (via invite link) ✅ |
+| CSLB Card | Contractor only ❌ |
+| W-9 | Contractor only ❌ |
+| Bond | Contractor only ❌ |
+| Photo ID | Contractor only ❌ |
+
+### Testing Checklist for Agent Upload Invite System
+
+- [ ] Contractor can see "Invite Agent to Upload Documents" section on Documents page
+- [ ] Contractor can enter insurance agent email and click "Send Invite"
+- [ ] Agent receives invite email with secure link
+- [ ] Agent can open secure link without logging in
+- [ ] Agent sees document checklist (uploaded vs still needed)
+- [ ] Agent can select multiple files and assign type/carrier/date per file
+- [ ] Agent can upload COI and endorsement files
+- [ ] Agent CANNOT upload CSLB card, W-9, bond, or photo ID through invite link
+- [ ] Agent CANNOT view, download, or delete existing contractor documents
+- [ ] Contractor can see invite in active invites list with document count
+- [ ] Contractor can revoke invite → revoked link returns error/expired page
+- [ ] Invite link expires after 7 days
+- [ ] A different contractor's invite link does NOT give access to other contractor data
+
+---
+
+## Testing Approach (Palmer Email, Mar 14, 2026)
+
+> Christopher's guidance on how to run QA testing effectively:
+
+1. **Read through all documents first** before starting any testing
+2. **Create users and get acclimated** – spend time playing with the app to understand the workflow
+3. **Overall goal:** Find errors or wording that doesn't make sense (the workflow is generally correct)
+4. **Suggested first test run:**
+   - Create an Agent → generate a referral code
+   - Sign up as a Homeowner → use the referral code
+   - Make a service request
+   - Start exploring the Admin portal
+5. **Submit findings incrementally:** Submit at end of each testing day (not after every single item) to enable dialogue and discussion
+6. Testing always takes longer than expected — allocate adequate time
+7. If something is unclear, discuss with Christopher rather than logging immediately as a bug
+
+---
+
 ## DocuSign Documents (8 total)
 
 | # | Document | Sent To | Trigger |
