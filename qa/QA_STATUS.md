@@ -39,7 +39,7 @@ All tests target this URL by default.
 | `assessment-service.spec.ts` | WF9: Assessment Service | 7 |
 | `pricing-calculation.spec.ts` | All pricing & markup formulas | 17 |
 | `technician-workflow.spec.ts` | Technician steps | 8 |
-| `agent-upload-invite.spec.ts` | Agent Upload Invite System (contractor side) | 20 |
+| `agent-upload-invite.spec.ts` | Agent Upload Invite System (contractor side) | 16 |
 | `agent-referral-workflow-guide.spec.ts` | Doc 6: Agent referral guide deep-spec | 13 |
 | `homeowner-referral-workflow.spec.ts` | Homeowner referral experience | 18 |
 | `homeowner-workflow-guide-doc5.spec.ts` | Doc 5: Homeowner workflow guide | 22 |
@@ -63,7 +63,7 @@ All tests target this URL by default.
 | `palmer-supplement2.spec.ts` | Palmer supplement 2 (upload invite + §H live URL) | 60 |
 | `christopher-original-email.spec.ts` | Christopher's email cross-check (all 14 §§) | 62 |
 
-**Total: 1,611 tests across 34 spec files**
+**Total: 1,418 tests across 34 spec files**
 
 ---
 
@@ -190,4 +190,4 @@ The app is live at https://frontend-tan-five-46.vercel.app.
 
 ---
 
-**Last Updated:** 2026-03-14 — **1,364 automated tests across 33 spec files**
+**Last Updated:** 2026-03-14 — **1,418 automated tests across 34 spec files**
