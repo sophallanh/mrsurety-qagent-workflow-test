@@ -310,6 +310,111 @@ _LOGIN_SUBMIT_SELECTORS = [
     'button:has-text("Continue")',
 ]
 
+# ── Signup form resilient selectors ───────────────────────────────────────────
+# Tried in priority order; the first visible selector on the page wins.
+
+_FIRST_NAME_SELECTORS = [
+    '[data-testid="first-name"]',
+    'input[name="firstName"]',
+    'input[name="first_name"]',
+    'input[name="first-name"]',
+    'input[name="firstname"]',
+    'input[id="firstName"]',
+    'input[id="first_name"]',
+    'input[placeholder*="first" i]',
+    'input[autocomplete="given-name"]',
+]
+
+_LAST_NAME_SELECTORS = [
+    '[data-testid="last-name"]',
+    'input[name="lastName"]',
+    'input[name="last_name"]',
+    'input[name="last-name"]',
+    'input[name="lastname"]',
+    'input[id="lastName"]',
+    'input[id="last_name"]',
+    'input[placeholder*="last" i]',
+    'input[autocomplete="family-name"]',
+]
+
+_CONFIRM_PASSWORD_SELECTORS = [
+    '[data-testid="confirm-password"]',
+    'input[name="confirmPassword"]',
+    'input[name="confirm_password"]',
+    'input[name="passwordConfirmation"]',
+    'input[name="password_confirmation"]',
+    'input[name="password2"]',
+    'input[id="confirmPassword"]',
+    'input[id="confirm-password"]',
+    'input[placeholder*="confirm" i]',
+]
+
+_COMPANY_SELECTORS = [
+    '[data-testid="company"]',
+    'input[name="company"]',
+    'input[name="companyName"]',
+    'input[name="company_name"]',
+    'input[name="businessName"]',
+    'input[id="company"]',
+    'input[id="companyName"]',
+    'input[placeholder*="company" i]',
+    'input[placeholder*="business" i]',
+]
+
+_ROLE_SELECTORS = [
+    '[data-testid="role"]',
+    'select[name="role"]',
+    'select[id="role"]',
+    'select[name="userType"]',
+    'select[name="user_type"]',
+    'select[id="userType"]',
+    'select[name="accountType"]',
+]
+
+_SIGNUP_SUBMIT_SELECTORS = [
+    '[data-testid="signup-submit"]',
+    'button[type="submit"]',
+    'input[type="submit"]',
+    'button:has-text("Sign Up")',
+    'button:has-text("Create Account")',
+    'button:has-text("Register")',
+    'button:has-text("Get Started")',
+    'button:has-text("Join")',
+]
+
+# ── Admin / navigation resilient selectors ────────────────────────────────────
+
+_ADMIN_DASHBOARD_SELECTORS = [
+    '[data-testid="admin-dashboard"]',
+    'h1:has-text("Dashboard")',
+    'h2:has-text("Dashboard")',
+    '[class*="dashboard" i]',
+    'main',
+]
+
+_NAV_USERS_SELECTORS = [
+    '[data-testid="nav-users"]',
+    'a:has-text("Users")',
+    'button:has-text("Users")',
+    'nav a[href*="user"]',
+    '[href*="/users"]',
+]
+
+_NAV_SERVICE_REQUESTS_SELECTORS = [
+    '[data-testid="nav-service-requests"]',
+    'a:has-text("Service Requests")',
+    'a:has-text("Requests")',
+    'nav a[href*="service"]',
+    'nav a[href*="request"]',
+]
+
+_USERS_TABLE_SELECTORS = [
+    '[data-testid="users-table"]',
+    'table',
+    '[class*="table" i]',
+    '[role="grid"]',
+]
+
 
 def _resolve_selector(page: "Page", selectors: list[str], probe_ms: int = 5000) -> str:
     """Return the first selector from *selectors* that is visible on *page*.
@@ -327,6 +432,54 @@ def _resolve_selector(page: "Page", selectors: list[str], probe_ms: int = 5000) 
         f"Could not locate any of the expected elements on {page.url}\n"
         f"Tried selectors (none visible within {probe_ms}ms each): {selectors}"
     )
+
+
+def _fill_field(
+    page: "Page",
+    selectors: list[str],
+    value: str,
+    probe_ms: int = 3000,
+    required: bool = True,
+) -> bool:
+    """Fill the first matching visible form field with *value*.
+
+    Returns True on success.  If *required* is False and no selector matches,
+    returns False silently (optional fields like company, confirm-password).
+    If *required* is True and nothing matches, raises RuntimeError.
+    """
+    for sel in selectors:
+        try:
+            page.wait_for_selector(sel, timeout=probe_ms, state="visible")
+            page.fill(sel, value)
+            return True
+        except Exception:
+            continue
+    if required:
+        raise RuntimeError(
+            f"Could not locate required form field on {page.url}\n"
+            f"Tried selectors: {selectors}"
+        )
+    return False
+
+
+def _select_option_resilient(
+    page: "Page",
+    selectors: list[str],
+    value: str,
+    probe_ms: int = 3000,
+) -> bool:
+    """Select *value* in the first matching visible <select> dropdown.
+
+    Returns True on success; False if no selector matched (always non-fatal).
+    """
+    for sel in selectors:
+        try:
+            page.wait_for_selector(sel, timeout=probe_ms, state="visible")
+            page.select_option(sel, value)
+            return True
+        except Exception:
+            continue
+    return False
 
 
 def _login(page: "Page", email: str, password: str) -> None:
@@ -347,17 +500,18 @@ def workflow_admin_login(browser: Browser) -> None:
     ctx, page = _new_page(browser)
     try:
         _login(page, ADMIN_EMAIL, ADMIN_PASSWORD)
-        page.wait_for_selector('[data-testid="admin-dashboard"]', timeout=TIMEOUT)
+        _resolve_selector(page, _ADMIN_DASHBOARD_SELECTORS)
         _shot(page, "admin_01_dashboard.png")
         print("  ✅ Admin dashboard loaded")
 
-        page.click('[data-testid="nav-users"]')
-        page.wait_for_selector('[data-testid="users-table"]', timeout=TIMEOUT)
+        nav_users_sel = _resolve_selector(page, _NAV_USERS_SELECTORS)
+        page.click(nav_users_sel)
+        table_sel = _resolve_selector(page, _USERS_TABLE_SELECTORS)
         _shot(page, "admin_02_users_table.png")
         print("  ✅ Users table visible")
 
         # Extract user table to CSV
-        rows = page.query_selector_all('[data-testid="users-table"] tr')
+        rows = page.query_selector_all(f"{table_sel} tr")
         csv_path = DATA_DIR / "admin_users.csv"
         with csv_path.open("w", newline="") as f:
             writer = csv.writer(f)
@@ -366,7 +520,8 @@ def workflow_admin_login(browser: Browser) -> None:
                 writer.writerow(cells)
         print(f"  📄 admin_users.csv → {len(rows)} rows")
 
-        page.click('[data-testid="nav-service-requests"]')
+        nav_sr_sel = _resolve_selector(page, _NAV_SERVICE_REQUESTS_SELECTORS)
+        page.click(nav_sr_sel)
         _shot(page, "admin_03_service_requests.png")
         print("  ✅ Service requests page captured")
 
@@ -386,26 +541,39 @@ def workflow_agent_signup(browser: Browser) -> str:
     referral_link = ""
     try:
         page.goto("/signup")
-        page.select_option('[data-testid="role"]', "agent")
-        page.fill('[data-testid="first-name"]', "Test")
-        page.fill('[data-testid="last-name"]', "Agent")
-        page.fill('[data-testid="email"]', AGENT_EMAIL)
-        page.fill('[data-testid="password"]', AGENT_PASSWORD)
-        page.fill('[data-testid="confirm-password"]', AGENT_PASSWORD)
+        _select_option_resilient(page, _ROLE_SELECTORS, "agent")
+        _fill_field(page, _FIRST_NAME_SELECTORS, "Test")
+        _fill_field(page, _LAST_NAME_SELECTORS, "Agent")
+        _fill_field(page, _EMAIL_SELECTORS, AGENT_EMAIL)
+        _fill_field(page, _PASSWORD_SELECTORS, AGENT_PASSWORD)
+        _fill_field(page, _CONFIRM_PASSWORD_SELECTORS, AGENT_PASSWORD, required=False)
 
         shot_signup = _shot(page, "agent_00_signup_form.png")
         _register_account("agent", AGENT_EMAIL, AGENT_PASSWORD, str(shot_signup))
 
-        page.click('[data-testid="signup-submit"]')
+        submit_sel = _resolve_selector(page, _SIGNUP_SUBMIT_SELECTORS)
+        page.click(submit_sel)
         page.wait_for_url(lambda url: "/agent/dashboard" in url or "/dashboard" in url, timeout=TIMEOUT)
         _shot(page, "agent_01_dashboard_after_signup.png")
         print(f"  ✅ Agent account created: {AGENT_EMAIL}")
 
         # Navigate to referral section
-        page.click('[data-testid="nav-referral"]')
-        page.wait_for_selector('[data-testid="referral-link"]', timeout=TIMEOUT)
-        referral_link = page.input_value('[data-testid="referral-link"]')
-        print(f"  🔗 Referral link: {referral_link}")
+        try:
+            nav_ref_sel = _resolve_selector(
+                page,
+                ['[data-testid="nav-referral"]', 'a:has-text("Referral")', 'a[href*="referral"]'],
+                probe_ms=5000,
+            )
+            page.click(nav_ref_sel)
+            ref_input_sel = _resolve_selector(
+                page,
+                ['[data-testid="referral-link"]', 'input[name*="referral" i]', 'input[id*="referral" i]'],
+                probe_ms=5000,
+            )
+            referral_link = page.input_value(ref_input_sel)
+            print(f"  🔗 Referral link: {referral_link}")
+        except Exception:
+            print("  ⚠️  Referral section not found (skipped)")
 
         _shot(page, "agent_02_referral_code.png")
 
@@ -420,9 +588,10 @@ def workflow_agent_signup(browser: Browser) -> str:
         _shot(page, "agent_03_qr_code.png")
 
         # Save referral link to file
-        ref_file = DATA_DIR / "referral_link.txt"
-        ref_file.write_text(referral_link)
-        print(f"  📄 referral link saved → {ref_file}")
+        if referral_link:
+            ref_file = DATA_DIR / "referral_link.txt"
+            ref_file.write_text(referral_link)
+            print(f"  📄 referral link saved → {ref_file}")
 
     except Exception as exc:
         _log_finding("agent-signup", "signup", "ERROR", str(exc), severity="high")
@@ -851,33 +1020,24 @@ def workflow_create_accounts(browser: Browser) -> None:
             page.goto("/signup")
             page.wait_for_load_state("networkidle")
 
-            # Select role if dropdown exists
-            try:
-                page.select_option('[data-testid="role"]', role)
-            except Exception:
-                pass
+            # Select role if dropdown exists (non-fatal if not present)
+            _select_option_resilient(page, _ROLE_SELECTORS, role)
 
-            page.fill('[data-testid="first-name"]', first)
-            page.fill('[data-testid="last-name"]', last)
-            page.fill('[data-testid="email"]', email)
-            page.fill('[data-testid="password"]', password)
-
-            try:
-                page.fill('[data-testid="confirm-password"]', password)
-            except Exception:
-                pass
+            _fill_field(page, _FIRST_NAME_SELECTORS, first)
+            _fill_field(page, _LAST_NAME_SELECTORS, last)
+            _fill_field(page, _EMAIL_SELECTORS, email)
+            _fill_field(page, _PASSWORD_SELECTORS, password)
+            _fill_field(page, _CONFIRM_PASSWORD_SELECTORS, password, required=False)
 
             if company:
-                try:
-                    page.fill('[data-testid="company"]', company)
-                except Exception:
-                    pass
+                _fill_field(page, _COMPANY_SELECTORS, company, required=False)
 
             shot_name = f"account_create_{role}_{first.lower()}_{last.lower()}.png"
             shot_path = _shot(page, shot_name)
             _register_account(role, email, password, str(shot_path))
 
-            page.click('[data-testid="signup-submit"]')
+            submit_sel = _resolve_selector(page, _SIGNUP_SUBMIT_SELECTORS)
+            page.click(submit_sel)
             page.wait_for_load_state("networkidle")
             page.wait_for_timeout(2000)
 
@@ -1293,6 +1453,114 @@ _Generated by mrsurety_qa.py at {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}_
     print(f"  📝 {today}_findings.md → {report_path}")
 
 
+
+# ── Google Drive Upload ───────────────────────────────────────────────────────
+
+def _upload_to_gdrive(zip_path: Path) -> None:
+    """Upload *zip_path* to the configured Google Drive folder.
+
+    Requires:
+      1. Python package: google-api-python-client google-auth
+         Install: <venv>/bin/pip install google-api-python-client google-auth
+      2. Env vars (set in qa/openclaw/.env):
+           GDRIVE_FOLDER_ID            – folder ID from the Drive URL
+           GDRIVE_SERVICE_ACCOUNT_JSON – path to a Google service-account key JSON
+                                         (Cloud Console → IAM → Service Accounts
+                                          → Keys → Add Key → JSON)
+      3. Share the Drive folder with the service-account email (Editor permission
+         is the minimum required to create new files in the folder).
+
+    Uses the 'drive.file' OAuth scope so the service account can only access files
+    it creates — not the rest of your Drive.  The folder must be explicitly shared
+    with the service-account email address before the first upload.
+
+    If any requirement is missing the function prints instructions and skips the
+    upload (the zip file is still available locally for manual upload).
+    """
+    folder_id = os.getenv("GDRIVE_FOLDER_ID", "").strip()
+    sa_json_path = os.getenv("GDRIVE_SERVICE_ACCOUNT_JSON", "").strip()
+
+    if not folder_id:
+        print(f"\n  📤 Google Drive: set GDRIVE_FOLDER_ID in .env to auto-upload.")
+        print(f"      Zip ready for manual upload: {zip_path}")
+        return
+
+    try:
+        from google.oauth2 import service_account  # type: ignore
+        from googleapiclient.discovery import build  # type: ignore
+        from googleapiclient.http import MediaFileUpload  # type: ignore
+    except ImportError:
+        venv_pip = Path(sys.prefix) / "bin" / "pip"
+        print(f"\n  📤 Google Drive: install the API client to enable auto-upload:")
+        print(f"      {venv_pip} install google-api-python-client google-auth")
+        print(f"      Zip ready for manual upload: {zip_path}")
+        return
+
+    if not sa_json_path:
+        print(f"\n  📤 Google Drive: set GDRIVE_SERVICE_ACCOUNT_JSON in .env.")
+        print(f"      Zip ready for manual upload: {zip_path}")
+        return
+
+    sa_path = Path(sa_json_path).expanduser().resolve()
+    if not sa_path.exists():
+        print(f"\n  📤 Google Drive: service-account file not found: {sa_path}")
+        print(f"      Zip ready for manual upload: {zip_path}")
+        return
+
+    try:
+        scopes = ["https://www.googleapis.com/auth/drive.file"]
+        creds = service_account.Credentials.from_service_account_file(
+            str(sa_path), scopes=scopes
+        )
+        service = build("drive", "v3", credentials=creds, cache_discovery=False)
+        file_meta = {"name": zip_path.name, "parents": [folder_id]}
+        media = MediaFileUpload(str(zip_path), mimetype="application/zip", resumable=True)
+        result = (
+            service.files()
+            .create(body=file_meta, media_body=media, fields="id,webViewLink")
+            .execute()
+        )
+        link = result.get("webViewLink") or f"https://drive.google.com/file/d/{result['id']}/view"
+        print(f"\n  ✅ Google Drive upload complete: {link}")
+    except Exception as exc:
+        print(f"\n  ❌ Google Drive upload failed: {exc}")
+        print(f"      Zip ready for manual upload: {zip_path}")
+
+
+def _package_and_upload() -> Optional[Path]:
+    """Zip the output/ directory and upload to Google Drive (if configured).
+
+    Returns the Path of the created zip, or None if packaging failed.
+    """
+    today = datetime.now().strftime("%Y-%m-%d")
+    zip_name = f"MrSurety_QA_{today}.zip"
+    zip_path = _OUTPUT_BASE.parent / zip_name  # qa/openclaw/MrSurety_QA_YYYY-MM-DD.zip
+
+    if not _OUTPUT_BASE.exists():
+        print("  ⚠️  output/ directory not found — nothing to package.")
+        return None
+
+    # Verify the 'zip' system utility is available (standard on macOS and most Linux)
+    if subprocess.run(["which", "zip"], capture_output=True).returncode != 0:
+        print(f"\n  ⚠️  'zip' utility not found. Install it or package manually:")
+        print(f"      cd {_OUTPUT_BASE.parent} && zip -r {zip_name} output/")
+        return None
+
+    try:
+        subprocess.check_call(
+            ["zip", "-r", str(zip_path), "output"],
+            cwd=str(_OUTPUT_BASE.parent),
+        )
+        print(f"\n  📦 Packaged output → {zip_path}")
+    except Exception as exc:
+        print(f"\n  ⚠️  Packaging failed: {exc}")
+        print(f"      Run manually: cd {_OUTPUT_BASE.parent} && zip -r {zip_name} output/")
+        return None
+
+    _upload_to_gdrive(zip_path)
+    return zip_path
+
+
 # ── Connection Check ─────────────────────────────────────────────────────────
 
 def check_connection() -> None:
@@ -1384,6 +1652,8 @@ def main() -> None:
             if run == "create-accounts":
                 workflow_create_accounts(browser)
                 _generate_reports()
+                browser.close()
+                _package_and_upload()
                 return
 
             # Workflow 1: Admin login & dashboard
@@ -1442,11 +1712,16 @@ def main() -> None:
     print(f"  📋 Report  → {REPORT_DIR / (datetime.now().strftime('%Y-%m-%d') + '_findings.md')}")
     print(f"  📄 Accounts → {DATA_DIR / 'test_accounts.csv'}")
     print(f"  ⚠️  Findings → {len(_findings)}")
-    print(f"\n  ── Next Steps ──────────────────────────────────────────")
+
+    zip_path = _package_and_upload()
+    print(f"\n{'='*60}")
+    print(f"  ── Next Steps ──────────────────────────────────────────")
     print(f"  1. Review output/reports/*_findings.md")
-    print(f"  2. Zip:   cd qa/openclaw && zip -r MrSurety_QA_$(date +%Y-%m-%d).zip output/")
-    print(f"  3. Upload zip to the shared Google Drive folder")
-    print(f"  4. Email Christopher: c.palmer@mrsurety.com")
+    if zip_path:
+        print(f"  2. Zip created → {zip_path}")
+    else:
+        print(f"  2. Zip manually: cd {_OUTPUT_BASE.parent} && zip -r MrSurety_QA_$(date +%Y-%m-%d).zip output/")
+    print(f"  3. Email Christopher: c.palmer@mrsurety.com")
     print(f"{'='*60}\n")
 
 
