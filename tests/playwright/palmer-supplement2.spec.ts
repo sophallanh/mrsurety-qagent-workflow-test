@@ -360,3 +360,34 @@ test.describe('§G – Guide Integrity After Palmer Supplement 2 Additions', () 
     expect(guide).toMatch(/Method B/i);
   });
 });
+
+// ===========================================================================
+// §H – LIVE APP URL (Palmer Supplement 2 – second message, Mar 14 2026)
+// ===========================================================================
+test.describe('§H – Live App URL (Palmer Supplement 2)', () => {
+  const LIVE_APP_URL = 'https://frontend-tan-five-46.vercel.app';
+
+  test('Guide documents the live app URL at the top', () => {
+    expect(guide).toContain(LIVE_APP_URL);
+  });
+
+  test('Live app URL appears in the first 200 characters of the guide', () => {
+    expect(guide.slice(0, 200)).toContain(LIVE_APP_URL);
+  });
+
+  test('Guide labels the URL as "Live App"', () => {
+    expect(guide).toMatch(/Live App.*frontend-tan-five-46\.vercel\.app|frontend-tan-five-46\.vercel\.app.*Live App/i);
+  });
+
+  test('playwright.config.ts baseURL matches the live app URL', () => {
+    const configPath = require('path').join(__dirname, '../../playwright.config.ts');
+    const config = require('fs').readFileSync(configPath, 'utf8');
+    expect(config).toContain(LIVE_APP_URL);
+  });
+
+  test('.env.example MRSURETY_BASE_URL matches the live app URL', () => {
+    const envPath = require('path').join(__dirname, '../.env.example');
+    const envExample = require('fs').readFileSync(envPath, 'utf8');
+    expect(envExample).toContain(LIVE_APP_URL);
+  });
+});
