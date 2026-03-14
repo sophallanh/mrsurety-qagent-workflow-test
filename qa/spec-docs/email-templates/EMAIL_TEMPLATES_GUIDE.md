@@ -1,8 +1,11 @@
 # Email Templates – MrSurety QA Reference
 
 **Source:** Christopher's "MR SURETY – TESTING GUIDE FOR QA TEAM" – Part 3  
+**Email/DocuSign Package:** MR SURETY – COMPLETE EMAILS AND DOCUSIGN DOCUMENTS **v1.4.4** (Long Form – Full Package: With Device + With Software)  
 **Also see:** Email and DocuSign Examples – https://docs.google.com/document/d/1xjv0Ol1G6NVfmIpYRVuX0wOwplJsdX-B6BTUiUefSw8/edit  
-**Last Updated:** 2026-03-13
+**Last Updated:** 2026-03-14
+
+> **Reference Job for Full-Body Examples:** JOB-WL-7890 | Alex Johnson | 4568 Sycamore Lane, Anaheim, CA 92806 | Contractor: Plumb Perfect Inc. (CSLB #999888) | Agent: Sarah Miller, State Farm | Final Total: $2,386.11
 
 > ⚠️ Screenshot every email. Flag any verbiage issues, missing fields, or delivery failures to Christopher.
 > If an email is NOT received within 5 minutes of its trigger, log as a bug.
@@ -95,29 +98,48 @@ Use the table below as the definitive checklist during testing.
 - **Trigger:** Form submit
 - **Body should include:** Request reference number, property address, service type, "contractors will be notified" message
 
-**Full Email Body (Email 1 – Service Request Confirmation):**
+**Full Email Body (Email 1 – Service Request Confirmation) — v1.4.4:**
 ```
 Subject: Your MrSurety Service Request Has Been Received
+From: notifications@mrsurety.com
+To: [homeowner_email]
 
-Dear [Homeowner],
+Dear [Homeowner Name],
 
-Thank you for submitting your service request for:
-[Address]
+Thank you for submitting your service request to MrSurety. We have received your
+request for water leak prevention services at:
+[Property Address]
 
 YOUR REQUEST DETAILS:
-• Service Type: [Installation/Assessment]
-• Square Footage: [sq ft]
-• Pressure Reducer: [Required/Not Required]
-• Software Setup Assistance: [Yes/No]
-• Estimated Extension Cord: [ft]
++-----------------------+-------------------------------------------+
+| Item                  | Detail                                    |
++-----------------------+-------------------------------------------+
+| Square Footage        | [sq ft]                                   |
+| Property Age          | [years] years (built [year])              |
+| Pressure Reducer      | [REQUIRED / Not Required]                 |
+| Device Source         | [Contractor Provided / Homeowner Provided]|
+| Software Setup        | [YES / NO]                                |
+| Estimated Ext. Cord   | [ft] ft                                   |
++-----------------------+-------------------------------------------+
 
-Qualified contractors will review your request and submit estimates.
-You will be notified when estimates are ready.
+WHAT HAPPENS NEXT:
+Qualified contractors within your requested distance ([distance] miles) will now
+review your request and submit estimates. You will receive an email notification
+when estimates are ready for your review.
+Typically, contractors respond within 24-48 hours.
 
-Track your request: [Link]
+TRACK YOUR REQUEST:
+Request Tracking Link: https://mrsurety.com/request/[Job ID]
 
+Thank you for choosing MrSurety for your loss prevention needs.
+
+Sincerely,
 MrSurety Compliance Team
+1253 E Imperial Hwy, Placentia, CA 92870
 (714) 686-1800
+support@mrsurety.com
+
+This is an automated message. Please do not reply directly to this email.
 ```
 
 #### H3 – Estimates Ready
@@ -125,24 +147,52 @@ MrSurety Compliance Team
 - **Trigger:** First contractor bid submitted
 - **Body should include:** Link to estimate page (shows **retail prices only** – no contractor prices visible)
 
-**Full Email Body (Email 2 – New Estimate Available):**
+**Full Email Body (Email 2 – New Estimate Available) — v1.4.4:**
 ```
 Subject: ✅ Estimates Ready for Your Review - MrSurety
+From: notifications@mrsurety.com
+To: [homeowner_email]
 
-Dear [Homeowner],
+Dear [Homeowner Name],
 
-Contractors have submitted estimates for your service request at:
-[Address]
+Good news! Contractors have submitted estimates for your water leak prevention
+service request at:
+[Property Address]
 
-ESTIMATES SUMMARY:
-[Contractor 1] (⭐⭐⭐⭐⭐)  Total: $[Total] (includes $95 Service Fee)
-[Contractor 2] (⭐⭐⭐⭐)    Total: $[Total] (includes $95 Service Fee)
-[Contractor 3] (⭐⭐⭐)      Total: $[Total] (includes $95 Service Fee)
+ESTIMATES SUMMARY
++-------------------+------------------+----------------+
+| Contractor        | Rating           | Total Estimate |
++-------------------+------------------+----------------+
+| [Contractor 1]    | ⭐⭐⭐⭐⭐ ([x.x]) | $[Total]       |
+| [Contractor 2]    | ⭐⭐⭐⭐  ([x.x]) | $[Total]       |
+| [Contractor 3]    | ⭐⭐⭐   ([x.x]) | $[Total]       |
++-------------------+------------------+----------------+
 
-The $95 Service Fee covers contractor verification, compliance documentation,
-lien releases, and your insurance certificate.
+RECOMMENDATION
+Based on price and customer ratings, we recommend [Top Contractor] for your project.
 
-REVIEW ESTIMATES: [Link]
+WHAT'S INCLUDED IN ALL ESTIMATES:
+All estimates include the $95 Service Fee which covers:
+✓ Contractor license & insurance verification
+✓ Affidavit of Service (signed under penalty of perjury)
+✓ Conditional & Unconditional Lien Releases
+✓ Certificate of Completion for your insurance agent
+✓ Agent portal access for real-time updates
+✓ Perpetual document storage
+
+REVIEW AND SELECT:
+Click below to review the detailed breakdown of each estimate and select your
+preferred contractor:
+
+REVIEW ESTIMATES: https://mrsurety.com/estimates/[Job ID]
+
+If you have any questions, please contact our support team.
+
+Sincerely,
+MrSurety Compliance Team
+(714) 686-1800
+
+This is an automated message. Please do not reply directly to this email.
 ```
 
 #### H4 – Deposit Required
@@ -150,38 +200,82 @@ REVIEW ESTIMATES: [Link]
 - **Trigger:** Contractor selected (Approve & Schedule)
 - **Body should include:** Deposit amount (10% of total), payment link, contractor name
 
-**Full Email Body (Email 3 – Estimate Selected – Deposit Required):**
+**Full Email Body (Email 3 – Estimate Selected – Deposit Required) — v1.4.4:**
 ```
 Subject: ⚠️ ACTION REQUIRED: Complete Your Deposit to Confirm Installation
+From: payments@mrsurety.com
+To: [homeowner_email]
 
-Dear [Homeowner],
+Dear [Homeowner Name],
 
-Thank you for selecting [Contractor] for your installation at:
-[Address]
+Thank you for selecting [Contractor Name] for your water leak prevention
+installation at:
+[Property Address]
 
-YOUR ESTIMATE DETAILS:
-Parts & Fittings:       $[Parts]
-Pressure Reducer:       $[Pressure]
-Device:                 $[Device]
-Software Setup:         $[Software]
-Labor:                  $[Labor]
-Subtotal:               $[Subtotal]
-Service Fee:            $95.00
-Total Before Tax:       $[TotalBeforeTax]
-Tax:                    $[Tax]
-TOTAL:                  $[Total]
+Your estimate has been approved. To confirm your installation date, a 10% deposit
+is required as per California contractor regulations.
 
-DEPOSIT REQUIRED (10%): $[Deposit]
+YOUR ESTIMATE DETAILS
++------------------------------------------+----------+
+| Description                              | Amount   |
++------------------------------------------+----------+
+| Parts & Fittings                         | $[Parts] |
+| Pressure Reducer (required)              | $[Pres]  |
+| [Device Name]                            | $[Dev]   |
+| Software Setup & Configuration           | $[Soft]  |
+| Professional Installation Labor          | $[Labor] |
+| Subtotal (Work & Materials)              | $[Sub]   |
+| Service Fee (see details below)          | $95.00   |
+| Total Before Tax                         | $[TBT]   |
+| Sales Tax ([rate]%)                      | $[Tax]   |
+| TOTAL PROJECT COST                       | $[Total] |
++------------------------------------------+----------+
 
-WHAT THE SERVICE FEE COVERS:
-✓ Contractor license & insurance verification
-✓ Affidavit of Service (signed under penalty of perjury)
-✓ Conditional & Unconditional Lien Releases
-✓ Certificate of Completion for your insurance agent
-✓ Agent portal access
-✓ Perpetual document storage
++-----------------------------------------------+-----------+
+| Payment Summary                               | Amount    |
++-----------------------------------------------+-----------+
+| Deposit Required (10%)                        | $[Deposit]|
+| Remaining Balance Due at Completion           | $[Balance]|
++-----------------------------------------------+-----------+
 
-PAY DEPOSIT & SCHEDULE: [Link]
+WHAT THE SERVICE FEE COVERS
+The $95 Service Fee is a separate line item covering all compliance and
+documentation services:
+
++-------------------------------+----------------------------------------------+
+| Service                       | Description                                  |
++-------------------------------+----------------------------------------------+
+| Contractor License Verif.     | Ensuring contractor is licensed & current    |
+| Insurance Verification        | Confirming liability insurance is active     |
+| Affidavit of Service          | Signed under penalty of perjury              |
+| Conditional Lien Release      | Protects your property while payment clears  |
+| Unconditional Lien Release    | Final proof contractor has no property claim |
+| Certificate of Completion     | Official documentation for your agent        |
+| Agent Portal Access           | Your agent can track progress & download docs|
+| Document Storage              | Perpetual secure storage of all job records  |
++-------------------------------+----------------------------------------------+
+
+NEXT STEPS TO CONFIRM YOUR INSTALLATION:
+
+1. PAY YOUR DEPOSIT:
+   PAY DEPOSIT NOW: https://payments.mrsurety.com/deposit/[Job ID]
+
+2. SELECT YOUR INSTALLATION DATE:
+   After payment, choose your preferred installation date and time.
+
+CALIFORNIA CONTRACTOR REGULATIONS:
+Under California law, your deposit cannot exceed 10% of the total project cost
+or $1,000, whichever is less. Your deposit complies with this requirement.
+
+QUESTIONS?
+Contact our support team at (714) 686-1800.
+
+Sincerely,
+MrSurety Payments Team
+1253 E Imperial Hwy, Placentia, CA 92870
+(714) 686-1800
+
+This is an automated message. Please do not reply directly to this email.
 ```
 
 #### H5 – Installation Confirmed
@@ -381,34 +475,85 @@ Your agent has also been notified.
 - **Trigger:** Homeowner selects contractor
 - **Body should include:** Homeowner name and contact (now revealed), property address, service date, next steps (DocuSign, deposit confirmation)
 
-**Full Email Body (Email 4 – New Job Assignment):**
+**Full Email Body (Email 4 – New Job Assignment) — v1.4.4:**
 ```
 Subject: 🔨 NEW JOB ASSIGNMENT: Water Leak Prevention - [Job ID]
+From: jobs@mrsurety.com
+To: [contractor_email]
 
-Dear [Contractor],
+Dear [Contractor Name],
 
-Congratulations! You have been selected for a new job.
+Congratulations! You have been selected for a new job through the MrSurety platform.
 
-JOB DETAILS:
-• Job ID:                  [Job ID]
-• Homeowner:               [Name]
-• Property:                [Address]
-• Sq Ft:                   [sq ft]
-• Date:                    [Date] @ [Time]
-• Software Setup Required: [Yes/No]
+JOB DETAILS
++----------------------------+------------------------------------------+
+| Field                      | Information                              |
++----------------------------+------------------------------------------+
+| Job ID                     | [Job ID]                                 |
+| Service Type               | Water Leak Prevention Installation       |
+| Homeowner                  | [Homeowner Name]                         |
+| Property Address           | [Address]                                |
+| Square Footage             | [sq ft]                                  |
+| Property Age               | [years] years                            |
+| Pressure Reducer           | [REQUIRED / Not Required]                |
+| Pipe Size                  | [size] inch (based on sq ft)             |
+| Extension Cord             | [ft] ft ([spec])                         |
+| Device Source              | [Contractor Provided / Homeowner Provided]|
+| Software Setup             | [YES / NO]                               |
+| Installation Date          | [Date]                                   |
+| Installation Time          | [Time]                                   |
++----------------------------+------------------------------------------+
 
-YOUR PRICING (Accepted):
-• Parts:              $[Parts]
-• Pressure Reducer:   $[Pressure]
-• Device:             $[Device]
-• Software Setup:     $[Software]
-• Labor:              $[Labor]
-• Contractor Total:   $[Total]
+YOUR ACCEPTED ESTIMATE (CONTRACTOR PRICING)
++------------------------------------------+----------+
+| Component                                | Amount   |
++------------------------------------------+----------+
+| Parts (Fittings & Misc + [ft] Cable)     | $[Parts] |
+| Pressure Reducer ([size]")               | $[Pres]  |
+| Device ([Device Name])                   | $[Dev]   |
+| Software Setup & Configuration           | $[Soft]  |
+| Labor                                    | $[Labor] |
+| TOTAL CONTRACTOR PAYMENT                 | $[Total] |
++------------------------------------------+----------+
 
-Note: Homeowner pays a separate $95 Service Fee to MrSurety for compliance
-documentation. This does not affect your payment.
+RESALE CERTIFICATE STATUS
++--------------------------------+-----------------------------------------+
+| Field                          | Status                                  |
++--------------------------------+-----------------------------------------+
+| Accept MrSurety Resale Cert?   | [YES / NO]                              |
+| Sales Tax Handling             | [Do NOT include tax — MrSurety adds at  |
+|                                |  retail level / Include tax in pricing] |
++--------------------------------+-----------------------------------------+
 
-CONTRACTOR PORTAL: [Link]
+IMPORTANT NOTES
+The homeowner will be charged a separate $95 Service Fee by MrSurety for compliance
+documentation, lien releases, and certificate generation. This fee does not affect
+your compensation. Your payment will be processed within 15 days of job completion,
+photo upload, and admin approval.
+
+MATERIALS VERIFICATION
+Please verify you have the following items in inventory before the installation date:
++------------------------------------+----------+
+| Item                               | Quantity |
++------------------------------------+----------+
+| Pressure Reducer ([size]")         | 1 unit   |
+| Pipe Fittings & Misc Kit           | 1 unit   |
+| Extension Cable ([ft] ft, [spec])  | 1 unit   |
+| [Device Name]                      | 1 unit   |
++------------------------------------+----------+
+
+NEXT STEPS FOR YOU
++---+--------------------------------------------------------------------+
+| 1 | Log in to your contractor portal to confirm materials              |
+| 2 | Arrive at job site on [Date] at [Time]                             |
+| 3 | Check in via mobile app upon arrival (GPS verification required)   |
+| 4 | Complete work and perform software setup/configuration             |
+| 5 | Upload photos (before/during/after) and final invoice              |
+| 6 | Sign Affidavit of Service and Conditional Lien Release via DocuSign|
+| 7 | Receive payment upon admin approval                                |
++---+--------------------------------------------------------------------+
+
+CONTRACTOR PORTAL: https://contractors.mrsurety.com/jobs/[Job ID]
 ```
 
 #### C5 – Sign Work Order
