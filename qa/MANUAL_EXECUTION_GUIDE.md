@@ -3,6 +3,10 @@
 **Live App:** https://frontend-tan-five-46.vercel.app  
 **Prepared by:** Sophal Lanh
 
+> **📄 Master Reference:** Christopher's testing instructions are in this Google Doc — consult it first for any questions about expected behavior:  
+> **https://docs.google.com/document/d/1SDDd29PN9Z9vc6wg1eIAewDJnNhHa_aWGzfs_mqL8dU/edit?usp=sharing**  
+> See also: `qa/spec-docs/CHRISTOPHER_TESTING_DOC.md` in this repo.
+
 > **TL;DR:** Use OpenClaw to automate everything. See `qa/openclaw/RUN_TODAY.md` for the
 > 4-command quick-start. This document provides the full step-by-step manual reference
 > in case any workflow needs to be repeated or inspected by hand.

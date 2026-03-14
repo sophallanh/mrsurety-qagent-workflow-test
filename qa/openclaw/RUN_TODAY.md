@@ -1,6 +1,9 @@
 # 🚀 RUN TODAY – MrSurety QA with OpenClaw
 **Everything you need to do right now, on your Mac**
 
+> **📄 Testing Instructions (Christopher's Doc — read this first):**  
+> https://docs.google.com/document/d/1SDDd29PN9Z9vc6wg1eIAewDJnNhHa_aWGzfs_mqL8dU/edit?usp=sharing
+
 ---
 
 ## ⚡ COPY AND PASTE THIS ENTIRE BLOCK INTO YOUR TERMINAL

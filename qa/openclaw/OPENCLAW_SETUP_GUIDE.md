@@ -1,6 +1,10 @@
 # OpenClaw Setup Guide – MrSurety QA Testing
 **Start-to-finish instructions for Christopher's complete QA workflow**
 
+> **📄 Master Testing Instructions (Christopher's Doc):**  
+> https://docs.google.com/document/d/1SDDd29PN9Z9vc6wg1eIAewDJnNhHa_aWGzfs_mqL8dU/edit?usp=sharing  
+> Consult this doc for the definitive expected behavior before filing any bug report.
+
 > **Why OpenClaw?** Open-source, self-hosted, multi-agent browser automation. You control the exact
 > logic—retry on CAPTCHA, custom Stripe assertions, local file saves—with no cloud limits or
 > vendor lock-in. All screenshots, videos, and CSV reports land in an organized local folder you

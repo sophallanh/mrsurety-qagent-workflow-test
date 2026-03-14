@@ -4,6 +4,10 @@ mrsurety_qa.py – OpenClaw / Playwright Python Workflow Suite
 Complete automated QA for Christopher's MrSurety testing requirements.
 Live app: https://frontend-tan-five-46.vercel.app
 
+Master testing instructions (Christopher's Google Doc — read this first):
+  https://docs.google.com/document/d/1SDDd29PN9Z9vc6wg1eIAewDJnNhHa_aWGzfs_mqL8dU/edit?usp=sharing
+Local reference: qa/spec-docs/CHRISTOPHER_TESTING_DOC.md
+
 4 Things Left to Do (all automated by this script)
 ---------------------------------------------------
   1. Create QA test accounts on the live app:
