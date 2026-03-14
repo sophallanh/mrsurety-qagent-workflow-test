@@ -24,6 +24,15 @@ npm test
 > If you want to override credentials (e.g. to point at a staging server), copy the example file:
 > `cp .env.example .env` — then edit `.env` as needed.
 
+> **`npm error: package.json not found`?** The root-level `package.json` may not be in
+> the branch you cloned. Run from the `tests/` subdirectory instead:
+> ```bash
+> cd tests
+> npm install
+> npx playwright install chromium
+> npm test
+> ```
+
 If you already have a clone and want to update it:
 
 ```bash
@@ -103,7 +112,7 @@ Screenshots are saved to `screenshots/` (git-ignored).
 | Error | Cause | Fix |
 |---|---|---|
 | `No tests found` | `npx playwright test` run before `npm install` | Run `npm install` first, then re-run |
-| `npm error: package.json not found` | Folder was downloaded as a ZIP, not cloned with git | Delete the folder; run `git clone https://github.com/sophallanh/mrsurety-qagent-workflow-test.git` |
+| `npm error: package.json not found` | Root-level `package.json` missing from the branch you cloned | Run from `tests/` instead: `cd tests && npm install && npx playwright install chromium && npm test` |
 | `fatal: not a git repository` | Folder was downloaded as a ZIP or copied manually, not cloned with git | Delete the folder; run `git clone https://github.com/sophallanh/mrsurety-qagent-workflow-test.git` |
 | `cp: .env.example: No such file or directory` | `.env.example` not present in this clone – it is optional | Skip the `cp` step; tests run fine with built-in defaults. To customize credentials later, create `.env` manually from the template in [`.env.example`](.env.example) |
 | `requirements.txt: No such file or directory` | Wrong working directory | `cd mrsurety-qagent-workflow-test` first |
