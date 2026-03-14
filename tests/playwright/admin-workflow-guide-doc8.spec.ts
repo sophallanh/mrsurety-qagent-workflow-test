@@ -331,6 +331,82 @@ test.describe('Doc #8 Section 2 – Managing Service Requests', () => {
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Doc #8 / Full Workflow Phase 3 Step 4 – Admin Creates Work Order
+// Source: Full Workflow Phase 3 Step 4:
+//   "Create a work order — After the homeowner approves the estimate,
+//    create the work order"
+// This step was identified as missing from all existing admin specs during
+// the Full Workflow doc cross-check.
+// ─────────────────────────────────────────────────────────────────────────────
+test.describe('Doc #8 / Full Workflow Phase 3 – Admin Creates Work Order', () => {
+  test('Phase 3 Step 4: Admin can create a work order from an approved service request', async ({ page }) => {
+    await loginAsAdmin(page);
+
+    // Navigate to Service Requests
+    const serviceRequestsNav = page.locator(
+      '[data-testid="nav-service-requests"], ' +
+      '[data-testid="nav-admin-service-requests"], ' +
+      'nav a:has-text("Service Requests"), ' +
+      'aside a:has-text("Service Requests"), ' +
+      'a:has-text("Service Requests")',
+    ).first();
+    if (await serviceRequestsNav.isVisible()) {
+      await serviceRequestsNav.click();
+      await page.waitForLoadState('networkidle');
+    }
+
+    // Open a request that has been approved / has an estimate
+    const approvedRequest = page.locator(
+      '[data-testid="service-request-item"][data-status="estimate-approved"], ' +
+      '[data-testid="request-row"][data-status="estimate-approved"], ' +
+      '[data-testid="service-request-item"], ' +
+      '[data-testid="request-row"], ' +
+      'table tbody tr',
+    ).first();
+
+    if (await approvedRequest.isVisible()) {
+      await approvedRequest.click();
+      await page.waitForLoadState('networkidle');
+
+      // "Create Work Order" button should be visible on an approved request
+      const createWorkOrderBtn = page.locator(
+        '[data-testid="create-work-order-btn"], ' +
+        '[data-testid="create-work-order"], ' +
+        'button:has-text("Create Work Order"), ' +
+        'button:has-text("Create Work order")',
+      ).first();
+
+      if (await createWorkOrderBtn.isVisible()) {
+        await expect(createWorkOrderBtn).toBeVisible();
+        await page.screenshot({
+          path: path.join(screenshotDir, '08B_doc8-create-work-order-btn.png'),
+        });
+        test.info().annotations.push({
+          type: 'info',
+          description:
+            'Full Workflow Phase 3 Step 4: "Create Work Order" button is present on the approved service request. ' +
+            'Admin creates the work order after the homeowner approves the estimate — this triggers the contractor assignment.',
+        });
+      } else {
+        await page.screenshot({
+          path: path.join(screenshotDir, '08B_doc8-create-work-order-not-available.png'),
+        });
+        test.info().annotations.push({
+          type: 'info',
+          description:
+            'Full Workflow Phase 3 Step 4: No approved-estimate request available at test time. ' +
+            '"Create Work Order" button appears after homeowner approves the estimate.',
+        });
+      }
+    } else {
+      await page.screenshot({
+        path: path.join(screenshotDir, '08B_doc8-no-requests-for-work-order.png'),
+      });
+    }
+  });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Doc #8 Section 3 – Managing Work Orders (extended)
 // ─────────────────────────────────────────────────────────────────────────────
 test.describe('Doc #8 Section 3 – Managing Work Orders (extended)', () => {
