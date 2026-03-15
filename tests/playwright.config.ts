@@ -3,9 +3,12 @@ import { defineConfig, devices } from '@playwright/test';
 /**
  * MrSurety QA – Playwright Configuration
  *
- * Set MRSURETY_BASE_URL environment variable to the staging/production URL
- * before running tests. Example:
- *   MRSURETY_BASE_URL=https://staging.mrsurety.com npx playwright test
+ * Live app: https://frontend-tan-five-46.vercel.app
+ *
+ * To run tests against the live app, either:
+ *   a) Copy tests/.env.example → tests/.env and run: cd tests && npm test
+ *   b) Pass the URL inline:
+ *      MRSURETY_BASE_URL=https://frontend-tan-five-46.vercel.app npx playwright test
  */
 export default defineConfig({
   testDir: './playwright',
@@ -16,7 +19,7 @@ export default defineConfig({
     ['list'],
   ],
   use: {
-    baseURL: process.env.MRSURETY_BASE_URL || 'https://staging.mrsurety.com',
+    baseURL: process.env.MRSURETY_BASE_URL || 'https://frontend-tan-five-46.vercel.app',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     trace: 'on-first-retry',

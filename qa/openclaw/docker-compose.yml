@@ -1,0 +1,81 @@
+version: "3.9"
+
+# OpenClaw – MrSurety QA Docker Compose
+#
+# Services:
+#   openclaw-agent   – main AI agent (web UI at http://localhost:7860)
+#   openclaw-browser – Chromium browser controlled via Chrome DevTools Protocol
+#   openclaw-redis   – task queue / memory store for multi-agent sessions
+#
+# Usage:
+#   cd qa/openclaw
+#   cp .env.example .env      # fill in your values
+#   docker compose up -d      # start all services
+#   docker compose ps         # verify all three are running
+#   docker compose logs -f    # tail logs
+
+services:
+  openclaw-agent:
+    image: openclaw/openclaw:latest
+    container_name: openclaw-agent
+    restart: unless-stopped
+    ports:
+      - "7860:7860"           # Web UI – open http://localhost:7860
+    environment:
+      - OPENCLAW_REDIS_URL=redis://openclaw-redis:6379
+      - OPENCLAW_BROWSER_CDP=ws://openclaw-browser:9222
+      - MRSURETY_BASE_URL=${MRSURETY_BASE_URL}
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
+      - SLACK_BOT_TOKEN=${SLACK_BOT_TOKEN}
+      - SLACK_CHANNEL=${SLACK_CHANNEL}
+      - GDRIVE_FOLDER_ID=${GDRIVE_FOLDER_ID}
+      - OPENCLAW_SCREENSHOT_PATH=/app/output/screenshots
+      - OPENCLAW_VIDEO_PATH=/app/output/videos
+      - OPENCLAW_DATA_PATH=/app/output/data
+      - OPENCLAW_REPORT_PATH=/app/output/reports
+    volumes:
+      - ./output:/app/output                    # screenshots, videos, CSVs, reports
+      - ./workflows:/app/workflows              # Python workflow scripts
+      - ./.env:/app/.env:ro                     # secrets (read-only)
+    depends_on:
+      - openclaw-redis
+      - openclaw-browser
+    networks:
+      - openclaw-net
+
+  openclaw-browser:
+    image: zenika/alpine-chrome:with-chromedriver
+    container_name: openclaw-browser
+    restart: unless-stopped
+    ports:
+      - "9222:9222"           # Chrome DevTools Protocol endpoint
+    command: >
+      --no-sandbox
+      --disable-dev-shm-usage
+      --remote-debugging-address=0.0.0.0
+      --remote-debugging-port=9222
+      --disable-gpu
+      --window-size=1920,1080
+    networks:
+      - openclaw-net
+
+  openclaw-redis:
+    image: redis:7-alpine
+    container_name: openclaw-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"           # Exposed for local debugging; remove in production
+    volumes:
+      - redis-data:/data
+    networks:
+      - openclaw-net
+
+volumes:
+  redis-data:
+
+networks:
+  openclaw-net:
+    driver: bridge

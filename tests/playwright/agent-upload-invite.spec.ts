@@ -36,7 +36,7 @@ import { TEST_USERS, insuranceAgent } from './fixtures/test-users';
  *      Without these vars the link-dependent tests are skipped automatically.
  */
 
-const BASE = process.env.MRSURETY_BASE_URL ?? 'https://staging.mrsurety.com';
+const BASE = process.env.MRSURETY_BASE_URL ?? 'https://frontend-tan-five-46.vercel.app';
 
 /**
  * Resolve a secure upload link from the environment, or skip the test with a

@@ -57,7 +57,31 @@ mrsurety-qagent-workflow-test/
 
 ---
 
-## Quick Start
+## OpenClaw Automated QA
+
+OpenClaw provides a self-hosted, multi-agent browser automation layer on top of the Playwright
+test suite. All 6 workflows (admin login, agent signup, homeowner service request, email/DocuSign
+screenshots, contractor upload invite, admin verification) run from a single command and produce
+organized output (screenshots, videos, CSVs, daily report).
+
+**Setup:** See [`qa/openclaw/OPENCLAW_SETUP_GUIDE.md`](openclaw/OPENCLAW_SETUP_GUIDE.md)  
+**Run everything:** `python3 qa/openclaw/workflows/mrsurety_qa.py --workflow all`  
+**Daily cron:** `qa/openclaw/workflows/run_daily.sh`
+
+```
+qa/openclaw/
+├── OPENCLAW_SETUP_GUIDE.md      # 15-step guide: install → connect → run → upload
+├── docker-compose.yml           # OpenClaw + Chromium + Redis
+├── .env.example                 # All required environment variables
+├── workflows/
+│   ├── mrsurety_qa.py           # Complete Python workflow script (all 6 workflows)
+│   └── run_daily.sh             # Daily automated cron runner
+└── output/                      # Generated artifacts (not committed to Git)
+    ├── screenshots/             # 100+ sequentially-numbered PNGs
+    ├── videos/                  # MP4 screen recordings
+    ├── data/                    # test_accounts.csv, findings.csv, email_inventory.csv
+    └── reports/                 # YYYY-MM-DD_findings.md daily reports
+```
 
 ### 1. Install Dependencies
 
@@ -69,15 +93,19 @@ npx playwright install chromium
 
 ### 2. Set Environment Variables
 
+> **Preferred:** Copy `tests/.env.example → tests/.env` and run `npm test` — all values pre-filled.
+
 ```bash
-export MRSURETY_BASE_URL=https://staging.mrsurety.com
-export AGENT_EMAIL=agent.test1@mrsurety-qa.com
-export AGENT_PASSWORD=QAtest@123
-# Agent Upload Invite System – set these when running invite tests:
-export INSURANCE_AGENT_EMAIL=ins.agent.test@mrsurety-qa.com
-export AGENT_UPLOAD_LINK=https://staging.mrsurety.com/agent-upload/<token>
-export REVOKED_UPLOAD_LINK=https://staging.mrsurety.com/agent-upload/<revoked-token>
-export EXPIRED_UPLOAD_LINK=https://staging.mrsurety.com/agent-upload/<expired-token>
+export MRSURETY_BASE_URL=https://frontend-tan-five-46.vercel.app
+export ADMIN_EMAIL=admin@mrsurety.com
+export ADMIN_PASSWORD=MrSurety2026!
+export AGENT_EMAIL=agent.test1@outlook.com
+export AGENT_PASSWORD=QAtest@2026!
+# Agent Upload Invite System – set these after Workflow 9 generates the links:
+export INSURANCE_AGENT_EMAIL=ins.test2026@outlook.com
+export AGENT_UPLOAD_LINK=https://frontend-tan-five-46.vercel.app/agent-upload/<token>
+export REVOKED_UPLOAD_LINK=https://frontend-tan-five-46.vercel.app/agent-upload/<revoked-token>
+export EXPIRED_UPLOAD_LINK=https://frontend-tan-five-46.vercel.app/agent-upload/<expired-token>
 # ... (see qa/test-user-credentials/TEST_USER_CREDENTIALS.md for all accounts)
 ```
 

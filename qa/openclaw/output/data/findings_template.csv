@@ -1,0 +1,8 @@
+date,workflow,step,issue_type,description,severity,screenshot_path,video_path
+YYYY-MM-DD HH:MM,admin-login,login,ERROR,Example: Admin login button not responding,critical,screenshots/admin_01_dashboard.png,
+YYYY-MM-DD HH:MM,agent-signup,referral-code,BUG,Example: Referral code not visible after signup,high,screenshots/agent_02_referral_code.png,
+YYYY-MM-DD HH:MM,homeowner-service-request,stripe-payment,BUG,Example: Stripe form does not accept test card,high,screenshots/homeowner_02_stripe_form.png,
+YYYY-MM-DD HH:MM,email-docusign,inbox-agent,BUG,Example: Confirmation email not received within 3 minutes,medium,screenshots/email_001_agent_service_request_confirmation.png,
+YYYY-MM-DD HH:MM,contractor-upload-invite,cslb-restriction,SECURITY,Example: CSLB card upload NOT rejected,critical,screenshots/agent_upload_05_cslb_rejected.png,videos/contractor_invite_full.mp4
+YYYY-MM-DD HH:MM,contractor-upload-invite,security-revoked,SECURITY,Example: Revoked link still accessible,critical,screenshots/security_01_revoked_link.png,
+YYYY-MM-DD HH:MM,admin-verification,agent-homeowner-links,WORDING,Example: "Pending Agent" label should read "Pending Approval",low,screenshots/admin_04_agent_homeowner_links.png,
