@@ -309,7 +309,7 @@ def _safe_close(obj) -> None:
         pass
 
 
-def _new_page(browser: Browser, record_video: bool = False) -> tuple[BrowserContext, Page]:
+def _new_page(browser: Browser, record_video: bool = True) -> tuple[BrowserContext, Page]:
     ctx_kwargs: dict = {
         "viewport": {"width": 1920, "height": 1080},
         "base_url": BASE_URL,
@@ -321,6 +321,124 @@ def _new_page(browser: Browser, record_video: bool = False) -> tuple[BrowserCont
     ctx.set_default_timeout(TIMEOUT)
     page = ctx.new_page()
     return ctx, page
+
+
+def _get_email_domain(email: str) -> str:
+    """Return the lowercase domain part of *email*, or '' if not an email."""
+    return email.split("@")[-1].lower() if "@" in email else ""
+
+
+def _save_video(ctx: BrowserContext, video_name: str) -> Optional[str]:
+    """Close *ctx* and move its recorded video to VIDEO_DIR/<video_name>.
+
+    Returns the final path string, or None if no video was captured.
+    The context must still be open when this is called (it is closed here).
+    """
+    video_path: Optional[str] = None
+    try:
+        if ctx.pages and ctx.pages[0].video:
+            video_path = ctx.pages[0].video.path()
+    except Exception:
+        pass
+    _safe_close(ctx)
+    if video_path:
+        dest = VIDEO_DIR / video_name
+        try:
+            Path(video_path).rename(dest)
+            print(f"  🎥 video saved → {dest.name}")
+            return str(dest)
+        except Exception as ve:
+            print(f"  ⚠️  Could not save video: {ve}")
+    return None
+
+
+def _login_to_inbox(page: Page, email: str, password: str) -> None:
+    """Log in to a webmail inbox.
+
+    Supported providers (auto-detected from the email domain):
+      • Outlook / Hotmail / Live  (outlook.com, hotmail.com, live.com)
+      • Gmail / Google Mail       (gmail.com, googlemail.com)
+      • Yahoo Mail                (yahoo.com, ymail.com)
+
+    Any other domain falls back to the Outlook login flow.
+    Raises RuntimeError on login failure so the caller can log a finding.
+    """
+    domain = _get_email_domain(email)
+
+    if domain in ("gmail.com", "googlemail.com"):
+        page.goto("https://mail.google.com/")
+        page.wait_for_load_state("networkidle")
+        try:
+            page.fill('[type="email"]', email, timeout=TIMEOUT)
+            page.click('[id="identifierNext"]')
+            page.wait_for_selector('[type="password"], [name="password"]', timeout=TIMEOUT)
+            page.fill('[type="password"]', password)
+            page.click('[id="passwordNext"]')
+        except Exception as exc:
+            raise RuntimeError(f"Gmail login failed: {exc}") from exc
+        # Wait for inbox to load (Compose button is a reliable signal)
+        page.wait_for_selector(
+            '[data-tooltip="Compose"], [gh="cm"], [aria-label*="Compose"]',
+            timeout=TIMEOUT,
+        )
+
+    elif domain in ("yahoo.com", "ymail.com"):
+        page.goto("https://mail.yahoo.com/")
+        page.wait_for_load_state("networkidle")
+        try:
+            page.fill('[id="login-username"]', email, timeout=TIMEOUT)
+            page.click('[id="login-signin"]')
+            page.wait_for_selector('[id="login-passwd"]', timeout=TIMEOUT)
+            page.fill('[id="login-passwd"]', password)
+            page.click('[id="login-signin"]')
+        except Exception as exc:
+            raise RuntimeError(f"Yahoo login failed: {exc}") from exc
+        page.wait_for_selector(
+            '[data-test-id="compose-button"], [title="Compose"]',
+            timeout=TIMEOUT,
+        )
+
+    else:
+        # Outlook / Hotmail / Live — default path
+        page.goto("https://outlook.live.com/mail/0/")
+        page.wait_for_load_state("networkidle")
+        try:
+            page.click('[data-task="signinv2"]', timeout=5000)
+            page.wait_for_load_state("networkidle")
+        except Exception:
+            pass  # Already on the Microsoft login form
+        page.fill('[name="loginfmt"]', email, timeout=TIMEOUT)
+        page.click('[type="submit"]')
+        page.wait_for_selector('[name="passwd"]', timeout=TIMEOUT)
+        page.fill('[name="passwd"]', password)
+        page.click('[type="submit"]')
+        try:
+            page.click('[id="idBtn_Back"]', timeout=5000)  # "No" to "Stay signed in?"
+        except Exception:
+            pass
+        page.wait_for_selector(
+            '[aria-label="Mail"], [data-icon-name="Mail"], [role="navigation"]',
+            timeout=TIMEOUT,
+        )
+
+
+def _get_email_rows(page: Page, email: str) -> list:
+    """Return a list of email row elements for the current inbox.
+
+    Different webmail providers use different DOM structures:
+      • Outlook  – [data-convid]
+      • Gmail    – .zA (conversation rows)
+      • Yahoo    – [data-test-id="message-list-item"]
+    Falls back to an empty list so the caller can handle gracefully.
+    """
+    domain = _get_email_domain(email)
+    if domain in ("gmail.com", "googlemail.com"):
+        rows = page.query_selector_all(".zA")
+    elif domain in ("yahoo.com", "ymail.com"):
+        rows = page.query_selector_all('[data-test-id="message-list-item"]')
+    else:
+        rows = page.query_selector_all("[data-convid]")
+    return rows
 
 
 # ── Resilient selector helpers ────────────────────────────────────────────────
@@ -572,9 +690,13 @@ def workflow_admin_login(browser: Browser) -> None:
 
     except Exception as exc:
         _log_finding("admin-login", "login", "ERROR", str(exc), severity="critical")
+        try:
+            _shot(page, "error_admin_login.png")
+        except Exception:
+            pass
         print(f"  ❌ {exc}")
     finally:
-        _safe_close(ctx)
+        _save_video(ctx, "admin_login_full.mp4")
 
 
 # ── Workflow 2 – Agent Signup & Referral Code ────────────────────────────────
@@ -640,9 +762,13 @@ def workflow_agent_signup(browser: Browser) -> str:
 
     except Exception as exc:
         _log_finding("agent-signup", "signup", "ERROR", str(exc), severity="high")
+        try:
+            _shot(page, "error_agent_signup.png")
+        except Exception:
+            pass
         print(f"  ❌ {exc}")
     finally:
-        _safe_close(ctx)
+        _save_video(ctx, "agent_signup_full.mp4")
     return referral_link
 
 
@@ -683,9 +809,13 @@ def workflow_homeowner_service_request(browser: Browser, referral_link: str = ""
 
     except Exception as exc:
         _log_finding("homeowner-service-request", "method-a", "ERROR", str(exc), severity="high")
+        try:
+            _shot(page_a, "error_homeowner_method_a.png")
+        except Exception:
+            pass
         print(f"  ❌ Method A: {exc}")
     finally:
-        _safe_close(ctx_a)
+        _save_video(ctx_a, "homeowner_method_a_full.mp4")
 
     # Method B – Homeowner enters agent email
     print("  [Method B – Agent Email Entry]")
@@ -712,9 +842,13 @@ def workflow_homeowner_service_request(browser: Browser, referral_link: str = ""
 
     except Exception as exc:
         _log_finding("homeowner-service-request", "method-b", "ERROR", str(exc), severity="high")
+        try:
+            _shot(page_b, "error_homeowner_method_b.png")
+        except Exception:
+            pass
         print(f"  ❌ Method B: {exc}")
     finally:
-        _safe_close(ctx_b)
+        _save_video(ctx_b, "homeowner_method_b_full.mp4")
 
 
 # ── Workflow 4 – Email & DocuSign Screenshots ────────────────────────────────
@@ -734,37 +868,14 @@ def workflow_email_docusign(browser: Browser) -> None:
     for label, email, password in inboxes:
         ctx, page = _new_page(browser)
         try:
-            # Sign in to Outlook (use the direct live-mail URL which redirects
-            # to login instead of the Microsoft marketing page)
-            page.goto("https://outlook.live.com/mail/0/")
-            page.wait_for_load_state("networkidle")
-            # Outlook live sometimes shows a "Sign in" button on the landing page
-            # before forwarding to the Microsoft login form.  Click it if visible.
-            try:
-                page.click('[data-task="signinv2"]', timeout=5000)
-                page.wait_for_load_state("networkidle")
-            except Exception:
-                pass  # Already on the login form
-            page.fill('[name="loginfmt"]', email, timeout=TIMEOUT)
-            page.click('[type="submit"]')
-            page.wait_for_selector('[name="passwd"]', timeout=TIMEOUT)
-            page.fill('[name="passwd"]', password)
-            page.click('[type="submit"]')
-            # Handle "Stay signed in?" prompt if shown
-            try:
-                page.click('[id="idBtn_Back"]', timeout=5000)  # "No" button
-            except Exception:
-                pass
-
-            page.wait_for_selector(
-                '[aria-label="Mail"], [data-icon-name="Mail"], [role="navigation"]',
-                timeout=TIMEOUT,
-            )
+            # Log in to whichever webmail provider this address uses.
+            # Supports Outlook/Hotmail/Live, Gmail, and Yahoo — see _login_to_inbox().
+            _login_to_inbox(page, email, password)
             _shot(page, f"email_{seq:03d}_{label}_inbox.png")
             print(f"  ✅ {label} inbox opened")
 
             # Click each email and screenshot it
-            email_rows = page.query_selector_all('[data-convid]')
+            email_rows = _get_email_rows(page, email)
             print(f"  📧 {label}: {len(email_rows)} emails found")
 
             for i, row in enumerate(email_rows):
@@ -829,9 +940,13 @@ def workflow_email_docusign(browser: Browser) -> None:
 
         except Exception as exc:
             _log_finding("email-docusign", f"inbox-{label}", "ERROR", str(exc), severity="medium")
+            try:
+                _shot(page, f"error_email_{label}.png")
+            except Exception:
+                pass
             print(f"  ⚠️  {label} inbox error: {exc}")
         finally:
-            _safe_close(ctx)
+            _save_video(ctx, f"email_inbox_{label}.mp4")
 
     # Write email inventory CSV
     inv_path = DATA_DIR / "email_inventory.csv"
@@ -923,9 +1038,13 @@ def workflow_contractor_upload_invite(browser: Browser) -> None:
 
             except Exception as exc:
                 _log_finding("contractor-upload-invite", "agent-upload", "ERROR", str(exc), severity="high")
+                try:
+                    _shot(page_agent, "error_agent_upload.png")
+                except Exception:
+                    pass
                 print(f"  ⚠️  Agent upload error: {exc}")
             finally:
-                _safe_close(ctx_agent)
+                _save_video(ctx_agent, "agent_upload_side.mp4")
         else:
             print("  ⚠️  AGENT_UPLOAD_LINK not set – skipping agent-side upload tests")
 
@@ -947,24 +1066,13 @@ def workflow_contractor_upload_invite(browser: Browser) -> None:
 
     except Exception as exc:
         _log_finding("contractor-upload-invite", "setup", "ERROR", str(exc), severity="critical")
-        print(f"  ❌ {exc}")
-    finally:
-        # Save video – wrap in try/except; video.path() may not be available
-        # if the recording was never started or the context was closed early.
-        video_path: Optional[str] = None
         try:
-            if ctx.pages and ctx.pages[0].video:
-                video_path = ctx.pages[0].video.path()
+            _shot(page, "error_contractor_upload_invite.png")
         except Exception:
             pass
-        _safe_close(ctx)
-        if video_path:
-            dest = VIDEO_DIR / "contractor_invite_full.mp4"
-            try:
-                Path(video_path).rename(dest)
-                print(f"  🎥 video saved → {dest.name}")
-            except Exception as ve:
-                print(f"  ⚠️  Could not save video: {ve}")
+        print(f"  ❌ {exc}")
+    finally:
+        _save_video(ctx, "contractor_invite_full.mp4")
 
 
 def _test_security_link(
@@ -996,7 +1104,7 @@ def _test_security_link(
     except Exception as exc:
         print(f"  ⚠️  Security {label} test error: {exc}")
     finally:
-        _safe_close(ctx)
+        _save_video(ctx, f"security_{label}.mp4")
 
 
 # ── Workflow 6 – Admin Verification & Daily Report ──────────────────────────
@@ -1034,9 +1142,13 @@ def workflow_admin_verification(browser: Browser) -> None:
 
     except Exception as exc:
         _log_finding("admin-verification", "dashboard", "ERROR", str(exc), severity="high")
+        try:
+            _shot(page, "error_admin_verification.png")
+        except Exception:
+            pass
         print(f"  ❌ {exc}")
     finally:
-        _safe_close(ctx)
+        _save_video(ctx, "admin_verification_full.mp4")
 
     _generate_reports()
 
@@ -1048,15 +1160,19 @@ def workflow_create_accounts(browser: Browser) -> None:
     Creates all QA test accounts on the live app.
     Run this FIRST (before any other workflow).
 
-    Accounts created:
-      Agent 1:        agent.test1@outlook.com
-      Agent 2:        agent.test2@outlook.com
-      Homeowner A:    homeowner.test2@outlook.com  (referral link method)
-      Homeowner B:    homeowner.test1@outlook.com  (agent email method)
-      Homeowner C:    homeowner.test3@outlook.com  (no agent – edge case)
-      Contractor 1:   contractor.test1@outlook.com
-      Contractor 2:   contractor.test2@outlook.com
-      Technician:     tech.test1@outlook.com
+    Email addresses are read from environment variables so you can use any
+    email service — Outlook.com, Gmail, or Yahoo Mail.
+    Update the corresponding variables in your .env file before running.
+
+    Default accounts (override via .env):
+      Agent 1:        AGENT_EMAIL        (default: agent.test1@outlook.com)
+      Agent 2:        AGENT2_EMAIL       (default: agent.test2@outlook.com)
+      Homeowner A:    HOMEOWNER_EMAIL_A  (default: homeowner.test2@outlook.com)
+      Homeowner B:    HOMEOWNER_EMAIL_B  (default: homeowner.test1@outlook.com)
+      Homeowner C:    HOMEOWNER_EMAIL_C  (default: homeowner.test3@outlook.com)
+      Contractor 1:   CONTRACTOR_EMAIL   (default: contractor.test1@outlook.com)
+      Contractor 2:   CONTRACTOR2_EMAIL  (default: contractor.test2@outlook.com)
+      Technician:     TECH_EMAIL         (default: tech.test1@outlook.com)
     """
     print("\n── Workflow 0: Create Test Accounts ─────────────────────────")
 
@@ -1109,9 +1225,13 @@ def workflow_create_accounts(browser: Browser) -> None:
 
         except Exception as exc:
             _log_finding("create-accounts", f"signup-{role}", "ERROR", f"{email}: {exc}", severity="high")
+            try:
+                _shot(page, f"error_create_{role}_{first.lower()}.png")
+            except Exception:
+                pass
             print(f"  ❌ {role} {email}: {exc}")
         finally:
-            _safe_close(ctx)
+            _save_video(ctx, f"account_create_{role}_{first.lower()}.mp4")
 
     print(f"  ✅ Account creation complete — check output/data/test_accounts.csv")
 
@@ -1168,9 +1288,13 @@ def workflow_contractor_bidding(browser: Browser) -> None:
 
     except Exception as exc:
         _log_finding("contractor-bidding", "setup", "ERROR", str(exc), severity="high")
+        try:
+            _shot(page, "error_contractor_bidding.png")
+        except Exception:
+            pass
         print(f"  ❌ {exc}")
     finally:
-        _safe_close(ctx)
+        _save_video(ctx, "contractor_bidding_full.mp4")
 
 
 # ── Workflow 5 – Homeowner Estimate Selection & Deposit ─────────────────────
@@ -1255,9 +1379,13 @@ def workflow_homeowner_deposit(browser: Browser) -> None:
 
     except Exception as exc:
         _log_finding("homeowner-deposit", "setup", "ERROR", str(exc), severity="high")
+        try:
+            _shot(page, "error_homeowner_deposit.png")
+        except Exception:
+            pass
         print(f"  ❌ {exc}")
     finally:
-        _safe_close(ctx)
+        _save_video(ctx, "homeowner_deposit_full.mp4")
 
 
 # ── Workflow 6 – Work Order Generation & DocuSign ───────────────────────────
@@ -1310,9 +1438,13 @@ def workflow_work_order_docusign(browser: Browser) -> None:
 
     except Exception as exc:
         _log_finding("work-order-docusign", "setup", "ERROR", str(exc), severity="high")
+        try:
+            _shot(page, "error_workorder_admin.png")
+        except Exception:
+            pass
         print(f"  ❌ {exc}")
     finally:
-        _safe_close(ctx)
+        _save_video(ctx, "workorder_admin_full.mp4")
 
     # Contractor view: sign DocuSign
     ctx2, page2 = _new_page(browser)
@@ -1341,9 +1473,13 @@ def workflow_work_order_docusign(browser: Browser) -> None:
             print("  ⚠️  DocuSign sign button not available yet (awaiting email trigger)")
 
     except Exception as exc:
+        try:
+            _shot(page2, "error_workorder_contractor.png")
+        except Exception:
+            pass
         print(f"  ⚠️  Contractor DocuSign view: {exc}")
     finally:
-        _safe_close(ctx2)
+        _save_video(ctx2, "workorder_contractor_full.mp4")
 
 
 # ── Workflow 8 – Technician Work Order Receipt ───────────────────────────────
@@ -1399,9 +1535,13 @@ def workflow_technician(browser: Browser) -> None:
 
     except Exception as exc:
         _log_finding("technician-workflow", "login", "ERROR", str(exc), severity="high")
+        try:
+            _shot(page, "error_technician.png")
+        except Exception:
+            pass
         print(f"  ❌ {exc}")
     finally:
-        _safe_close(ctx)
+        _save_video(ctx, "technician_full.mp4")
 
 
 # ── Report Generation ────────────────────────────────────────────────────────
