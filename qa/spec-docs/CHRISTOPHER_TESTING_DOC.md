@@ -38,7 +38,7 @@ Based on our complete platform specification, here are additional details to hel
 | Contractor 1 | contractor.test1@outlook.com | QAtest@2026! |
 | Contractor 2 | contractor.test2@outlook.com | QAtest@2026! |
 | Technician | tech.test1@outlook.com | QAtest@2026! |
-| Insurance Agent | ins.agent.test@outlook.com | QAtest@2026! |
+| Insurance Agent | ins.test2026@outlook.com | QAtest@2026! |
 
 ---
 

@@ -69,7 +69,8 @@ test.describe('§A – Contractor side of Agent Upload Invite System', () => {
 
   test('§A.6 Insurance agent email defined (external, no platform account)', () => {
     const creds = read(credFile);
-    expect(creds).toContain('ins.agent.test@outlook.com');
+    // ins.agent.test@outlook.com was unavailable on Outlook; Sophal created ins.test2026@outlook.com instead
+    expect(creds).toContain('ins.test2026@outlook.com');
   });
 });
 
@@ -309,8 +310,9 @@ test.describe('§G – Agent upload docs integrity', () => {
   });
 
   test('§G.4 Insurance agent email consistent across docs', () => {
-    expect(creds).toContain('ins.agent.test@outlook.com');
-    expect(manual).toContain('ins.agent.test@outlook.com');
+    // ins.agent.test@outlook.com was unavailable; new primary is ins.test2026@outlook.com
+    expect(creds).toContain('ins.test2026@outlook.com');
+    expect(manual).toContain('ins.test2026@outlook.com');
   });
 
   test('§G.5 Agent upload workflow has its own screenshot folder', () => {

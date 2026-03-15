@@ -83,7 +83,7 @@ export const homeownerNoAgent = {
  * and upload COI / endorsement documents on behalf of the contractor.
  */
 export const insuranceAgent = {
-  email: process.env.INSURANCE_AGENT_EMAIL || 'ins.agent.test@outlook.com',
+  email: process.env.INSURANCE_AGENT_EMAIL || 'ins.test2026@outlook.com',
   name: 'Rachel Kim',
   company: 'Kim Insurance Brokers',
 } as const;

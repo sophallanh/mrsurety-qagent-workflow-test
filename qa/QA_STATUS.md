@@ -106,7 +106,7 @@ All accounts use `@outlook.com` for real inbox access during testing.
 | Contractor 2 | contractor.test2@outlook.com | QAtest@2026! |
 | Contractor 3 | contractor.test3@outlook.com | QAtest@2026! |
 | Technician | tech.test1@outlook.com | QAtest@2026! |
-| Insurance Agent (no platform login) | ins.agent.test@outlook.com | N/A – link only |
+| Insurance Agent (no platform login) | ins.test2026@outlook.com | N/A – link only |
 
 Create all accounts in one command:
 ```bash

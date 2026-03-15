@@ -102,7 +102,7 @@ export ADMIN_PASSWORD=MrSurety2026!
 export AGENT_EMAIL=agent.test1@outlook.com
 export AGENT_PASSWORD=QAtest@2026!
 # Agent Upload Invite System – set these after Workflow 9 generates the links:
-export INSURANCE_AGENT_EMAIL=ins.agent.test@outlook.com
+export INSURANCE_AGENT_EMAIL=ins.test2026@outlook.com
 export AGENT_UPLOAD_LINK=https://frontend-tan-five-46.vercel.app/agent-upload/<token>
 export REVOKED_UPLOAD_LINK=https://frontend-tan-five-46.vercel.app/agent-upload/<revoked-token>
 export EXPIRED_UPLOAD_LINK=https://frontend-tan-five-46.vercel.app/agent-upload/<expired-token>

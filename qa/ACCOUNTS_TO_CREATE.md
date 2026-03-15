@@ -32,37 +32,52 @@
 | 10 | `contractor.test2@outlook.com` | Linda Chen |
 | 11 | `contractor.test3@outlook.com` | Tony Rivera |
 | 12 | `contractor.test4@outlook.com` | Karen Scott (backup) |
-| 13 | `tech.test1@outlook.com` | Dave Torres |
-| 14 | `tech.test2@outlook.com` | Mike Anderson (backup) |
-| 15 | `ins.agent.test@outlook.com` | Rachel Kim (external — inbox only, no app login) |
+| 13 | `tech.test1@outlook.com` | Dave Torres — ⚠️ blocked (phone PIN to teammate) |
+| 14 | `tech.test2@outlook.com` | Mike Anderson (backup) — ❌ **STILL NEEDS TO BE CREATED** |
+| 15 | ~~`ins.agent.test@outlook.com`~~ | ❌ Not available — use `ins.test2026@outlook.com` instead |
+| — | `ins.test2026@outlook.com` | Rachel Kim — ✅ Created by Sophal |
 
 ---
 
-## 📊 Creation Status
+## 📊 Creation Status — Updated 2026-03-15
 
-> Update this section as you create each Outlook account. Check off the box in the list below and mark it here too.
+> Based on screenshots reviewed 2026-03-15. Yellow = created by teammates. Teal = created by Sophal.
 
-### ✅ Created (0 of 15)
+### ✅ Created — 13 of 15 original + 3 new alternatives
 
-_None created yet — check off accounts below as you go._
+| # | Email | Name | Created by | Notes |
+|---|-------|------|-----------|-------|
+| 1 | `agent.test1@outlook.com` | Alex Johnson | Teammate | ✅ Working |
+| 2 | `agent.test2@outlook.com` | Maria Garcia | Teammate | ✅ Working |
+| 3 | `agent.test3@outlook.com` | James Wilson | Teammate | ✅ Working |
+| 4 | `agent.test4@outlook.com` | Sophia Nguyen (backup) | Teammate | ✅ Working |
+| 5 | `homeowner.test1@outlook.com` | Sam Williams | Teammate | ✅ Working |
+| 6 | `homeowner.test2@outlook.com` | Jamie Lee | Teammate | ✅ Working |
+| 7 | `homeowner.test3@outlook.com` | Chris Brown | Teammate | ✅ Working |
+| 8 | `homeowner.test4@outlook.com` | Taylor Davis (backup) | Teammate | ✅ Working |
+| 9 | `contractor.test1@outlook.com` | Bob Miller | Teammate | ✅ Working |
+| 10 | `contractor.test2@outlook.com` | Linda Chen | Teammate | ✅ Working |
+| 11 | `contractor.test3@outlook.com` | Tony Rivera | Teammate | ✅ Working |
+| 12 | `contractor.test4@outlook.com` | Karen Scott (backup) | Teammate | ✅ Working |
+| 13 | `tech.test1@outlook.com` | Dave Torres | **Sophal** | ⚠️ EXISTS but phone PIN goes to teammate — use alternatives below |
+| — | `ins.test2026@outlook.com` | Rachel Kim | **Sophal** | ✅ New alternative for ins agent |
+| — | `ins.test32026@outlook.com` | Bill Gates | **Sophal** | ✅ New alternative for ins agent |
+| — | `ins.test42026@outlook.com` | Elon Musk | **Sophal** | ✅ New alternative for ins agent |
 
-### ⬜ Left to Create (15 of 15)
+### ⚠️ Problem Accounts
 
-1. `agent.test1@outlook.com` — Alex Johnson
-2. `agent.test2@outlook.com` — Maria Garcia
-3. `agent.test3@outlook.com` — James Wilson
-4. `agent.test4@outlook.com` — Sophia Nguyen (backup)
-5. `homeowner.test1@outlook.com` — Sam Williams
-6. `homeowner.test2@outlook.com` — Jamie Lee
-7. `homeowner.test3@outlook.com` — Chris Brown
-8. `homeowner.test4@outlook.com` — Taylor Davis (backup)
-9. `contractor.test1@outlook.com` — Bob Miller
-10. `contractor.test2@outlook.com` — Linda Chen
-11. `contractor.test3@outlook.com` — Tony Rivera
-12. `contractor.test4@outlook.com` — Karen Scott (backup)
-13. `tech.test1@outlook.com` — Dave Torres
-14. `tech.test2@outlook.com` — Mike Anderson (backup)
-15. `ins.agent.test@outlook.com` — Rachel Kim (external)
+| # | Email | Issue |
+|---|-------|-------|
+| 13 | `tech.test1@outlook.com` | Account exists but login requires phone PIN that goes to a **teammate's phone** — cannot log in |
+| 15 | `ins.agent.test@outlook.com` | **Email not available** — already taken on Outlook. Use `ins.test2026@outlook.com` instead |
+
+### ❌ Still Left to Create
+
+| # | Email | Name | Priority |
+|---|-------|------|---------|
+| 14 | `tech.test2@outlook.com` | Mike Anderson | ⭐ **HIGH** — needed as accessible technician account (since tech.test1 login is blocked) |
+
+> **Summary:** 12 team accounts ✅ working · 1 technician blocked by phone PIN · 3 new ins alternatives created · 1 tech backup still needed
 
 ---
 
@@ -116,46 +131,49 @@ _None created yet — check off accounts below as you go._
 
 ---
 
-### AGENTS — 4 accounts to create
+### AGENTS — 4 accounts ✅ ALL CREATED
 
-- [ ] **1.** Email: `agent.test1@outlook.com` · Name: Alex Johnson · Company: Surety Realty
-- [ ] **2.** Email: `agent.test2@outlook.com` · Name: Maria Garcia · Company: HomeGuard Agency
-- [ ] **3.** Email: `agent.test3@outlook.com` · Name: James Wilson · Company: Wilson Insurance Group
-- [ ] **4.** Email: `agent.test4@outlook.com` · Name: Sophia Nguyen · Company: Pacific Realty Group ← **BACKUP**
-
----
-
-### HOMEOWNERS — 4 accounts to create
-
-- [ ] **5.** Email: `homeowner.test1@outlook.com` · Name: Sam Williams
-- [ ] **6.** Email: `homeowner.test2@outlook.com` · Name: Jamie Lee
-- [ ] **7.** Email: `homeowner.test3@outlook.com` · Name: Chris Brown
-- [ ] **8.** Email: `homeowner.test4@outlook.com` · Name: Taylor Davis ← **BACKUP**
+- [x] **1.** Email: `agent.test1@outlook.com` · Name: Alex Johnson · Company: Surety Realty
+- [x] **2.** Email: `agent.test2@outlook.com` · Name: Maria Garcia · Company: HomeGuard Agency
+- [x] **3.** Email: `agent.test3@outlook.com` · Name: James Wilson · Company: Wilson Insurance Group
+- [x] **4.** Email: `agent.test4@outlook.com` · Name: Sophia Nguyen · Company: Pacific Realty Group ← **BACKUP**
 
 ---
 
-### CONTRACTORS — 4 accounts to create
+### HOMEOWNERS — 4 accounts ✅ ALL CREATED
 
-- [ ] **9.**  Email: `contractor.test1@outlook.com` · Name: Bob Miller · Company: Miller Construction LLC
-- [ ] **10.** Email: `contractor.test2@outlook.com` · Name: Linda Chen · Company: Chen Builders Inc
-- [ ] **11.** Email: `contractor.test3@outlook.com` · Name: Tony Rivera · Company: Rivera Home Services
-- [ ] **12.** Email: `contractor.test4@outlook.com` · Name: Karen Scott · Company: Scott Contracting Co ← **BACKUP**
-
----
-
-### TECHNICIANS — 2 accounts to create
-
-- [ ] **13.** Email: `tech.test1@outlook.com` · Name: Dave Torres · Company: Torres Services
-- [ ] **14.** Email: `tech.test2@outlook.com` · Name: Mike Anderson · Company: Anderson Tech Services ← **BACKUP**
+- [x] **5.** Email: `homeowner.test1@outlook.com` · Name: Sam Williams
+- [x] **6.** Email: `homeowner.test2@outlook.com` · Name: Jamie Lee
+- [x] **7.** Email: `homeowner.test3@outlook.com` · Name: Chris Brown
+- [x] **8.** Email: `homeowner.test4@outlook.com` · Name: Taylor Davis ← **BACKUP**
 
 ---
 
-### INSURANCE AGENT EXTERNAL — 1 account to create
+### CONTRACTORS — 4 accounts ✅ ALL CREATED
 
-> This account only needs an inbox — it does **not** need a MrSurety platform login.
-> It receives the secure upload link email via Workflow 9.
+- [x] **9.**  Email: `contractor.test1@outlook.com` · Name: Bob Miller · Company: Miller Construction LLC
+- [x] **10.** Email: `contractor.test2@outlook.com` · Name: Linda Chen · Company: Chen Builders Inc
+- [x] **11.** Email: `contractor.test3@outlook.com` · Name: Tony Rivera · Company: Rivera Home Services
+- [x] **12.** Email: `contractor.test4@outlook.com` · Name: Karen Scott · Company: Scott Contracting Co ← **BACKUP**
 
-- [ ] **15.** Email: `ins.agent.test@outlook.com` · Name: Rachel Kim · Company: Kim Insurance Brokers
+---
+
+### TECHNICIANS — ⚠️ 1 blocked, 1 still needed
+
+- [x] **13.** Email: `tech.test1@outlook.com` · Name: Dave Torres · ⚠️ **BLOCKED** — account exists but phone PIN goes to teammate's phone. Cannot log in.
+- [ ] **14.** Email: `tech.test2@outlook.com` · Name: Mike Anderson · Company: Anderson Tech Services ← ⭐ **CREATE THIS — needed since tech.test1 is inaccessible**
+
+---
+
+### INSURANCE AGENT EXTERNAL — ⚠️ Original email taken, alternatives created
+
+> `ins.agent.test@outlook.com` is NOT AVAILABLE on Outlook (already taken by someone else).
+> Sophal created these alternatives instead — use `ins.test2026@outlook.com` as the primary:
+
+- [x] `ins.test2026@outlook.com` · Name: Rachel Kim ← **USE THIS ONE**
+- [x] `ins.test32026@outlook.com` · Name: Bill Gates (backup)
+- [x] `ins.test42026@outlook.com` · Name: Elon Musk (backup)
+- [ ] ~~`ins.agent.test@outlook.com`~~ · **SKIP — email not available on Outlook**
 
 ---
 
@@ -167,37 +185,40 @@ _None created yet — check off accounts below as you go._
 
 ### Quick Reference Table
 
-| # | Email | Password | Full Name | Role |
-|---|-------|----------|-----------|------|
-| 1 | `agent.test1@outlook.com` | `QAtest@2026!` | Alex Johnson | Agent |
-| 2 | `agent.test2@outlook.com` | `QAtest@2026!` | Maria Garcia | Agent |
-| 3 | `agent.test3@outlook.com` | `QAtest@2026!` | James Wilson | Agent |
-| 4 | `agent.test4@outlook.com` | `QAtest@2026!` | Sophia Nguyen | Agent BACKUP |
-| 5 | `homeowner.test1@outlook.com` | `QAtest@2026!` | Sam Williams | Homeowner |
-| 6 | `homeowner.test2@outlook.com` | `QAtest@2026!` | Jamie Lee | Homeowner |
-| 7 | `homeowner.test3@outlook.com` | `QAtest@2026!` | Chris Brown | Homeowner |
-| 8 | `homeowner.test4@outlook.com` | `QAtest@2026!` | Taylor Davis | Homeowner BACKUP |
-| 9 | `contractor.test1@outlook.com` | `QAtest@2026!` | Bob Miller | Contractor |
-| 10 | `contractor.test2@outlook.com` | `QAtest@2026!` | Linda Chen | Contractor |
-| 11 | `contractor.test3@outlook.com` | `QAtest@2026!` | Tony Rivera | Contractor |
-| 12 | `contractor.test4@outlook.com` | `QAtest@2026!` | Karen Scott | Contractor BACKUP |
-| 13 | `tech.test1@outlook.com` | `QAtest@2026!` | Dave Torres | Technician |
-| 14 | `tech.test2@outlook.com` | `QAtest@2026!` | Mike Anderson | Technician BACKUP |
-| 15 | `ins.agent.test@outlook.com` | `QAtest@2026!` | Rachel Kim | Ins. Agent (external) |
+| # | Email | Password | Full Name | Role | Status |
+|---|-------|----------|-----------|------|--------|
+| 1 | `agent.test1@outlook.com` | `QAtest@2026!` | Alex Johnson | Agent | ✅ Created |
+| 2 | `agent.test2@outlook.com` | `QAtest@2026!` | Maria Garcia | Agent | ✅ Created |
+| 3 | `agent.test3@outlook.com` | `QAtest@2026!` | James Wilson | Agent | ✅ Created |
+| 4 | `agent.test4@outlook.com` | `QAtest@2026!` | Sophia Nguyen | Agent BACKUP | ✅ Created |
+| 5 | `homeowner.test1@outlook.com` | `QAtest@2026!` | Sam Williams | Homeowner | ✅ Created |
+| 6 | `homeowner.test2@outlook.com` | `QAtest@2026!` | Jamie Lee | Homeowner | ✅ Created |
+| 7 | `homeowner.test3@outlook.com` | `QAtest@2026!` | Chris Brown | Homeowner | ✅ Created |
+| 8 | `homeowner.test4@outlook.com` | `QAtest@2026!` | Taylor Davis | Homeowner BACKUP | ✅ Created |
+| 9 | `contractor.test1@outlook.com` | `QAtest@2026!` | Bob Miller | Contractor | ✅ Created |
+| 10 | `contractor.test2@outlook.com` | `QAtest@2026!` | Linda Chen | Contractor | ✅ Created |
+| 11 | `contractor.test3@outlook.com` | `QAtest@2026!` | Tony Rivera | Contractor | ✅ Created |
+| 12 | `contractor.test4@outlook.com` | `QAtest@2026!` | Karen Scott | Contractor BACKUP | ✅ Created |
+| 13 | `tech.test1@outlook.com` | `QAtest@2026!` | Dave Torres | Technician | ⚠️ Blocked — phone PIN goes to teammate |
+| 14 | `tech.test2@outlook.com` | `QAtest@2026!` | Mike Anderson | Technician BACKUP | ❌ **STILL NEEDS TO BE CREATED** |
+| 15 | ~~`ins.agent.test@outlook.com`~~ | — | Rachel Kim | Ins. Agent | ❌ Email not available on Outlook |
+| — | `ins.test2026@outlook.com` | `QAtest@2026!` | Rachel Kim | Ins. Agent (use this) | ✅ Created by Sophal |
+| — | `ins.test32026@outlook.com` | `QAtest@2026!` | Bill Gates | Ins. Agent BACKUP | ✅ Created by Sophal |
+| — | `ins.test42026@outlook.com` | `QAtest@2026!` | Elon Musk | Ins. Agent BACKUP | ✅ Created by Sophal |
 
 ---
 
 ## 📊 Summary
 
-| Role | Count | Accounts |
-|------|-------|---------|
-| Agent | 4 (3 primary + 1 backup) | agent.test1–4 |
-| Homeowner | 4 (3 primary + 1 backup) | homeowner.test1–4 |
-| Contractor | 4 (3 primary + 1 backup) | contractor.test1–4 |
-| Technician | 2 (1 primary + 1 backup) | tech.test1–2 |
-| Insurance Agent | 1 (external, inbox only) | ins.agent.test |
-| Admin | 1 (pre-existing) | admin@mrsurety.com |
-| **TOTAL Outlook accounts to create** | **15** | |
+| Role | Count | Accounts | Status |
+|------|-------|---------|--------|
+| Agent | 4 (3 primary + 1 backup) | agent.test1–4 | ✅ All created |
+| Homeowner | 4 (3 primary + 1 backup) | homeowner.test1–4 | ✅ All created |
+| Contractor | 4 (3 primary + 1 backup) | contractor.test1–4 | ✅ All created |
+| Technician | 1 accessible + 1 backup needed | tech.test1 (blocked), tech.test2 | ⚠️ tech.test1 phone PIN inaccessible — **create tech.test2** |
+| Insurance Agent | 3 new alternatives | ins.test2026, ins.test32026, ins.test42026 | ✅ Created (original email unavailable) |
+| Admin | 1 (pre-existing) | admin@mrsurety.com | ✅ Pre-existing |
+| **ACTION NEEDED** | **1** | **`tech.test2@outlook.com`** | **❌ Still needs to be created** |
 
 ---
 

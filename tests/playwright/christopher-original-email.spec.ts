@@ -410,8 +410,9 @@ test.describe('§J – Test user accounts (Outlook emails)', () => {
     expect(creds).toContain('tech.test1@outlook.com');
   });
 
-  test('§J.7 ins.agent.test@outlook.com defined', () => {
-    expect(creds).toContain('ins.agent.test@outlook.com');
+  test('§J.7 ins agent email defined (ins.test2026@outlook.com — original ins.agent.test unavailable)', () => {
+    // ins.agent.test@outlook.com was unavailable on Outlook; Sophal created ins.test2026@outlook.com
+    expect(creds).toContain('ins.test2026@outlook.com');
   });
 
   test('§J.8 Fixture file references Outlook accounts', () => {

@@ -76,7 +76,8 @@ test.describe('§A – 3 primary user types documented', () => {
   });
 
   test('§A.7 Credentials include Insurance Agent (external, no platform account)', () => {
-    expect(creds).toContain('ins.agent.test@outlook.com');
+    // ins.agent.test@outlook.com was unavailable on Outlook; primary is now ins.test2026@outlook.com
+    expect(creds).toContain('ins.test2026@outlook.com');
     expect(creds.toLowerCase()).toContain('upload link');
   });
 

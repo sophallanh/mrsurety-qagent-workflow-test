@@ -30,7 +30,7 @@ All accounts use real Outlook.com inboxes so you can receive and verify emails d
 | Contractor 2 | contractor.test2@outlook.com | QAtest@2026! |
 | Contractor 3 | contractor.test3@outlook.com | QAtest@2026! |
 | Technician | tech.test1@outlook.com | QAtest@2026! |
-| Insurance Agent (no login – link only) | ins.agent.test@outlook.com | N/A |
+| Insurance Agent (no login – link only) | ins.test2026@outlook.com | N/A |
 
 > Create them all at once: `python3 qa/openclaw/workflows/mrsurety_qa.py --workflow create-accounts`
 

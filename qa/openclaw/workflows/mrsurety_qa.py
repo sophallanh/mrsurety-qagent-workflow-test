@@ -183,7 +183,7 @@ REPORT_DIR = Path(os.getenv("OPENCLAW_REPORT_PATH", str(_OUTPUT_BASE / "reports"
 
 # Playwright settings
 HEADLESS = os.getenv("OPENCLAW_HEADLESS", "false").lower() == "true"
-SLOW_MO = int(os.getenv("OPENCLAW_SLOW_MO", "50"))
+SLOW_MO = int(os.getenv("OPENCLAW_SLOW_MO", "0"))   # 0 = full speed; set OPENCLAW_SLOW_MO=50 to slow down
 TIMEOUT = int(os.getenv("OPENCLAW_TIMEOUT", "120000"))          # milliseconds (2 minutes)
 # Webmail providers (Outlook, Gmail, Yahoo) are slower – give them extra time
 WEBMAIL_TIMEOUT = int(os.getenv("OPENCLAW_WEBMAIL_TIMEOUT", "180000"))  # milliseconds (3 minutes)
@@ -218,7 +218,7 @@ TECH_EMAIL = os.getenv("TECH_EMAIL", "tech.test1@outlook.com")
 TECH_PASSWORD = os.getenv("TECH_PASSWORD", "QAtest@2026!")
 TECH2_EMAIL = os.getenv("TECH2_EMAIL", "tech.test2@outlook.com")                    # backup technician
 TECH2_PASSWORD = os.getenv("TECH2_PASSWORD", "QAtest@2026!")
-INSURANCE_AGENT_EMAIL = os.getenv("INSURANCE_AGENT_EMAIL", "ins.agent.test@outlook.com")
+INSURANCE_AGENT_EMAIL = os.getenv("INSURANCE_AGENT_EMAIL", "ins.test2026@outlook.com")
 
 # Secure upload link variables (set after Workflow 9 generates them)
 AGENT_UPLOAD_LINK = os.getenv("AGENT_UPLOAD_LINK", "")
@@ -479,7 +479,7 @@ def _outlook_wait_for_inbox(page: Page, timeout_ms: int) -> None:
                     page.goto(_OUTLOOK_INBOX_URL, timeout=min(30000, int((deadline - time.time()) * 1000)))
                 except Exception:
                     pass
-            page.wait_for_timeout(1000)
+            page.wait_for_timeout(400)
             continue
 
         # ── Hard MFA page (authenticator app, SMS) ────────────────────────────
@@ -491,7 +491,7 @@ def _outlook_wait_for_inbox(page: Page, timeout_ms: int) -> None:
             )
 
         # ── Still on a Microsoft login / reprocess redirect – keep waiting ─────
-        page.wait_for_timeout(1000)
+        page.wait_for_timeout(400)
 
     # Deadline exceeded – give one last attempt by going directly to the inbox
     remaining_ms = max(15000, int((deadline - time.time()) * 1000))
@@ -1054,7 +1054,7 @@ def workflow_agent_signup(browser: Browser) -> str:
         # Select role — supports <select>, radio buttons, tabs, and clickable labels
         _select_option_resilient(page, _ROLE_SELECTORS, "agent")
         # Brief pause so conditional form fields (if any) have time to render
-        page.wait_for_timeout(1000)
+        page.wait_for_timeout(300)
 
         # Fill name: handles both "Full Name" single-field and separate first/last
         _fill_name_fields(page, "Test", "Agent")
@@ -1078,13 +1078,13 @@ def workflow_agent_signup(browser: Browser) -> str:
             nav_ref_sel = _resolve_selector(
                 page,
                 ['[data-testid="nav-referral"]', 'a:has-text("Referral")', 'a[href*="referral"]'],
-                probe_ms=5000,
+                probe_ms=3000,
             )
             page.click(nav_ref_sel)
             ref_input_sel = _resolve_selector(
                 page,
                 ['[data-testid="referral-link"]', 'input[name*="referral" i]', 'input[id*="referral" i]'],
-                probe_ms=5000,
+                probe_ms=3000,
             )
             referral_link = page.input_value(ref_input_sel)
             print(f"  🔗 Referral link: {referral_link}")
@@ -1124,7 +1124,7 @@ def workflow_agent_signup(browser: Browser) -> str:
             page.wait_for_load_state("networkidle")
             _fill_field(page, _EMAIL_SELECTORS, AGENT_EMAIL)
             _fill_field(page, _PASSWORD_SELECTORS, AGENT_PASSWORD)
-            submit_sel = _resolve_selector(page, _LOGIN_SUBMIT_SELECTORS, probe_ms=5000)
+            submit_sel = _resolve_selector(page, _LOGIN_SUBMIT_SELECTORS, probe_ms=3000)
             page.click(submit_sel)
             page.wait_for_url(lambda url: "/login" not in url, timeout=TIMEOUT)
             _shot(page, "agent_01_login_fallback.png")
@@ -1133,13 +1133,13 @@ def workflow_agent_signup(browser: Browser) -> str:
                 nav_ref_sel = _resolve_selector(
                     page,
                     ['[data-testid="nav-referral"]', 'a:has-text("Referral")', 'a[href*="referral"]'],
-                    probe_ms=5000,
+                    probe_ms=3000,
                 )
                 page.click(nav_ref_sel)
                 ref_input_sel = _resolve_selector(
                     page,
                     ['[data-testid="referral-link"]', 'input[name*="referral" i]', 'input[id*="referral" i]'],
-                    probe_ms=5000,
+                    probe_ms=3000,
                 )
                 referral_link = page.input_value(ref_input_sel)
                 _shot(page, "agent_02_referral_code.png")
@@ -1218,7 +1218,7 @@ def workflow_homeowner_service_request(browser: Browser, referral_link: str = ""
             page_a,
             ['[data-testid="service-request-submit"]', 'button[type="submit"]', 'input[type="submit"]',
              'button:has-text("Submit")', 'button:has-text("Continue")', 'button:has-text("Next")'],
-            probe_ms=5000,
+            probe_ms=3000,
         )
         page_a.click(submit_sel)
         try:
@@ -1280,7 +1280,7 @@ def workflow_homeowner_service_request(browser: Browser, referral_link: str = ""
             page_b,
             ['[data-testid="service-request-submit"]', 'button[type="submit"]', 'input[type="submit"]',
              'button:has-text("Submit")', 'button:has-text("Continue")', 'button:has-text("Next")'],
-            probe_ms=5000,
+            probe_ms=3000,
         )
         page_b.click(submit_sel)
         try:
@@ -1341,7 +1341,7 @@ def workflow_email_docusign(browser: Browser) -> None:
                     .replace("\\", "-")[:50]
                 )
                 row.click()
-                page.wait_for_timeout(1500)
+                page.wait_for_timeout(500)
 
                 shot_name = f"email_{seq:03d}_{label}_{subject_slug}.png"
                 shot_path = _shot(page, shot_name)
@@ -1679,7 +1679,7 @@ def workflow_create_accounts(browser: Browser) -> None:
             submit_sel = _resolve_selector(page, _SIGNUP_SUBMIT_SELECTORS)
             page.click(submit_sel)
             page.wait_for_load_state("networkidle")
-            page.wait_for_timeout(2000)
+            page.wait_for_timeout(600)
 
             # Accept any success/confirmation dialog
             try:
@@ -1720,7 +1720,7 @@ def workflow_contractor_bidding(browser: Browser) -> None:
 
         # Navigate to available jobs using resilient selectors
         try:
-            nav_jobs_sel = _resolve_selector(page, _NAV_CONTRACTOR_JOBS_SELECTORS, probe_ms=8000)
+            nav_jobs_sel = _resolve_selector(page, _NAV_CONTRACTOR_JOBS_SELECTORS, probe_ms=4000)
             page.click(nav_jobs_sel)
             page.wait_for_load_state("networkidle")
         except Exception:
@@ -1757,7 +1757,7 @@ def workflow_contractor_bidding(browser: Browser) -> None:
                 ['[data-testid="submit-bid-btn"]', 'button:has-text("Bid")',
                  'button:has-text("Submit Bid")', 'button:has-text("Place Bid")',
                  'a:has-text("Bid")'],
-                probe_ms=10000,
+                probe_ms=5000,
             )
             page.click(bid_btn_sel)
             _resolve_selector(
@@ -1793,7 +1793,7 @@ def workflow_contractor_bidding(browser: Browser) -> None:
             submit_sel = _resolve_selector(
                 page,
                 ['[data-testid="submit-bid"]', 'button[type="submit"]', 'button:has-text("Submit")'],
-                probe_ms=5000,
+                probe_ms=3000,
             )
             page.click(submit_sel)
             try:

@@ -32,7 +32,7 @@
 | 12 | contractor.test4@outlook.com | QAtest@2026! | Contractor (backup) |
 | 13 | tech.test1@outlook.com | QAtest@2026! | Technician |
 | 14 | tech.test2@outlook.com | QAtest@2026! | Technician (backup) |
-| 15 | ins.agent.test@outlook.com | QAtest@2026! | Insurance Agent (email only) |
+| 15 | ins.test2026@outlook.com | QAtest@2026! | Insurance Agent (email only) |
 
 > **admin@mrsurety.com** already exists — do NOT create it.
 

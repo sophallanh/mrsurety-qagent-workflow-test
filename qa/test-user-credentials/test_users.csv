@@ -11,7 +11,9 @@ contractor,contractor.test1@outlook.com,QAtest@2026!,Bob,Miller,(555) 300-0001,M
 contractor,contractor.test2@outlook.com,QAtest@2026!,Linda,Chen,(555) 300-0002,Chen Builders Inc,Secondary contractor – competing bids
 contractor,contractor.test3@outlook.com,QAtest@2026!,Tony,Rivera,(555) 300-0003,Rivera Home Services,Third contractor – agent upload invite sender
 contractor,contractor.test4@outlook.com,QAtest@2026!,Karen,Scott,(555) 300-0004,Scott Contracting Co,BACKUP contractor – use if primary contractor accounts are locked/unavailable
-technician,tech.test1@outlook.com,QAtest@2026!,Dave,Torres,(555) 400-0001,Torres Services,Assigned technician – receives work order (Workflow 8)
-technician,tech.test2@outlook.com,QAtest@2026!,Mike,Anderson,(555) 400-0002,Anderson Tech Services,BACKUP technician – use if tech.test1 is locked/unavailable
+technician,tech.test1@outlook.com,QAtest@2026!,Dave,Torres,(555) 400-0001,Torres Services,BLOCKED – account exists but phone PIN goes to teammate; use tech.test2 instead
+technician,tech.test2@outlook.com,QAtest@2026!,Mike,Anderson,(555) 400-0002,Anderson Tech Services,PRIMARY accessible technician – NEEDS TO BE CREATED at signup.live.com
 admin,admin@mrsurety.com,MrSurety2026!,Christopher,Palmer,(555) 500-0001,MrSurety,Real admin account – provided by Christopher; already exists on live app
-insurance_agent,ins.agent.test@outlook.com,N/A (no account),Rachel,Kim,(555) 600-0001,Kim Insurance Brokers,External – receives secure upload link; no platform login (Workflow 9)
+insurance_agent,ins.test2026@outlook.com,QAtest@2026!,Rachel,Kim,(555) 600-0001,Kim Insurance Brokers,PRIMARY ins agent – created by Sophal (original ins.agent.test@outlook.com was unavailable on Outlook)
+insurance_agent,ins.test32026@outlook.com,QAtest@2026!,Bill,Gates,(555) 600-0002,Gates Insurance,BACKUP ins agent – created by Sophal
+insurance_agent,ins.test42026@outlook.com,QAtest@2026!,Elon,Musk,(555) 600-0003,Musk Insurance,BACKUP ins agent – created by Sophal

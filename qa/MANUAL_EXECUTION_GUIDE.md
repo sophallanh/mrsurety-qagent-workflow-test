@@ -37,7 +37,7 @@ Before running any workflow, create real Outlook.com accounts for each test emai
 | contractor.test2@outlook.com | Contractor | Secondary – competing bids |
 | contractor.test3@outlook.com | Contractor | Third – upload invite sender |
 | tech.test1@outlook.com | Technician | Receives work order |
-| ins.agent.test@outlook.com | Insurance Agent | Receives secure upload link (no platform account) |
+| ins.test2026@outlook.com | Insurance Agent | Receives secure upload link (no platform account) |
 
 **Password for all test accounts:** `QAtest@2026!`
 
@@ -283,17 +283,17 @@ Before running any workflow, create real Outlook.com accounts for each test emai
 ## Workflow 9 – Agent Upload Invite System
 
 **Contractor:** contractor.test1@outlook.com / QAtest@2026!  
-**Insurance Agent Inbox:** ins.agent.test@outlook.com (no platform account)
+**Insurance Agent Inbox:** ins.test2026@outlook.com (no platform account)
 
 ### Steps – Contractor Side
 1. Log in as contractor.test1@outlook.com
 2. Go to **Documents** page
 3. Find the **"Invite Agent to Upload Documents"** section
-4. Enter: `ins.agent.test@outlook.com` → click **Send Invite**
+4. Enter: `ins.test2026@outlook.com` → click **Send Invite**
 5. Verify the active invites panel shows the invite with 0 documents uploaded
 
 ### Steps – Insurance Agent Side
-6. Open `ins.agent.test@outlook.com` inbox
+6. Open `ins.test2026@outlook.com` inbox
 7. Open the invite email → click the secure upload link
 8. Verify: no login required; upload checklist is shown
 9. Upload a COI PDF → assign: Type = COI, Carrier = State Farm, Effective Date = 2026-01-01
@@ -444,4 +444,4 @@ Happy to jump on a call to review.
 | Contractor 2 | contractor.test2@outlook.com | QAtest@2026! |
 | Contractor 3 | contractor.test3@outlook.com | QAtest@2026! |
 | Technician | tech.test1@outlook.com | QAtest@2026! |
-| Insurance Agent | ins.agent.test@outlook.com | N/A – no platform account |
+| Insurance Agent | ins.test2026@outlook.com | N/A – no platform account |
