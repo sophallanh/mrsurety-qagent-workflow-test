@@ -184,7 +184,9 @@ REPORT_DIR = Path(os.getenv("OPENCLAW_REPORT_PATH", str(_OUTPUT_BASE / "reports"
 # Playwright settings
 HEADLESS = os.getenv("OPENCLAW_HEADLESS", "false").lower() == "true"
 SLOW_MO = int(os.getenv("OPENCLAW_SLOW_MO", "50"))
-TIMEOUT = int(os.getenv("OPENCLAW_TIMEOUT", "60000"))
+TIMEOUT = int(os.getenv("OPENCLAW_TIMEOUT", "120000"))
+# Webmail providers (Outlook, Gmail, Yahoo) are slower – give them extra time
+WEBMAIL_TIMEOUT = int(os.getenv("OPENCLAW_WEBMAIL_TIMEOUT", "180000"))
 
 # Test account credentials – pre-set to consistent names for the live app
 # Override via .env or environment variables
@@ -366,12 +368,12 @@ def _login_to_inbox(page: Page, email: str, password: str) -> None:
     domain = _get_email_domain(email)
 
     if domain in ("gmail.com", "googlemail.com"):
-        page.goto("https://mail.google.com/")
-        page.wait_for_load_state("networkidle")
+        page.goto("https://mail.google.com/", timeout=WEBMAIL_TIMEOUT)
+        page.wait_for_load_state("networkidle", timeout=WEBMAIL_TIMEOUT)
         try:
-            page.fill('[type="email"]', email, timeout=TIMEOUT)
+            page.fill('[type="email"]', email, timeout=WEBMAIL_TIMEOUT)
             page.click('[id="identifierNext"]')
-            page.wait_for_selector('[type="password"], [name="password"]', timeout=TIMEOUT)
+            page.wait_for_selector('[type="password"], [name="password"]', timeout=WEBMAIL_TIMEOUT)
             page.fill('[type="password"]', password)
             page.click('[id="passwordNext"]')
         except Exception as exc:
@@ -379,46 +381,46 @@ def _login_to_inbox(page: Page, email: str, password: str) -> None:
         # Wait for inbox to load (Compose button is a reliable signal)
         page.wait_for_selector(
             '[data-tooltip="Compose"], [gh="cm"], [aria-label*="Compose"]',
-            timeout=TIMEOUT,
+            timeout=WEBMAIL_TIMEOUT,
         )
 
     elif domain in ("yahoo.com", "ymail.com"):
-        page.goto("https://mail.yahoo.com/")
-        page.wait_for_load_state("networkidle")
+        page.goto("https://mail.yahoo.com/", timeout=WEBMAIL_TIMEOUT)
+        page.wait_for_load_state("networkidle", timeout=WEBMAIL_TIMEOUT)
         try:
-            page.fill('[id="login-username"]', email, timeout=TIMEOUT)
+            page.fill('[id="login-username"]', email, timeout=WEBMAIL_TIMEOUT)
             page.click('[id="login-signin"]')
-            page.wait_for_selector('[id="login-passwd"]', timeout=TIMEOUT)
+            page.wait_for_selector('[id="login-passwd"]', timeout=WEBMAIL_TIMEOUT)
             page.fill('[id="login-passwd"]', password)
             page.click('[id="login-signin"]')
         except Exception as exc:
             raise RuntimeError(f"Yahoo login failed: {exc}") from exc
         page.wait_for_selector(
             '[data-test-id="compose-button"], [title="Compose"]',
-            timeout=TIMEOUT,
+            timeout=WEBMAIL_TIMEOUT,
         )
 
     else:
-        # Outlook / Hotmail / Live — default path
-        page.goto("https://outlook.live.com/mail/0/")
-        page.wait_for_load_state("networkidle")
-        try:
-            page.click('[data-task="signinv2"]', timeout=5000)
-            page.wait_for_load_state("networkidle")
-        except Exception:
-            pass  # Already on the Microsoft login form
-        page.fill('[name="loginfmt"]', email, timeout=TIMEOUT)
+        # Outlook / Hotmail / Live — go directly to the Microsoft Account login page.
+        # outlook.live.com/mail/0/ sometimes redirects to the marketing page;
+        # login.live.com always lands on the email/username form.
+        page.goto("https://login.live.com/", timeout=WEBMAIL_TIMEOUT)
+        # Wait for the username field; give up to WEBMAIL_TIMEOUT ms
+        page.wait_for_selector('[name="loginfmt"]', timeout=WEBMAIL_TIMEOUT)
+        page.fill('[name="loginfmt"]', email, timeout=WEBMAIL_TIMEOUT)
         page.click('[type="submit"]')
-        page.wait_for_selector('[name="passwd"]', timeout=TIMEOUT)
+        page.wait_for_selector('[name="passwd"]', timeout=WEBMAIL_TIMEOUT)
         page.fill('[name="passwd"]', password)
         page.click('[type="submit"]')
         try:
-            page.click('[id="idBtn_Back"]', timeout=5000)  # "No" to "Stay signed in?"
+            page.click('[id="idBtn_Back"]', timeout=10000)  # "No" to "Stay signed in?"
         except Exception:
             pass
+        # After login Outlook redirects back to the inbox; wait for a reliable inbox element
         page.wait_for_selector(
-            '[aria-label="Mail"], [data-icon-name="Mail"], [role="navigation"]',
-            timeout=TIMEOUT,
+            '[aria-label="Mail"], [data-icon-name="Mail"], [role="navigation"], '
+            '[aria-label="Inbox"], [data-convid]',
+            timeout=WEBMAIL_TIMEOUT,
         )
 
 
