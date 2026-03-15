@@ -99,6 +99,14 @@ qa/openclaw/.venv/bin/python qa/openclaw/workflows/mrsurety_qa.py \
   --fix-videos --video-dir /path/to/videos
 ```
 
+> ✅ **After `--fix-videos` finishes — you do NOT need to re-run the workflows.**  
+> The videos are already fixed in `output/videos/`.  Just zip and upload:
+> ```bash
+> cd ~/mrsurety-qagent-workflow-test/qa/openclaw
+> zip -r "MrSurety_QA_$(date +%Y-%m-%d).zip" output/
+> ```
+> Then upload the zip to Google Drive and send Christopher the link.
+
 ---
 
 ## After It Finishes
