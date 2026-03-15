@@ -38,6 +38,34 @@
 
 ---
 
+## 📊 Creation Status
+
+> Update this section as you create each Outlook account. Check off the box in the list below and mark it here too.
+
+### ✅ Created (0 of 15)
+
+_None created yet — check off accounts below as you go._
+
+### ⬜ Left to Create (15 of 15)
+
+1. `agent.test1@outlook.com` — Alex Johnson
+2. `agent.test2@outlook.com` — Maria Garcia
+3. `agent.test3@outlook.com` — James Wilson
+4. `agent.test4@outlook.com` — Sophia Nguyen (backup)
+5. `homeowner.test1@outlook.com` — Sam Williams
+6. `homeowner.test2@outlook.com` — Jamie Lee
+7. `homeowner.test3@outlook.com` — Chris Brown
+8. `homeowner.test4@outlook.com` — Taylor Davis (backup)
+9. `contractor.test1@outlook.com` — Bob Miller
+10. `contractor.test2@outlook.com` — Linda Chen
+11. `contractor.test3@outlook.com` — Tony Rivera
+12. `contractor.test4@outlook.com` — Karen Scott (backup)
+13. `tech.test1@outlook.com` — Dave Torres
+14. `tech.test2@outlook.com` — Mike Anderson (backup)
+15. `ins.agent.test@outlook.com` — Rachel Kim (external)
+
+---
+
 ## 🔗 Additional Quick Links
 
 | What | Link |
