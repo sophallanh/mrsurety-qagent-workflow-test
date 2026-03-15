@@ -184,9 +184,9 @@ REPORT_DIR = Path(os.getenv("OPENCLAW_REPORT_PATH", str(_OUTPUT_BASE / "reports"
 # Playwright settings
 HEADLESS = os.getenv("OPENCLAW_HEADLESS", "false").lower() == "true"
 SLOW_MO = int(os.getenv("OPENCLAW_SLOW_MO", "50"))
-TIMEOUT = int(os.getenv("OPENCLAW_TIMEOUT", "120000"))          # milliseconds
+TIMEOUT = int(os.getenv("OPENCLAW_TIMEOUT", "120000"))          # milliseconds (2 minutes)
 # Webmail providers (Outlook, Gmail, Yahoo) are slower – give them extra time
-WEBMAIL_TIMEOUT = int(os.getenv("OPENCLAW_WEBMAIL_TIMEOUT", "180000"))  # milliseconds
+WEBMAIL_TIMEOUT = int(os.getenv("OPENCLAW_WEBMAIL_TIMEOUT", "180000"))  # milliseconds (3 minutes)
 
 # Test account credentials – pre-set to consistent names for the live app
 # Override via .env or environment variables
@@ -354,6 +354,99 @@ def _save_video(ctx: BrowserContext, video_name: str) -> Optional[str]:
     return None
 
 
+def _outlook_wait_for_inbox(page: Page, timeout_ms: int) -> None:
+    """Wait for the Outlook inbox after login, handling intermediate auth redirects.
+
+    After a successful password login, Microsoft may redirect through one or more
+    intermediate pages before landing on the inbox:
+      • /common/fido/get       – security-key / passkey prompt
+      • /common/kmsi           – "stay signed in?" (handled by idBtn_Back above)
+      • /common/reprocess      – SSO token exchange
+      • /common/strongauth     – MFA / two-step verification
+
+    Strategy:
+      1. Poll the current URL every second.
+      2. If we land on an Outlook inbox page, wait for the inbox element and return.
+      3. If we land on a FIDO/security-key page, click "I can't use this" / "Other
+         ways to sign in" to skip it; if that fails, navigate directly to
+         outlook.live.com/mail/0/ — the session cookie is usually good enough.
+      4. If we hit a hard MFA page (SMS code, authenticator app required) that we
+         cannot skip programmatically, raise RuntimeError with a clear message.
+    """
+    import time
+
+    _INBOX_SELECTORS = (
+        "[data-convid], [aria-label='Inbox'], "
+        "[aria-label='Mail'], [data-icon-name='Mail'], [role='navigation']"
+    )
+    _OUTLOOK_INBOX_URL = "https://outlook.live.com/mail/0/"
+    deadline = time.time() + timeout_ms / 1000
+
+    while time.time() < deadline:
+        try:
+            current_url = page.url
+        except Exception:
+            time.sleep(0.5)
+            continue
+
+        # ── Success: we reached the Outlook inbox ──────────────────────────────
+        if "outlook.live.com/mail" in current_url or "outlook.office.com/mail" in current_url:
+            remaining_ms = max(5000, int((deadline - time.time()) * 1000))
+            page.wait_for_selector(_INBOX_SELECTORS, timeout=remaining_ms)
+            return
+
+        # ── FIDO / security-key page ───────────────────────────────────────────
+        if "fido" in current_url or "passkey" in current_url.lower():
+            # Try clicking "I can't use this" / "Use a different sign-in method"
+            for sel in [
+                '[id="signInAnotherWay"]',
+                'a:has-text("other ways")',
+                'a[href*="otherMethods"]',
+                'button:has-text("can\'t")',
+                'a:has-text("can\'t")',
+            ]:
+                try:
+                    page.click(sel, timeout=2000)
+                    break
+                except Exception:
+                    pass
+            else:
+                # If we can't skip, jump directly to the inbox — the session cookie
+                # from the password login is often sufficient.
+                try:
+                    page.goto(_OUTLOOK_INBOX_URL, timeout=min(30000, int((deadline - time.time()) * 1000)))
+                except Exception:
+                    pass
+            page.wait_for_timeout(1000)
+            continue
+
+        # ── Hard MFA page (authenticator app, SMS) ────────────────────────────
+        if any(k in current_url.lower() for k in ("strongauth", "mfa", "/verify")):
+            raise RuntimeError(
+                f"Outlook inbox blocked by MFA on {current_url}. "
+                "Disable two-step verification on this test account at "
+                "https://account.microsoft.com/security"
+            )
+
+        # ── Still on a Microsoft login / reprocess redirect – keep waiting ─────
+        page.wait_for_timeout(1000)
+
+    # Deadline exceeded – give one last attempt by going directly to the inbox
+    remaining_ms = max(15000, int((deadline - time.time()) * 1000))
+    try:
+        page.goto(_OUTLOOK_INBOX_URL, timeout=remaining_ms)
+        page.wait_for_selector(_INBOX_SELECTORS, timeout=remaining_ms)
+        return
+    except Exception:
+        pass
+
+    raise RuntimeError(
+        f"Outlook inbox did not load within {timeout_ms // 1000}s. "
+        f"Last URL: {page.url}. "
+        "Check that the account credentials are correct and MFA is disabled."
+    )
+
+
 def _login_to_inbox(page: Page, email: str, password: str) -> None:
     """Log in to a webmail inbox.
 
@@ -416,12 +509,11 @@ def _login_to_inbox(page: Page, email: str, password: str) -> None:
             page.click('[id="idBtn_Back"]', timeout=10000)  # "No" to "Stay signed in?"
         except Exception:
             pass
-        # After login Outlook redirects back to the inbox; wait for a reliable inbox element
-        page.wait_for_selector(
-            '[aria-label="Mail"], [data-icon-name="Mail"], [role="navigation"], '
-            '[aria-label="Inbox"], [data-convid]',
-            timeout=WEBMAIL_TIMEOUT,
-        )
+        # After password submit, Microsoft may redirect through intermediate auth pages
+        # (FIDO/security key, reprocess, etc.) before landing on the inbox.
+        # We poll the URL and try to skip any MFA challenges; if a session cookie was
+        # already set we also try navigating directly to the inbox.
+        _outlook_wait_for_inbox(page, WEBMAIL_TIMEOUT)
 
 
 def _get_email_rows(page: Page, email: str) -> list:

@@ -5,7 +5,20 @@
 
 ---
 
-## ⚡ PASTE THIS ENTIRE BLOCK INTO YOUR TERMINAL (one shot, from anywhere)
+## ❓ Already ran it before? Just do this:
+
+```bash
+cd ~/mrsurety-qagent-workflow-test && git pull
+qa/openclaw/.venv/bin/python3 qa/openclaw/workflows/mrsurety_qa.py --workflow all
+cd qa/openclaw && zip -r "MrSurety_QA_$(date +%Y-%m-%d).zip" output/
+```
+
+> **No need to reinstall** — `git pull` picks up all the latest fixes (increased timeouts,
+> Outlook login URL fix, FIDO/MFA page handling).  Run those 3 lines and you're done.
+
+---
+
+## ⚡ First time? PASTE THIS ENTIRE BLOCK INTO YOUR TERMINAL (one shot, from anywhere)
 
 ```bash
 cd ~/mrsurety-qagent-workflow-test && \
@@ -37,7 +50,7 @@ echo "✅ Done!  Zip is at: $(pwd)/MrSurety_QA_$(date +%Y-%m-%d).zip"
 
 | Step | What it does | Time |
 |------|-------------|------|
-| `git pull` | Gets the latest fixes (Outlook login fix, account pre-seed) | 5 sec |
+| `git pull` | Gets the latest fixes (Outlook login URL, MFA handling, longer timeouts) | 5 sec |
 | `pip install` | Installs playwright + python-dotenv in the venv | 30 sec |
 | `playwright install chromium` | Downloads the test browser | 1 min |
 | `cp .env.example .env` | Copies the pre-filled credentials file (skip if exists) | 1 sec |
@@ -78,16 +91,26 @@ Zip includes:
 
 ---
 
-## If the email-docusign workflow still fails (⚠️ Outlook inbox error)
+## If the email-docusign workflow still shows ⚠️ inbox errors
 
-The fix is already in the code (the Outlook URL was changed from outlook.com to
-outlook.live.com/mail/0/). Make sure you ran `git pull` at the top of the block above.
-
-To re-run just the email screenshot step after pulling:
+**Step 1 – Make sure you're on the latest code:**
 ```bash
-cd ~/mrsurety-qagent-workflow-test
+cd ~/mrsurety-qagent-workflow-test && git pull
+```
+
+**Step 2 – Re-run just the email step:**
+```bash
 qa/openclaw/.venv/bin/python3 qa/openclaw/workflows/mrsurety_qa.py --workflow email-docusign
 ```
+
+**Step 3 – If you still see "Timeout 60000ms"** – you're running old code.  Run `git pull` first.
+
+**Step 4 – If you see "blocked by MFA"** – the Outlook test accounts have two-step verification
+turned on. Sign in to each account at https://account.microsoft.com/security and disable
+"Two-step verification". The accounts are:
+- `agent.test1@outlook.com` / `QAtest@2026!`
+- `homeowner.test1@outlook.com`, `homeowner.test2@outlook.com` / `QAtest@2026!`
+- `contractor.test1@outlook.com` / `QAtest@2026!`
 
 ---
 
@@ -147,3 +170,4 @@ cd qa/openclaw && zip -r "MrSurety_QA_$(date +%Y-%m-%d).zip" output/
 
 **Stripe test card:** `4242 4242 4242 4242` · exp `12/29` · CVV `123`  
 **CSLB test number:** `999888`
+
