@@ -22,11 +22,13 @@ All accounts use real Outlook.com inboxes so you can receive and verify emails d
 | Admin | admin@mrsurety.com | MrSurety2026! |
 | Agent 1 | agent.test1@outlook.com | QAtest@2026! |
 | Agent 2 | agent.test2@outlook.com | QAtest@2026! |
+| Agent 3 | agent.test3@outlook.com | QAtest@2026! |
 | Homeowner A (referral link) | homeowner.test2@outlook.com | QAtest@2026! |
 | Homeowner B (agent email) | homeowner.test1@outlook.com | QAtest@2026! |
 | Homeowner C (no agent – edge case) | homeowner.test3@outlook.com | QAtest@2026! |
 | Contractor 1 | contractor.test1@outlook.com | QAtest@2026! |
 | Contractor 2 | contractor.test2@outlook.com | QAtest@2026! |
+| Contractor 3 | contractor.test3@outlook.com | QAtest@2026! |
 | Technician | tech.test1@outlook.com | QAtest@2026! |
 | Insurance Agent (no login – link only) | ins.agent.test@outlook.com | N/A |
 
@@ -205,7 +207,7 @@ Before finalizing, please clarify:
 
 ## ✅ DONE
 
-All 9 workflows automated. All 10 test accounts defined. Both referral methods covered.
+All 9 workflows automated. All 12 test accounts defined (3 agents, 3 contractors, 3 homeowners). Both referral methods covered.
 50+ screenshot items enumerated across 8 categories. All 5 Google Doc references stored.
 Bug report template ready. Full step-by-step manual guide created.
 

@@ -29,11 +29,13 @@ Before running any workflow, create real Outlook.com accounts for each test emai
 |-------|------|---------|
 | agent.test1@outlook.com | Agent | Primary – referral link & QR code |
 | agent.test2@outlook.com | Agent | Secondary – multi-agent scenarios |
+| agent.test3@outlook.com | Agent | Third – upload invite & referral tests |
 | homeowner.test2@outlook.com | Homeowner | Method A – uses referral link |
 | homeowner.test1@outlook.com | Homeowner | Method B – enters agent email |
 | homeowner.test3@outlook.com | Homeowner | Edge case – no agent |
 | contractor.test1@outlook.com | Contractor | Primary – submits bids |
 | contractor.test2@outlook.com | Contractor | Secondary – competing bids |
+| contractor.test3@outlook.com | Contractor | Third – upload invite sender |
 | tech.test1@outlook.com | Technician | Receives work order |
 | ins.agent.test@outlook.com | Insurance Agent | Receives secure upload link (no platform account) |
 
@@ -109,7 +111,7 @@ Before running any workflow, create real Outlook.com accounts for each test emai
    - Address: 456 Oak Ave, Anaheim CA 92801
    - Permit type: Plumbing
 3. Proceed to the **payment/deposit** step
-4. Enter Stripe test card: `4242 4242 4242 4242` / exp `12/29` / CVV `123`
+4. Enter Stripe test card: `4242 4242 4242 4242` / exp `12/34` / CVV `123` / ZIP `42424`
 5. Submit and confirm the success screen
 
 #### Screenshots to Capture
@@ -188,7 +190,7 @@ Before running any workflow, create real Outlook.com accounts for each test emai
 4. Review the bid from contractor.test1
 5. Click **Select This Estimate**
 6. Pick a calendar date for the work
-7. Pay the deposit with Stripe test card: `4242 4242 4242 4242` / `12/29` / `123`
+7. Pay the deposit with Stripe test card: `4242 4242 4242 4242` / `12/34` / `123` / `42424`
 8. Confirm payment success
 
 ### Screenshots to Capture
@@ -434,10 +436,12 @@ Happy to jump on a call to review.
 | Admin | admin@mrsurety.com | MrSurety2026! |
 | Agent 1 | agent.test1@outlook.com | QAtest@2026! |
 | Agent 2 | agent.test2@outlook.com | QAtest@2026! |
+| Agent 3 | agent.test3@outlook.com | QAtest@2026! |
 | Homeowner A | homeowner.test2@outlook.com | QAtest@2026! |
 | Homeowner B | homeowner.test1@outlook.com | QAtest@2026! |
 | Homeowner C | homeowner.test3@outlook.com | QAtest@2026! |
 | Contractor 1 | contractor.test1@outlook.com | QAtest@2026! |
 | Contractor 2 | contractor.test2@outlook.com | QAtest@2026! |
+| Contractor 3 | contractor.test3@outlook.com | QAtest@2026! |
 | Technician | tech.test1@outlook.com | QAtest@2026! |
 | Insurance Agent | ins.agent.test@outlook.com | N/A – no platform account |

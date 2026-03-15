@@ -238,13 +238,15 @@ cd qa/openclaw && zip -r "MrSurety_QA_$(date +%Y-%m-%d).zip" output/
 | Admin | admin@mrsurety.com | MrSurety2026! |
 | Agent 1 | agent.test1@outlook.com | QAtest@2026! |
 | Agent 2 | agent.test2@outlook.com | QAtest@2026! |
+| Agent 3 | agent.test3@outlook.com | QAtest@2026! |
 | Homeowner A | homeowner.test2@outlook.com | QAtest@2026! |
 | Homeowner B | homeowner.test1@outlook.com | QAtest@2026! |
 | Homeowner C | homeowner.test3@outlook.com | QAtest@2026! |
 | Contractor 1 | contractor.test1@outlook.com | QAtest@2026! |
 | Contractor 2 | contractor.test2@outlook.com | QAtest@2026! |
+| Contractor 3 | contractor.test3@outlook.com | QAtest@2026! |
 | Technician | tech.test1@outlook.com | QAtest@2026! |
 
-**Stripe test card:** `4242 4242 4242 4242` · exp `12/29` · CVV `123`  
+**Stripe test card:** `4242 4242 4242 4242` · exp `12/34` · CVV `123` · ZIP `42424`  
 **CSLB test number:** `999888`
 

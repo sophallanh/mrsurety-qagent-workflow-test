@@ -48,6 +48,7 @@ Or create them manually at: **https://frontend-tan-five-46.vercel.app/signup**
 |-------|----------|------|---------|----------|
 | agent.test1@outlook.com | QAtest@2026! | Alex Johnson | Surety Realty | Workflow 2 — referral link generation |
 | agent.test2@outlook.com | QAtest@2026! | Maria Garcia | HomeGuard Agency | Multi-agent scenario |
+| agent.test3@outlook.com | QAtest@2026! | James Wilson | Wilson Insurance Group | Third agent — upload invite & referral tests |
 
 ---
 
@@ -67,6 +68,7 @@ Or create them manually at: **https://frontend-tan-five-46.vercel.app/signup**
 |-------|----------|------|---------|----------|
 | contractor.test1@outlook.com | QAtest@2026! | Bob Miller | Miller Construction LLC | Workflow 4 — submits bid & estimate |
 | contractor.test2@outlook.com | QAtest@2026! | Linda Chen | Chen Builders Inc | Competing bid scenario |
+| contractor.test3@outlook.com | QAtest@2026! | Tony Rivera | Rivera Home Services | Third contractor — upload invite sender |
 
 ---
 

@@ -17,6 +17,17 @@ export const TEST_USERS = {
     password: process.env.AGENT_PASSWORD || 'QAtest@2026!',
     name: 'Alex Johnson',
   },
+  agent2: {
+    email: process.env.AGENT2_EMAIL || 'agent.test2@outlook.com',
+    password: process.env.AGENT2_PASSWORD || 'QAtest@2026!',
+    name: 'Maria Garcia',
+  },
+  agent3: {
+    email: process.env.AGENT3_EMAIL || 'agent.test3@outlook.com',
+    password: process.env.AGENT3_PASSWORD || 'QAtest@2026!',
+    name: 'James Wilson',
+    company: 'Wilson Insurance Group',
+  },
   homeowner: {
     email: process.env.HOMEOWNER_EMAIL || 'homeowner.test1@outlook.com',
     password: process.env.HOMEOWNER_PASSWORD || 'QAtest@2026!',
@@ -34,6 +45,18 @@ export const TEST_USERS = {
     password: process.env.CONTRACTOR_PASSWORD || 'QAtest@2026!',
     name: 'Bob Miller',
     company: 'Miller Construction LLC',
+  },
+  contractor2: {
+    email: process.env.CONTRACTOR2_EMAIL || 'contractor.test2@outlook.com',
+    password: process.env.CONTRACTOR2_PASSWORD || 'QAtest@2026!',
+    name: 'Linda Chen',
+    company: 'Chen Builders Inc',
+  },
+  contractor3: {
+    email: process.env.CONTRACTOR3_EMAIL || 'contractor.test3@outlook.com',
+    password: process.env.CONTRACTOR3_PASSWORD || 'QAtest@2026!',
+    name: 'Tony Rivera',
+    company: 'Rivera Home Services',
   },
   technician: {
     email: process.env.TECH_EMAIL || 'tech.test1@outlook.com',

@@ -272,9 +272,9 @@ python3 qa/openclaw/workflows/mrsurety_qa.py --workflow homeowner-service-reques
 **Stripe test card details:**
 ```
 Card Number:  4242 4242 4242 4242
-Expiry:       12/29
+Expiry:       12/34
 CVV:          123
-ZIP:          90210
+ZIP:          42424
 ```
 
 **OpenClaw one-liner – Method A (referral link):**
@@ -283,7 +283,7 @@ browser --url={REFERRAL_LINK}
 fill first_name="Test" last_name="Homeowner" email="testhomeowner_YYYYMMDD@outlook.com" password="MrSuretyQA2026!"
 fill address="123 Main St, Los Angeles CA 90001" permit_type="plumbing"
 click proceed
-fill card_number="4242424242424242" expiry="1229" cvv="123" zip="90210"
+fill card_number="4242424242424242" expiry="1234" cvv="123" zip="42424"
 click pay
 expect text="Payment successful"
 screenshot --full "homeowner_01_stripe_success.png"
