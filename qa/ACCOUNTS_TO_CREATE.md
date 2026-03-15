@@ -6,15 +6,43 @@
 
 ---
 
-## 🔗 Quick Links — Bookmark These
+## 🔗 Direct GitHub Links (bookmark these)
+
+| File | Link |
+|------|------|
+| Master account creation guide | https://github.com/sophallanh/mrsurety-qagent-workflow-test/blob/main/qa/ACCOUNTS_TO_CREATE.md |
+| Credentials table | https://github.com/sophallanh/mrsurety-qagent-workflow-test/blob/main/qa/test-user-credentials/TEST_USER_CREDENTIALS.md |
+| CSV of all accounts | https://github.com/sophallanh/mrsurety-qagent-workflow-test/blob/main/qa/test-user-credentials/test_users.csv |
+
+👉 **Outlook Signup Link:** https://signup.live.com — go here for each of the 15 accounts below
+
+**All 15 use the same password: `QAtest@2026!`**
+
+| # | Email to create | Name |
+|---|-----------------|------|
+| 1 | `agent.test1@outlook.com` | Alex Johnson |
+| 2 | `agent.test2@outlook.com` | Maria Garcia |
+| 3 | `agent.test3@outlook.com` | James Wilson |
+| 4 | `agent.test4@outlook.com` | Sophia Nguyen (backup) |
+| 5 | `homeowner.test1@outlook.com` | Sam Williams |
+| 6 | `homeowner.test2@outlook.com` | Jamie Lee |
+| 7 | `homeowner.test3@outlook.com` | Chris Brown |
+| 8 | `homeowner.test4@outlook.com` | Taylor Davis (backup) |
+| 9 | `contractor.test1@outlook.com` | Bob Miller |
+| 10 | `contractor.test2@outlook.com` | Linda Chen |
+| 11 | `contractor.test3@outlook.com` | Tony Rivera |
+| 12 | `contractor.test4@outlook.com` | Karen Scott (backup) |
+| 13 | `tech.test1@outlook.com` | Dave Torres |
+| 14 | `tech.test2@outlook.com` | Mike Anderson (backup) |
+| 15 | `ins.agent.test@outlook.com` | Rachel Kim (external — inbox only, no app login) |
+
+---
+
+## 🔗 Additional Quick Links
 
 | What | Link |
 |------|------|
-| **This file on GitHub** | https://github.com/sophallanh/mrsurety-qagent-workflow-test/blob/main/qa/ACCOUNTS_TO_CREATE.md |
-| **Full credentials table (GitHub)** | https://github.com/sophallanh/mrsurety-qagent-workflow-test/blob/main/qa/test-user-credentials/TEST_USER_CREDENTIALS.md |
-| **CSV of all accounts (GitHub)** | https://github.com/sophallanh/mrsurety-qagent-workflow-test/blob/main/qa/test-user-credentials/test_users.csv |
-| **👉 Create Outlook account (signup page)** | **https://signup.live.com** |
-| **Outlook inbox (to verify)** | https://outlook.live.com/mail |
+| **Outlook inbox (to verify after creating)** | https://outlook.live.com/mail |
 | **MrSurety live app (signup after)** | https://frontend-tan-five-46.vercel.app/signup |
 
 ---
