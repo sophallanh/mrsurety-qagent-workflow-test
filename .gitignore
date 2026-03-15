@@ -167,3 +167,5 @@ qa/openclaw/.venv/
 
 # Lock files (generated; not committed)
 tests/package-lock.json
+qa/openclaw/workflows/__pycache__/
+qa/openclaw/.venv/
