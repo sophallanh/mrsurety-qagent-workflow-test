@@ -184,9 +184,9 @@ REPORT_DIR = Path(os.getenv("OPENCLAW_REPORT_PATH", str(_OUTPUT_BASE / "reports"
 # Playwright settings
 HEADLESS = os.getenv("OPENCLAW_HEADLESS", "false").lower() == "true"
 SLOW_MO = int(os.getenv("OPENCLAW_SLOW_MO", "50"))
-TIMEOUT = int(os.getenv("OPENCLAW_TIMEOUT", "120000"))
+TIMEOUT = int(os.getenv("OPENCLAW_TIMEOUT", "120000"))          # milliseconds
 # Webmail providers (Outlook, Gmail, Yahoo) are slower – give them extra time
-WEBMAIL_TIMEOUT = int(os.getenv("OPENCLAW_WEBMAIL_TIMEOUT", "180000"))
+WEBMAIL_TIMEOUT = int(os.getenv("OPENCLAW_WEBMAIL_TIMEOUT", "180000"))  # milliseconds
 
 # Test account credentials – pre-set to consistent names for the live app
 # Override via .env or environment variables
