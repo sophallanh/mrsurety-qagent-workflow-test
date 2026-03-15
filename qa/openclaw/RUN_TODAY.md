@@ -9,13 +9,40 @@
 
 ```bash
 cd ~/mrsurety-qagent-workflow-test && git pull
+qa/openclaw/.venv/bin/python3 qa/openclaw/workflows/mrsurety_qa.py --workflow create-accounts
 qa/openclaw/.venv/bin/python3 qa/openclaw/workflows/mrsurety_qa.py --workflow all
 cd qa/openclaw && zip -r "MrSurety_QA_$(date +%Y-%m-%d).zip" output/
 ```
 
-> **No need to reinstall** — `git pull` picks up all the latest fixes (increased timeouts,
-> Outlook passkey bypass, broader signup form selectors, resilient nav for contractor bidding).
-> Run those 3 lines and you're done.
+> **No need to reinstall** — `git pull` picks up all the latest fixes.  
+> Re-run `create-accounts` after any `git pull` that adds new test accounts — new accounts
+> (3rd agent, 3rd homeowner, 3rd contractor) were added and must be registered on the live
+> app before the full workflow suite runs against them.  Run those 4 lines and you're done.
+
+---
+
+## 📊 How Many Workflows Are There?
+
+**9 main workflows** (run via `--workflow all`) + 1 setup step + 1 bonus:
+
+| # | Flag | What it does |
+|---|------|-------------|
+| Setup | `--workflow create-accounts` | Registers all 12 QA test accounts on the live app — **run this first** |
+| 1 | `--workflow admin-login` | Admin logs in, screenshots dashboard, exports user CSV |
+| 2 | `--workflow agent-signup` | Creates agent account, generates referral code & QR |
+| 3 | `--workflow homeowner-service-request` | Both referral methods (A & B) + Stripe test payment |
+| 4 | `--workflow contractor-bidding` | Contractor submits bid & uploads estimate |
+| 5 | `--workflow homeowner-deposit` | Homeowner selects estimate & pays deposit |
+| 6 | `--workflow work-order-docusign` | Work order generated + DocuSign sent/signed |
+| 7 | `--workflow admin-verification` | Admin approval flow + all status checks |
+| 8 | `--workflow technician-workflow` | Technician receives & completes work order |
+| 9 | `--workflow agent-upload-invite` | Contractor upload invite + security controls |
+| Bonus | `--workflow email-docusign` | Screenshots every email & DocuSign doc (50+) |
+| — | `--workflow all` | Runs all 9 workflows in sequence (1–9 above) |
+
+> **Short answer: 9 workflows.** `--workflow all` runs all 9 in order.  
+> `create-accounts` is a one-time setup step (re-run when new accounts are added).  
+> `email-docusign` is a bonus screenshot-only pass — not included in `--workflow all`.
 
 ---
 
@@ -56,7 +83,7 @@ echo "✅ Done!  Zip is at: $(pwd)/MrSurety_QA_$(date +%Y-%m-%d).zip"
 | `playwright install chromium` | Downloads the test browser | 1 min |
 | `cp .env.example .env` | Copies the pre-filled credentials file (skip if exists) | 1 sec |
 | `--check-connection` | Verifies the live app is up | 30 sec |
-| `--workflow create-accounts` | Signs up all 8 QA test accounts on the live app | ~5 min |
+| `--workflow create-accounts` | Registers all 12 QA test accounts on the live app (3 agents, 3 homeowners, 3 contractors, 1 technician + pre-existing admin & insurance agent) | ~5 min |
 | `--workflow all` | Runs all 9 workflows + captures 50+ screenshots + videos | ~30–45 min |
 | `zip output/` | Packages everything into a single zip for Google Drive | 1 min |
 
