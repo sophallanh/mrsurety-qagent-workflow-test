@@ -2,7 +2,9 @@
 
 > **Source:** Christopher Palmer's Google Doc  
 > **Link:** https://docs.google.com/document/d/1SDDd29PN9Z9vc6wg1eIAewDJnNhHa_aWGzfs_mqL8dU/edit?usp=sharing  
-> **Full version:** `qa/spec-docs/CHRISTOPHER_TESTING_DOC.md`
+> **Full version:** `qa/spec-docs/CHRISTOPHER_TESTING_DOC.md`  
+> **Live App:** https://frontend-tan-five-46.vercel.app  
+> **Admin:** admin@mrsurety.com / MrSurety2026!
 
 This is the condensed workflow reference guide. Use it during testing as a quick checklist.
 

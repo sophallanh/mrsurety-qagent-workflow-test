@@ -7,7 +7,18 @@
     "test:headed": "playwright test --headed",
     "test:report": "playwright show-report",
     "test:openclaw-integration": "playwright test openclaw-integration.spec.ts",
-    "test:app-workflow-guides": "playwright test app-workflow-guides.spec.ts"
+    "test:app-workflow-guides": "playwright test app-workflow-guides.spec.ts",
+    "test:christopher-email": "playwright test christopher-original-email.spec.ts",
+    "test:palmer-email-supplement": "playwright test palmer-email-supplement.spec.ts",
+    "test:palmer-supplement2": "playwright test palmer-supplement2.spec.ts",
+    "test:admin-dashboard": "playwright test admin-dashboard.spec.ts",
+    "test:agent-referral": "playwright test agent-referral-workflow.spec.ts",
+    "test:agent-upload-invite": "playwright test agent-upload-invite.spec.ts",
+    "test:contractor-bidding": "playwright test contractor-bidding.spec.ts",
+    "test:email-docusign": "playwright test email-docusign-triggers.spec.ts",
+    "test:homeowner-service-request": "playwright test homeowner-service-request.spec.ts",
+    "test:docs-only": "playwright test christopher-original-email.spec.ts palmer-email-supplement.spec.ts palmer-supplement2.spec.ts openclaw-integration.spec.ts app-workflow-guides.spec.ts",
+    "test:live-app": "playwright test admin-dashboard.spec.ts agent-referral-workflow.spec.ts contractor-bidding.spec.ts email-docusign-triggers.spec.ts homeowner-service-request.spec.ts agent-upload-invite.spec.ts"
   },
   "devDependencies": {
     "@playwright/test": "^1.42.0"
