@@ -207,7 +207,7 @@ Before finalizing, please clarify:
 
 ## ✅ DONE
 
-All 9 workflows automated. All 12 test accounts defined (3 agents, 3 contractors, 3 homeowners). Both referral methods covered.
+All 9 workflows automated. All 15 test accounts defined (4 agents, 4 homeowners, 4 contractors, 2 technicians + insurance agent + backup accounts). Both referral methods covered.
 50+ screenshot items enumerated across 8 categories. All 5 Google Doc references stored.
 Bug report template ready. Full step-by-step manual guide created.
 

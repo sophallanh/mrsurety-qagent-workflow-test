@@ -2,12 +2,16 @@ role,email,password,first_name,last_name,phone,company,notes
 agent,agent.test1@outlook.com,QAtest@2026!,Alex,Johnson,(555) 100-0001,Surety Realty,Primary agent – use for referral link generation (Workflow 2)
 agent,agent.test2@outlook.com,QAtest@2026!,Maria,Garcia,(555) 100-0002,HomeGuard Agency,Secondary agent – multi-agent scenarios
 agent,agent.test3@outlook.com,QAtest@2026!,James,Wilson,(555) 100-0003,Wilson Insurance Group,Third agent – contractor upload invite and referral testing
+agent,agent.test4@outlook.com,QAtest@2026!,Sophia,Nguyen,(555) 100-0004,Pacific Realty Group,BACKUP agent – use if primary agent accounts are locked/unavailable
 homeowner,homeowner.test2@outlook.com,QAtest@2026!,Jamie,Lee,(555) 200-0002,,Linked to agent.test1 via referral link (Method A – Workflow 3)
 homeowner,homeowner.test1@outlook.com,QAtest@2026!,Sam,Williams,(555) 200-0001,,Agent email entry method (Method B – Workflow 3)
 homeowner,homeowner.test3@outlook.com,QAtest@2026!,Chris,Brown,(555) 200-0003,,Edge case – no agent email entered
+homeowner,homeowner.test4@outlook.com,QAtest@2026!,Taylor,Davis,(555) 200-0004,,BACKUP homeowner – use if primary homeowner accounts are locked/unavailable
 contractor,contractor.test1@outlook.com,QAtest@2026!,Bob,Miller,(555) 300-0001,Miller Construction LLC,Primary contractor – uploads bid and estimate (Workflow 4)
 contractor,contractor.test2@outlook.com,QAtest@2026!,Linda,Chen,(555) 300-0002,Chen Builders Inc,Secondary contractor – competing bids
 contractor,contractor.test3@outlook.com,QAtest@2026!,Tony,Rivera,(555) 300-0003,Rivera Home Services,Third contractor – agent upload invite sender
+contractor,contractor.test4@outlook.com,QAtest@2026!,Karen,Scott,(555) 300-0004,Scott Contracting Co,BACKUP contractor – use if primary contractor accounts are locked/unavailable
 technician,tech.test1@outlook.com,QAtest@2026!,Dave,Torres,(555) 400-0001,Torres Services,Assigned technician – receives work order (Workflow 8)
+technician,tech.test2@outlook.com,QAtest@2026!,Mike,Anderson,(555) 400-0002,Anderson Tech Services,BACKUP technician – use if tech.test1 is locked/unavailable
 admin,admin@mrsurety.com,MrSurety2026!,Christopher,Palmer,(555) 500-0001,MrSurety,Real admin account – provided by Christopher; already exists on live app
 insurance_agent,ins.agent.test@outlook.com,N/A (no account),Rachel,Kim,(555) 600-0001,Kim Insurance Brokers,External – receives secure upload link; no platform login (Workflow 9)

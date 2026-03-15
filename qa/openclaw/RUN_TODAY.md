@@ -5,19 +5,53 @@
 
 ---
 
+## 🔴 STEP 0 (ONE TIME): Create Microsoft Outlook Accounts First
+
+> **You must create 15 Outlook.com inboxes before running the automation.**
+> The automation logs in to real Outlook inboxes and reads real emails.
+> Without these inboxes, the automation stops and cannot proceed.
+
+📋 **Full account list with step-by-step setup instructions:**  
+👉 **[`qa/ACCOUNTS_TO_CREATE.md`](../ACCOUNTS_TO_CREATE.md)**
+
+**Quick reference — all 15 accounts to create on Outlook.com:**
+
+| # | Email | Password | Role |
+|---|-------|----------|------|
+| 1 | agent.test1@outlook.com | QAtest@2026! | Agent |
+| 2 | agent.test2@outlook.com | QAtest@2026! | Agent |
+| 3 | agent.test3@outlook.com | QAtest@2026! | Agent |
+| 4 | agent.test4@outlook.com | QAtest@2026! | Agent (backup) |
+| 5 | homeowner.test1@outlook.com | QAtest@2026! | Homeowner |
+| 6 | homeowner.test2@outlook.com | QAtest@2026! | Homeowner |
+| 7 | homeowner.test3@outlook.com | QAtest@2026! | Homeowner |
+| 8 | homeowner.test4@outlook.com | QAtest@2026! | Homeowner (backup) |
+| 9 | contractor.test1@outlook.com | QAtest@2026! | Contractor |
+| 10 | contractor.test2@outlook.com | QAtest@2026! | Contractor |
+| 11 | contractor.test3@outlook.com | QAtest@2026! | Contractor |
+| 12 | contractor.test4@outlook.com | QAtest@2026! | Contractor (backup) |
+| 13 | tech.test1@outlook.com | QAtest@2026! | Technician |
+| 14 | tech.test2@outlook.com | QAtest@2026! | Technician (backup) |
+| 15 | ins.agent.test@outlook.com | QAtest@2026! | Insurance Agent (email only) |
+
+> **admin@mrsurety.com** already exists — do NOT create it.
+
+---
+
 ## ❓ Already ran it before? Just do this:
 
 ```bash
 cd ~/mrsurety-qagent-workflow-test && git pull
 qa/openclaw/.venv/bin/python3 qa/openclaw/workflows/mrsurety_qa.py --workflow create-accounts
 qa/openclaw/.venv/bin/python3 qa/openclaw/workflows/mrsurety_qa.py --workflow all
+qa/openclaw/.venv/bin/python3 qa/openclaw/workflows/mrsurety_qa.py --workflow email-docusign
 cd qa/openclaw && zip -r "MrSurety_QA_$(date +%Y-%m-%d).zip" output/
 ```
 
 > **No need to reinstall** — `git pull` picks up all the latest fixes.  
-> Re-run `create-accounts` after any `git pull` that adds new test accounts — new accounts
-> (3rd agent, 3rd homeowner, 3rd contractor) were added and must be registered on the live
-> app before the full workflow suite runs against them.  Run those 4 lines and you're done.
+> Re-run `create-accounts` after any `git pull` that adds new test accounts — 4 backup accounts
+> (agent.test4, homeowner.test4, contractor.test4, tech.test2) were added and must be registered
+> on the live app before the full workflow suite runs against them.  Run those 5 lines and you're done.
 
 ---
 
@@ -27,7 +61,7 @@ cd qa/openclaw && zip -r "MrSurety_QA_$(date +%Y-%m-%d).zip" output/
 
 | # | Flag | What it does |
 |---|------|-------------|
-| Setup | `--workflow create-accounts` | Registers all 12 QA test accounts on the live app — **run this first** |
+| Setup | `--workflow create-accounts` | Registers all 15 QA test accounts on the live app — **run this first** |
 | 1 | `--workflow admin-login` | Admin logs in, screenshots dashboard, exports user CSV |
 | 2 | `--workflow agent-signup` | Creates agent account, generates referral code & QR |
 | 3 | `--workflow homeowner-service-request` | Both referral methods (A & B) + Stripe test payment |
@@ -37,16 +71,20 @@ cd qa/openclaw && zip -r "MrSurety_QA_$(date +%Y-%m-%d).zip" output/
 | 7 | `--workflow admin-verification` | Admin approval flow + all status checks |
 | 8 | `--workflow technician-workflow` | Technician receives & completes work order |
 | 9 | `--workflow agent-upload-invite` | Contractor upload invite + security controls |
-| Bonus | `--workflow email-docusign` | Screenshots every email & DocuSign doc (50+) |
+| Bonus | `--workflow email-docusign` | **Screenshots every email & DocuSign doc (50+ items)** — Christopher's "check verbiage" pass |
 | — | `--workflow all` | Runs all 9 workflows in sequence (1–9 above) |
 
 > **Short answer: 9 workflows.** `--workflow all` runs all 9 in order.  
 > `create-accounts` is a one-time setup step (re-run when new accounts are added).  
-> `email-docusign` is a bonus screenshot-only pass — not included in `--workflow all`.
+> `email-docusign` is a bonus screenshot-only pass — not included in `--workflow all` — run it **after** `--workflow all`.
+
 
 ---
 
 ## ⚡ First time? PASTE THIS ENTIRE BLOCK INTO YOUR TERMINAL (one shot, from anywhere)
+
+> ⚠️ **Before running this block:** Make sure you have created all 15 Outlook.com accounts.
+> See [`qa/ACCOUNTS_TO_CREATE.md`](../ACCOUNTS_TO_CREATE.md) for the full list.
 
 ```bash
 cd ~/mrsurety-qagent-workflow-test && \
@@ -60,6 +98,7 @@ cp -n qa/openclaw/.env.example qa/openclaw/.env && \
 qa/openclaw/.venv/bin/python3 qa/openclaw/workflows/mrsurety_qa.py --check-connection && \
 qa/openclaw/.venv/bin/python3 qa/openclaw/workflows/mrsurety_qa.py --workflow create-accounts && \
 qa/openclaw/.venv/bin/python3 qa/openclaw/workflows/mrsurety_qa.py --workflow all && \
+qa/openclaw/.venv/bin/python3 qa/openclaw/workflows/mrsurety_qa.py --workflow email-docusign && \
 cd qa/openclaw && \
 zip -r "MrSurety_QA_$(date +%Y-%m-%d).zip" output/ && \
 echo "✅ Done!  Zip is at: $(pwd)/MrSurety_QA_$(date +%Y-%m-%d).zip"
@@ -83,8 +122,9 @@ echo "✅ Done!  Zip is at: $(pwd)/MrSurety_QA_$(date +%Y-%m-%d).zip"
 | `playwright install chromium` | Downloads the test browser | 1 min |
 | `cp .env.example .env` | Copies the pre-filled credentials file (skip if exists) | 1 sec |
 | `--check-connection` | Verifies the live app is up | 30 sec |
-| `--workflow create-accounts` | Registers all 12 QA test accounts on the live app (3 agents, 3 homeowners, 3 contractors, 1 technician + pre-existing admin & insurance agent) | ~5 min |
-| `--workflow all` | Runs all 9 workflows + captures 50+ screenshots + videos | ~30–45 min |
+| `--workflow create-accounts` | Registers all 15 QA test accounts on the live app (4 agents, 4 homeowners, 4 contractors, 2 technicians + pre-existing admin & insurance agent inbox) | ~6 min |
+| `--workflow all` | Runs all 9 workflows + captures screenshots + videos | ~30–45 min |
+| `--workflow email-docusign` | Opens each Outlook inbox, screenshots every email + DocuSign doc (50+ items) | ~20 min |
 | `zip output/` | Packages everything into a single zip for Google Drive | 1 min |
 
 ---

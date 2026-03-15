@@ -196,20 +196,28 @@ AGENT2_EMAIL = os.getenv("AGENT2_EMAIL", "agent.test2@outlook.com")
 AGENT2_PASSWORD = os.getenv("AGENT2_PASSWORD", "QAtest@2026!")
 AGENT3_EMAIL = os.getenv("AGENT3_EMAIL", "agent.test3@outlook.com")
 AGENT3_PASSWORD = os.getenv("AGENT3_PASSWORD", "QAtest@2026!")
+AGENT4_EMAIL = os.getenv("AGENT4_EMAIL", "agent.test4@outlook.com")        # backup agent
+AGENT4_PASSWORD = os.getenv("AGENT4_PASSWORD", "QAtest@2026!")
 HOMEOWNER_EMAIL_A = os.getenv("HOMEOWNER_EMAIL_A", "homeowner.test2@outlook.com")   # linked via referral
 HOMEOWNER_PASSWORD_A = os.getenv("HOMEOWNER_PASSWORD_A", "QAtest@2026!")
 HOMEOWNER_EMAIL_B = os.getenv("HOMEOWNER_EMAIL_B", "homeowner.test1@outlook.com")   # agent email method
 HOMEOWNER_PASSWORD_B = os.getenv("HOMEOWNER_PASSWORD_B", "QAtest@2026!")
 HOMEOWNER_EMAIL_C = os.getenv("HOMEOWNER_EMAIL_C", "homeowner.test3@outlook.com")   # no agent
 HOMEOWNER_PASSWORD_C = os.getenv("HOMEOWNER_PASSWORD_C", "QAtest@2026!")
+HOMEOWNER_EMAIL_D = os.getenv("HOMEOWNER_EMAIL_D", "homeowner.test4@outlook.com")   # backup homeowner
+HOMEOWNER_PASSWORD_D = os.getenv("HOMEOWNER_PASSWORD_D", "QAtest@2026!")
 CONTRACTOR_EMAIL = os.getenv("CONTRACTOR_EMAIL", "contractor.test1@outlook.com")
 CONTRACTOR_PASSWORD = os.getenv("CONTRACTOR_PASSWORD", "QAtest@2026!")
 CONTRACTOR2_EMAIL = os.getenv("CONTRACTOR2_EMAIL", "contractor.test2@outlook.com")
 CONTRACTOR2_PASSWORD = os.getenv("CONTRACTOR2_PASSWORD", "QAtest@2026!")
 CONTRACTOR3_EMAIL = os.getenv("CONTRACTOR3_EMAIL", "contractor.test3@outlook.com")
 CONTRACTOR3_PASSWORD = os.getenv("CONTRACTOR3_PASSWORD", "QAtest@2026!")
+CONTRACTOR4_EMAIL = os.getenv("CONTRACTOR4_EMAIL", "contractor.test4@outlook.com")  # backup contractor
+CONTRACTOR4_PASSWORD = os.getenv("CONTRACTOR4_PASSWORD", "QAtest@2026!")
 TECH_EMAIL = os.getenv("TECH_EMAIL", "tech.test1@outlook.com")
 TECH_PASSWORD = os.getenv("TECH_PASSWORD", "QAtest@2026!")
+TECH2_EMAIL = os.getenv("TECH2_EMAIL", "tech.test2@outlook.com")                    # backup technician
+TECH2_PASSWORD = os.getenv("TECH2_PASSWORD", "QAtest@2026!")
 INSURANCE_AGENT_EMAIL = os.getenv("INSURANCE_AGENT_EMAIL", "ins.agent.test@outlook.com")
 
 # Secure upload link variables (set after Workflow 9 generates them)
@@ -231,13 +239,17 @@ _test_accounts: list[dict] = [
     {"role": "agent",      "email": AGENT_EMAIL,                   "password": AGENT_PASSWORD,   "creation_date": "", "screenshot_path": ""},
     {"role": "agent",      "email": AGENT2_EMAIL,                  "password": AGENT2_PASSWORD,  "creation_date": "", "screenshot_path": ""},
     {"role": "agent",      "email": AGENT3_EMAIL,                  "password": AGENT3_PASSWORD,  "creation_date": "", "screenshot_path": ""},
+    {"role": "agent",      "email": AGENT4_EMAIL,                  "password": AGENT4_PASSWORD,  "creation_date": "", "screenshot_path": ""},
     {"role": "homeowner",  "email": HOMEOWNER_EMAIL_A,             "password": HOMEOWNER_PASSWORD_A, "creation_date": "", "screenshot_path": ""},
     {"role": "homeowner",  "email": HOMEOWNER_EMAIL_B,             "password": HOMEOWNER_PASSWORD_B, "creation_date": "", "screenshot_path": ""},
     {"role": "homeowner",  "email": HOMEOWNER_EMAIL_C,             "password": HOMEOWNER_PASSWORD_C, "creation_date": "", "screenshot_path": ""},
+    {"role": "homeowner",  "email": HOMEOWNER_EMAIL_D,             "password": HOMEOWNER_PASSWORD_D, "creation_date": "", "screenshot_path": ""},
     {"role": "contractor", "email": CONTRACTOR_EMAIL,              "password": CONTRACTOR_PASSWORD,  "creation_date": "", "screenshot_path": ""},
     {"role": "contractor", "email": CONTRACTOR2_EMAIL,             "password": CONTRACTOR2_PASSWORD, "creation_date": "", "screenshot_path": ""},
     {"role": "contractor", "email": CONTRACTOR3_EMAIL,             "password": CONTRACTOR3_PASSWORD, "creation_date": "", "screenshot_path": ""},
+    {"role": "contractor", "email": CONTRACTOR4_EMAIL,             "password": CONTRACTOR4_PASSWORD, "creation_date": "", "screenshot_path": ""},
     {"role": "technician", "email": TECH_EMAIL,                    "password": TECH_PASSWORD,        "creation_date": "", "screenshot_path": ""},
+    {"role": "technician", "email": TECH2_EMAIL,                   "password": TECH2_PASSWORD,       "creation_date": "", "screenshot_path": ""},
 ]
 
 
@@ -1610,27 +1622,35 @@ def workflow_create_accounts(browser: Browser) -> None:
       Agent 1:        AGENT_EMAIL        (default: agent.test1@outlook.com)
       Agent 2:        AGENT2_EMAIL       (default: agent.test2@outlook.com)
       Agent 3:        AGENT3_EMAIL       (default: agent.test3@outlook.com)
+      Agent 4:        AGENT4_EMAIL       (default: agent.test4@outlook.com)  -- backup
       Homeowner A:    HOMEOWNER_EMAIL_A  (default: homeowner.test2@outlook.com)
       Homeowner B:    HOMEOWNER_EMAIL_B  (default: homeowner.test1@outlook.com)
       Homeowner C:    HOMEOWNER_EMAIL_C  (default: homeowner.test3@outlook.com)
+      Homeowner D:    HOMEOWNER_EMAIL_D  (default: homeowner.test4@outlook.com) -- backup
       Contractor 1:   CONTRACTOR_EMAIL   (default: contractor.test1@outlook.com)
       Contractor 2:   CONTRACTOR2_EMAIL  (default: contractor.test2@outlook.com)
       Contractor 3:   CONTRACTOR3_EMAIL  (default: contractor.test3@outlook.com)
-      Technician:     TECH_EMAIL         (default: tech.test1@outlook.com)
+      Contractor 4:   CONTRACTOR4_EMAIL  (default: contractor.test4@outlook.com) -- backup
+      Technician 1:   TECH_EMAIL         (default: tech.test1@outlook.com)
+      Technician 2:   TECH2_EMAIL        (default: tech.test2@outlook.com)  -- backup
     """
     print("\n── Workflow 0: Create Test Accounts ─────────────────────────")
 
     accounts_to_create = [
-        ("agent",      AGENT_EMAIL,        AGENT_PASSWORD,        "Alex",  "Johnson",  "Surety Realty"),
-        ("agent",      AGENT2_EMAIL,       AGENT2_PASSWORD,       "Maria", "Garcia",   "HomeGuard Agency"),
-        ("agent",      AGENT3_EMAIL,       AGENT3_PASSWORD,       "James", "Wilson",   "Wilson Insurance Group"),
-        ("homeowner",  HOMEOWNER_EMAIL_A,  HOMEOWNER_PASSWORD_A,  "Jamie", "Lee",      ""),
-        ("homeowner",  HOMEOWNER_EMAIL_B,  HOMEOWNER_PASSWORD_B,  "Sam",   "Williams", ""),
-        ("homeowner",  HOMEOWNER_EMAIL_C,  HOMEOWNER_PASSWORD_C,  "Chris", "Brown",    ""),
-        ("contractor", CONTRACTOR_EMAIL,   CONTRACTOR_PASSWORD,   "Bob",   "Miller",   "Miller Construction LLC"),
-        ("contractor", CONTRACTOR2_EMAIL,  CONTRACTOR2_PASSWORD,  "Linda", "Chen",     "Chen Builders Inc"),
-        ("contractor", CONTRACTOR3_EMAIL,  CONTRACTOR3_PASSWORD,  "Tony",  "Rivera",   "Rivera Home Services"),
-        ("technician", TECH_EMAIL,         TECH_PASSWORD,         "Dave",  "Torres",   "Torres Services"),
+        ("agent",      AGENT_EMAIL,        AGENT_PASSWORD,        "Alex",   "Johnson",  "Surety Realty"),
+        ("agent",      AGENT2_EMAIL,       AGENT2_PASSWORD,       "Maria",  "Garcia",   "HomeGuard Agency"),
+        ("agent",      AGENT3_EMAIL,       AGENT3_PASSWORD,       "James",  "Wilson",   "Wilson Insurance Group"),
+        ("agent",      AGENT4_EMAIL,       AGENT4_PASSWORD,       "Sophia", "Nguyen",   "Pacific Realty Group"),
+        ("homeowner",  HOMEOWNER_EMAIL_A,  HOMEOWNER_PASSWORD_A,  "Jamie",  "Lee",      ""),
+        ("homeowner",  HOMEOWNER_EMAIL_B,  HOMEOWNER_PASSWORD_B,  "Sam",    "Williams", ""),
+        ("homeowner",  HOMEOWNER_EMAIL_C,  HOMEOWNER_PASSWORD_C,  "Chris",  "Brown",    ""),
+        ("homeowner",  HOMEOWNER_EMAIL_D,  HOMEOWNER_PASSWORD_D,  "Taylor", "Davis",    ""),
+        ("contractor", CONTRACTOR_EMAIL,   CONTRACTOR_PASSWORD,   "Bob",    "Miller",   "Miller Construction LLC"),
+        ("contractor", CONTRACTOR2_EMAIL,  CONTRACTOR2_PASSWORD,  "Linda",  "Chen",     "Chen Builders Inc"),
+        ("contractor", CONTRACTOR3_EMAIL,  CONTRACTOR3_PASSWORD,  "Tony",   "Rivera",   "Rivera Home Services"),
+        ("contractor", CONTRACTOR4_EMAIL,  CONTRACTOR4_PASSWORD,  "Karen",  "Scott",    "Scott Contracting Co"),
+        ("technician", TECH_EMAIL,         TECH_PASSWORD,         "Dave",   "Torres",   "Torres Services"),
+        ("technician", TECH2_EMAIL,        TECH2_PASSWORD,        "Mike",   "Anderson", "Anderson Tech Services"),
     ]
 
     for role, email, password, first, last, company in accounts_to_create:

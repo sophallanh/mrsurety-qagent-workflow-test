@@ -24,7 +24,7 @@ has been built and committed to this repository. See the breakdown below.
 | 4 | Test multiple homeowner addresses + permit types | ✅ 3 homeowner accounts, 3 addresses | Credentials file |
 | 5 | Screenshot all emails + DocuSign (50+ items) | ✅ Enumerated in manual guide | `qa/MANUAL_EXECUTION_GUIDE.md` |
 | 6 | Admin login: admin@mrsurety.com / MrSurety2026! | ✅ Configured everywhere | All env/credential files |
-| 7 | 3 user types: Agent, Contractor, Homeowner | ✅ 12 test accounts defined (3 agents, 3 contractors, 3 homeowners, tech, insurance agent, admin) | Credentials file |
+| 7 | 3 user types: Agent, Contractor, Homeowner | ✅ 15 test accounts defined (4 agents, 4 homeowners, 4 contractors, 2 technicians + insurance agent inbox + admin) | Credentials file |
 | 8 | Bug reporting with screenshots | ✅ Template + screenshot directories | `qa/bug-reports/BUG_REPORT_TEMPLATE.md` |
 | 9 | Reference doc links captured (all 5 Google Docs) | ✅ All 5 links in repo | `CHRISTOPHER_ORIGINAL_EMAIL.md` |
 | 10 | Share credentials so Christopher can verify | ✅ Full credential file committed | `qa/test-user-credentials/TEST_USER_CREDENTIALS.md` |
@@ -154,9 +154,10 @@ qa/screenshots/
 | `qa/spec-docs/workflow-guides/SHORT_WORKFLOW_GUIDE.md` | Quick reference for all 9 workflows |
 | `qa/spec-docs/workflow-guides/APP_WORKFLOW_GUIDES.md` | In-app guides captured from live app |
 | `qa/MANUAL_EXECUTION_GUIDE.md` | Step-by-step guide for all 9 workflows |
+| `qa/ACCOUNTS_TO_CREATE.md` | **Outlook account creation guide — START HERE** |
 | `qa/openclaw/RUN_TODAY.md` | Copy-paste command blocks for today's run |
 | `qa/openclaw/OPENCLAW_SETUP_GUIDE.md` | Full OpenClaw setup instructions |
-| `qa/test-user-credentials/TEST_USER_CREDENTIALS.md` | All test account credentials |
+| `qa/test-user-credentials/TEST_USER_CREDENTIALS.md` | All test account credentials (15 accounts + backup accounts) |
 | `qa/bug-reports/BUG_REPORT_TEMPLATE.md` | Bug reporting template |
 | `qa/summary-reports/QA_SUMMARY_TEMPLATE.md` | Daily QA summary template |
 

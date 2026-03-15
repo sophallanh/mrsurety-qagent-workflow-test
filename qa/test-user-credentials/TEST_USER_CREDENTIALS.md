@@ -1,6 +1,6 @@
 # MrSurety QA – Test User Credentials
 
-**Last Updated:** 2026-03-14  
+**Last Updated:** 2026-03-15  
 **Live App:** https://frontend-tan-five-46.vercel.app  
 **Prepared by:** Sophal Lanh  
 
@@ -9,6 +9,9 @@
 ---
 
 ## How to Create These Accounts
+
+> **Full setup guide with step-by-step Outlook account creation:**  
+> 👉 [`qa/ACCOUNTS_TO_CREATE.md`](../ACCOUNTS_TO_CREATE.md)
 
 Run this **once** before executing any other workflow:
 ```bash
@@ -49,6 +52,7 @@ Or create them manually at: **https://frontend-tan-five-46.vercel.app/signup**
 | agent.test1@outlook.com | QAtest@2026! | Alex Johnson | Surety Realty | Workflow 2 — referral link generation |
 | agent.test2@outlook.com | QAtest@2026! | Maria Garcia | HomeGuard Agency | Multi-agent scenario |
 | agent.test3@outlook.com | QAtest@2026! | James Wilson | Wilson Insurance Group | Third agent — upload invite & referral tests |
+| agent.test4@outlook.com | QAtest@2026! | Sophia Nguyen | Pacific Realty Group | **BACKUP** — use if primary accounts locked |
 
 ---
 
@@ -59,6 +63,7 @@ Or create them manually at: **https://frontend-tan-five-46.vercel.app/signup**
 | homeowner.test2@outlook.com | QAtest@2026! | Jamie Lee | 456 Oak Ave, Anaheim CA 92801 | Workflow 3 Method A — uses referral link |
 | homeowner.test1@outlook.com | QAtest@2026! | Sam Williams | 123 Main St, Los Angeles CA 90001 | Workflow 3 Method B — enters agent email |
 | homeowner.test3@outlook.com | QAtest@2026! | Chris Brown | 789 Pine Rd, Irvine CA 92604 | Edge case — no agent email entered |
+| homeowner.test4@outlook.com | QAtest@2026! | Taylor Davis | 321 Elm St, Santa Ana CA 92701 | **BACKUP** — use if primary accounts locked |
 
 ---
 
@@ -69,6 +74,7 @@ Or create them manually at: **https://frontend-tan-five-46.vercel.app/signup**
 | contractor.test1@outlook.com | QAtest@2026! | Bob Miller | Miller Construction LLC | Workflow 4 — submits bid & estimate |
 | contractor.test2@outlook.com | QAtest@2026! | Linda Chen | Chen Builders Inc | Competing bid scenario |
 | contractor.test3@outlook.com | QAtest@2026! | Tony Rivera | Rivera Home Services | Third contractor — upload invite sender |
+| contractor.test4@outlook.com | QAtest@2026! | Karen Scott | Scott Contracting Co | **BACKUP** — use if primary accounts locked |
 
 ---
 
@@ -77,6 +83,7 @@ Or create them manually at: **https://frontend-tan-five-46.vercel.app/signup**
 | Email | Password | Name | Company | Workflow |
 |-------|----------|------|---------|----------|
 | tech.test1@outlook.com | QAtest@2026! | Dave Torres | Torres Services | Workflow 8 — receives & completes work order |
+| tech.test2@outlook.com | QAtest@2026! | Mike Anderson | Anderson Tech Services | **BACKUP** — use if tech.test1 locked |
 
 ---
 
@@ -96,9 +103,12 @@ Or create them manually at: **https://frontend-tan-five-46.vercel.app/signup**
 ## Account Registration Notes
 
 - **Create a real Outlook inbox** for each email address before running `create-accounts`
-- All accounts are registered on the **live app** (https://frontend-tan-five-46.vercel.app) only
+- **Full step-by-step Outlook setup guide:** [`qa/ACCOUNTS_TO_CREATE.md`](../ACCOUNTS_TO_CREATE.md)
+- **Total accounts to create on Outlook.com: 15** (4 agents + 4 homeowners + 4 contractors + 2 technicians + 1 insurance agent external)
+- All platform accounts are registered on the **live app** (https://frontend-tan-five-46.vercel.app) only
 - Use the **agent referral link** method (agent.test1 → homeowner.test2) for Workflow 2–3 Method A
 - Use the **homeowner agent-email method** (homeowner.test1 → enters agent.test1 email) for Workflow 3 Method B
 - Contractor accounts require admin approval — admin logs in and approves (Workflow 7)
+- **Backup accounts** (test4 for each role, tech.test2) are registered automatically — use them if primary accounts become locked or stop working
 - After each test cycle, document which accounts were used and any password resets
 
