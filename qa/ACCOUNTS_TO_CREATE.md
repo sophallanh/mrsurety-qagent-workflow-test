@@ -4,6 +4,21 @@
 **Updated:** 2026-03-15  
 **Purpose:** Create these real Outlook.com inboxes BEFORE running any QA automation
 
+---
+
+## 🔗 Quick Links — Bookmark These
+
+| What | Link |
+|------|------|
+| **This file on GitHub** | https://github.com/sophallanh/mrsurety-qagent-workflow-test/blob/main/qa/ACCOUNTS_TO_CREATE.md |
+| **Full credentials table (GitHub)** | https://github.com/sophallanh/mrsurety-qagent-workflow-test/blob/main/qa/test-user-credentials/TEST_USER_CREDENTIALS.md |
+| **CSV of all accounts (GitHub)** | https://github.com/sophallanh/mrsurety-qagent-workflow-test/blob/main/qa/test-user-credentials/test_users.csv |
+| **👉 Create Outlook account (signup page)** | **https://signup.live.com** |
+| **Outlook inbox (to verify)** | https://outlook.live.com/mail |
+| **MrSurety live app (signup after)** | https://frontend-tan-five-46.vercel.app/signup |
+
+---
+
 > ⚠️ The QA automation sends real emails and logs in to real Outlook inboxes.
 > Every address below must be a working Microsoft Outlook account you control.
 > Once created, the automation (`--workflow create-accounts`) registers each
@@ -26,67 +41,93 @@
 ## How to Create Each Account (takes ~2 minutes each)
 
 1. Open a browser in **private/incognito mode**
-2. Go to **https://signup.live.com**
+2. Go to **https://signup.live.com** ← click here
 3. Enter the email address from the list below (e.g. `agent.test1@outlook.com`)
-4. Set the password exactly as shown (copy-paste it)
+4. Set the password exactly as shown (copy-paste it: `QAtest@2026!`)
 5. Complete any verification Microsoft asks for (SMS code is the fastest)
-6. **Write down / confirm** that the inbox is accessible
+6. ✅ Check the box in the list below when done
 
-> **Tip:** Do all accounts in one sitting. Open a separate incognito window for
-> each so you don't get confused between sessions.
+> **Tip:** Do all 15 accounts in one sitting. Open a new incognito window for
+> each one so Microsoft doesn't keep you logged in as the previous account.
 
 ---
 
 ## ✅ COMPLETE ACCOUNT LIST — Create All of These
 
-### AGENTS (4 accounts)
+> **One-click signup page:** https://signup.live.com  
+> **Password for ALL accounts:** `QAtest@2026!`  
+> **Check off each box as you create it ↓**
 
-| # | Email | Password | Full Name | Company |
-|---|-------|----------|-----------|---------|
-| 1 | `agent.test1@outlook.com` | `QAtest@2026!` | Alex Johnson | Surety Realty |
-| 2 | `agent.test2@outlook.com` | `QAtest@2026!` | Maria Garcia | HomeGuard Agency |
-| 3 | `agent.test3@outlook.com` | `QAtest@2026!` | James Wilson | Wilson Insurance Group |
-| 4 | `agent.test4@outlook.com` | `QAtest@2026!` | Sophia Nguyen | Pacific Realty Group ← **BACKUP** |
+---
 
-### HOMEOWNERS (4 accounts)
+### AGENTS — 4 accounts to create
 
-| # | Email | Password | Full Name |
-|---|-------|----------|-----------|
-| 1 | `homeowner.test1@outlook.com` | `QAtest@2026!` | Sam Williams |
-| 2 | `homeowner.test2@outlook.com` | `QAtest@2026!` | Jamie Lee |
-| 3 | `homeowner.test3@outlook.com` | `QAtest@2026!` | Chris Brown |
-| 4 | `homeowner.test4@outlook.com` | `QAtest@2026!` | Taylor Davis ← **BACKUP** |
+- [ ] **1.** Email: `agent.test1@outlook.com` · Name: Alex Johnson · Company: Surety Realty
+- [ ] **2.** Email: `agent.test2@outlook.com` · Name: Maria Garcia · Company: HomeGuard Agency
+- [ ] **3.** Email: `agent.test3@outlook.com` · Name: James Wilson · Company: Wilson Insurance Group
+- [ ] **4.** Email: `agent.test4@outlook.com` · Name: Sophia Nguyen · Company: Pacific Realty Group ← **BACKUP**
 
-### CONTRACTORS (4 accounts)
+---
 
-| # | Email | Password | Full Name | Company |
-|---|-------|----------|-----------|---------|
-| 1 | `contractor.test1@outlook.com` | `QAtest@2026!` | Bob Miller | Miller Construction LLC |
-| 2 | `contractor.test2@outlook.com` | `QAtest@2026!` | Linda Chen | Chen Builders Inc |
-| 3 | `contractor.test3@outlook.com` | `QAtest@2026!` | Tony Rivera | Rivera Home Services |
-| 4 | `contractor.test4@outlook.com` | `QAtest@2026!` | Karen Scott | Scott Contracting Co ← **BACKUP** |
+### HOMEOWNERS — 4 accounts to create
 
-### TECHNICIANS (2 accounts)
+- [ ] **5.** Email: `homeowner.test1@outlook.com` · Name: Sam Williams
+- [ ] **6.** Email: `homeowner.test2@outlook.com` · Name: Jamie Lee
+- [ ] **7.** Email: `homeowner.test3@outlook.com` · Name: Chris Brown
+- [ ] **8.** Email: `homeowner.test4@outlook.com` · Name: Taylor Davis ← **BACKUP**
 
-| # | Email | Password | Full Name | Company |
-|---|-------|----------|-----------|---------|
-| 1 | `tech.test1@outlook.com` | `QAtest@2026!` | Dave Torres | Torres Services |
-| 2 | `tech.test2@outlook.com` | `QAtest@2026!` | Mike Anderson | Anderson Tech Services ← **BACKUP** |
+---
 
-### INSURANCE AGENT — EXTERNAL (1 account)
+### CONTRACTORS — 4 accounts to create
 
-> This account receives the secure upload link email (Workflow 9).
-> It does NOT need a MrSurety platform login — just an inbox.
+- [ ] **9.**  Email: `contractor.test1@outlook.com` · Name: Bob Miller · Company: Miller Construction LLC
+- [ ] **10.** Email: `contractor.test2@outlook.com` · Name: Linda Chen · Company: Chen Builders Inc
+- [ ] **11.** Email: `contractor.test3@outlook.com` · Name: Tony Rivera · Company: Rivera Home Services
+- [ ] **12.** Email: `contractor.test4@outlook.com` · Name: Karen Scott · Company: Scott Contracting Co ← **BACKUP**
 
-| # | Email | Password | Full Name | Company |
-|---|-------|----------|-----------|---------|
-| 1 | `ins.agent.test@outlook.com` | `QAtest@2026!` | Rachel Kim | Kim Insurance Brokers |
+---
 
-### ADMIN — ALREADY EXISTS (do NOT create)
+### TECHNICIANS — 2 accounts to create
 
-| Email | Password | Notes |
-|-------|----------|-------|
-| `admin@mrsurety.com` | `MrSurety2026!` | Christopher's real admin — already on the live app |
+- [ ] **13.** Email: `tech.test1@outlook.com` · Name: Dave Torres · Company: Torres Services
+- [ ] **14.** Email: `tech.test2@outlook.com` · Name: Mike Anderson · Company: Anderson Tech Services ← **BACKUP**
+
+---
+
+### INSURANCE AGENT EXTERNAL — 1 account to create
+
+> This account only needs an inbox — it does **not** need a MrSurety platform login.
+> It receives the secure upload link email via Workflow 9.
+
+- [ ] **15.** Email: `ins.agent.test@outlook.com` · Name: Rachel Kim · Company: Kim Insurance Brokers
+
+---
+
+### ADMIN — ⛔ DO NOT CREATE (already exists)
+
+- ✅ `admin@mrsurety.com` / `MrSurety2026!` — Christopher's real admin — already on the live app
+
+---
+
+### Quick Reference Table
+
+| # | Email | Password | Full Name | Role |
+|---|-------|----------|-----------|------|
+| 1 | `agent.test1@outlook.com` | `QAtest@2026!` | Alex Johnson | Agent |
+| 2 | `agent.test2@outlook.com` | `QAtest@2026!` | Maria Garcia | Agent |
+| 3 | `agent.test3@outlook.com` | `QAtest@2026!` | James Wilson | Agent |
+| 4 | `agent.test4@outlook.com` | `QAtest@2026!` | Sophia Nguyen | Agent BACKUP |
+| 5 | `homeowner.test1@outlook.com` | `QAtest@2026!` | Sam Williams | Homeowner |
+| 6 | `homeowner.test2@outlook.com` | `QAtest@2026!` | Jamie Lee | Homeowner |
+| 7 | `homeowner.test3@outlook.com` | `QAtest@2026!` | Chris Brown | Homeowner |
+| 8 | `homeowner.test4@outlook.com` | `QAtest@2026!` | Taylor Davis | Homeowner BACKUP |
+| 9 | `contractor.test1@outlook.com` | `QAtest@2026!` | Bob Miller | Contractor |
+| 10 | `contractor.test2@outlook.com` | `QAtest@2026!` | Linda Chen | Contractor |
+| 11 | `contractor.test3@outlook.com` | `QAtest@2026!` | Tony Rivera | Contractor |
+| 12 | `contractor.test4@outlook.com` | `QAtest@2026!` | Karen Scott | Contractor BACKUP |
+| 13 | `tech.test1@outlook.com` | `QAtest@2026!` | Dave Torres | Technician |
+| 14 | `tech.test2@outlook.com` | `QAtest@2026!` | Mike Anderson | Technician BACKUP |
+| 15 | `ins.agent.test@outlook.com` | `QAtest@2026!` | Rachel Kim | Ins. Agent (external) |
 
 ---
 
