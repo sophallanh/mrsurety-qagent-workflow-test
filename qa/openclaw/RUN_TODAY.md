@@ -76,6 +76,29 @@ brew install ffmpeg
 > be opened in **Chrome**, **Firefox**, or **VLC** — but not QuickTime Player.
 > Run `brew install ffmpeg` and re-run the workflow to get playable MP4 files.
 
+### 🔧 Fix existing videos that won't open in QuickTime
+
+If you already ran the QA workflows and the `.mp4` files say
+**"The file isn't compatible with QuickTime Player"**, those files are
+WebM recordings that were renamed without re-encoding.  Fix them in one step:
+
+```bash
+# 1. Install ffmpeg (one time, macOS)
+brew install ffmpeg
+
+# 2. Re-encode all videos to real H.264 MP4
+qa/openclaw/.venv/bin/python qa/openclaw/workflows/mrsurety_qa.py --fix-videos
+```
+
+The command will scan `output/videos/`, skip files already in H.264, and
+re-encode everything else.  Original broken files are removed on success.
+
+You can also point it at a custom folder:
+```bash
+qa/openclaw/.venv/bin/python qa/openclaw/workflows/mrsurety_qa.py \
+  --fix-videos --video-dir /path/to/videos
+```
+
 ---
 
 ## After It Finishes

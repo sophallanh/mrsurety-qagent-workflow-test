@@ -977,14 +977,6 @@ def _fill_name_fields(page: "Page", first: str, last: str) -> None:
     # Fall back to separate first + last fields
     _fill_field(page, _FIRST_NAME_SELECTORS, first)
     _fill_field(page, _LAST_NAME_SELECTORS, last, required=False)
-    page.goto("/login")
-    email_sel = _resolve_selector(page, _EMAIL_SELECTORS)
-    page.fill(email_sel, email)
-    pwd_sel = _resolve_selector(page, _PASSWORD_SELECTORS)
-    page.fill(pwd_sel, password)
-    submit_sel = _resolve_selector(page, _LOGIN_SUBMIT_SELECTORS)
-    page.click(submit_sel)
-    page.wait_for_url(lambda url: "/login" not in url, timeout=TIMEOUT)
 
 
 # ── Workflow 1 – Admin Login & Dashboard ────────────────────────────────────
@@ -2263,6 +2255,104 @@ def _package_and_upload() -> Optional[Path]:
     return zip_path
 
 
+# ── Fix Existing Videos ──────────────────────────────────────────────────────
+
+def fix_videos(video_dir: Optional[Path] = None) -> None:
+    """Re-encode all videos in *video_dir* to QuickTime-compatible H.264 MP4.
+
+    Playwright saves recordings in WebM (VP8/VP9).  Older runs of this script
+    (before the ffmpeg conversion was added) renamed those WebM files to .mp4
+    without re-encoding, producing files that QuickTime Player on macOS cannot
+    open.  Run this command to fix ALL existing videos in one step:
+
+        python3 qa/openclaw/workflows/mrsurety_qa.py --fix-videos
+
+    Requirements:
+        brew install ffmpeg   # macOS
+        # or: sudo apt install ffmpeg   # Ubuntu/Debian
+    """
+    import subprocess
+
+    target = video_dir or VIDEO_DIR
+    if not target.exists():
+        print(f"  ⚠️  Video directory not found: {target}")
+        return
+
+    candidates = list(target.glob("*.mp4")) + list(target.glob("*.webm"))
+    if not candidates:
+        print(f"  ℹ️  No video files found in {target}")
+        return
+
+    # Verify ffmpeg is available before starting
+    try:
+        subprocess.run(["ffmpeg", "-version"], capture_output=True, check=True)
+    except (FileNotFoundError, subprocess.CalledProcessError):
+        print("\n  ❌ ffmpeg is not installed or not on PATH.")
+        print("     Install it with:  brew install ffmpeg   (macOS)")
+        print("                       sudo apt install ffmpeg   (Ubuntu)")
+        sys.exit(1)
+
+    print(f"\n  🎬 Fixing {len(candidates)} video(s) in {target} …\n")
+    ok = 0
+    skipped = 0
+    failed = 0
+
+    for src in sorted(candidates):
+        dest = target / (src.stem + "_fixed.mp4")
+        # Use ffprobe to detect the actual codec
+        probe = subprocess.run(
+            ["ffprobe", "-v", "error", "-select_streams", "v:0",
+             "-show_entries", "stream=codec_name", "-of", "default=noprint_wrappers=1:nokey=1",
+             str(src)],
+            capture_output=True, text=True,
+        )
+        codec = probe.stdout.strip()
+        if codec == "h264":
+            print(f"  ✅ already H.264 – skipping  {src.name}")
+            skipped += 1
+            continue
+
+        print(f"  ⏳ converting ({codec or 'unknown codec'}) → H.264 MP4  {src.name}")
+        if _convert_webm_to_mp4(src, dest):
+            # Replace original with properly-encoded file.
+            # Safer order: confirm converted file is valid, THEN remove the original.
+            final = target / (src.stem + ".mp4")
+            try:
+                dest.rename(final)
+                # Only remove the original after the new file is safely in place
+                if final.exists() and final.stat().st_size > 0:
+                    try:
+                        src.unlink()
+                    except Exception:
+                        pass
+            except Exception as rename_err:
+                print(f"  ⚠️  Could not finalize {src.name}: {rename_err}")
+                try:
+                    dest.unlink(missing_ok=True)
+                except Exception:
+                    pass
+                failed += 1
+                continue
+            print(f"  ✅ converted → {final.name}")
+            ok += 1
+        else:
+            print(f"  ❌ conversion failed for {src.name}")
+            try:
+                dest.unlink(missing_ok=True)
+            except Exception:
+                pass
+            failed += 1
+
+    print(f"\n  ── Results ─────────────────────────────────────────")
+    print(f"     Converted : {ok}")
+    print(f"     Skipped   : {skipped}  (already H.264 MP4)")
+    print(f"     Failed    : {failed}")
+    if ok > 0:
+        print(f"\n  🎉 Done!  Open {target} – all converted videos should now play in QuickTime.")
+    if failed > 0:
+        print(f"\n  ⚠️  {failed} file(s) could not be converted.  Check ffmpeg output above.")
+
+
 # ── Connection Check ─────────────────────────────────────────────────────────
 
 def check_connection() -> None:
@@ -2330,10 +2420,29 @@ def main() -> None:
         action="store_true",
         help="Verify app is reachable and admin login works, then exit",
     )
+    parser.add_argument(
+        "--fix-videos",
+        action="store_true",
+        help=(
+            "Re-encode all .mp4 and .webm files in output/videos/ to QuickTime-compatible "
+            "H.264 MP4.  Use this to fix videos recorded before the ffmpeg conversion was "
+            "added (they will show 'not compatible' in QuickTime).  Requires ffmpeg."
+        ),
+    )
+    parser.add_argument(
+        "--video-dir",
+        default=None,
+        help="Override the video directory used by --fix-videos (default: output/videos/)",
+    )
     args = parser.parse_args()
 
     if args.check_connection:
         check_connection()
+        return
+
+    if args.fix_videos:
+        vdir = Path(args.video_dir) if args.video_dir else None
+        fix_videos(vdir)
         return
 
     _ensure_dirs()
