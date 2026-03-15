@@ -14,7 +14,8 @@ cd qa/openclaw && zip -r "MrSurety_QA_$(date +%Y-%m-%d).zip" output/
 ```
 
 > **No need to reinstall** — `git pull` picks up all the latest fixes (increased timeouts,
-> Outlook login URL fix, FIDO/MFA page handling).  Run those 3 lines and you're done.
+> Outlook passkey bypass, broader signup form selectors, resilient nav for contractor bidding).
+> Run those 3 lines and you're done.
 
 ---
 
@@ -103,14 +104,51 @@ cd ~/mrsurety-qagent-workflow-test && git pull
 qa/openclaw/.venv/bin/python3 qa/openclaw/workflows/mrsurety_qa.py --workflow email-docusign
 ```
 
-**Step 3 – If you still see "Timeout 60000ms"** – you're running old code.  Run `git pull` first.
+**Step 3 – If you still see "Timeout" or "did not show an email field"** – Microsoft is blocking
+automated browsers on the test accounts.  You need to disable passkeys AND two-step verification.
+Sign in to each account at https://account.microsoft.com/security, then:
+- Remove any passkeys / security keys under "Security info"
+- Disable "Two-step verification" (choose "Turn off")
 
-**Step 4 – If you see "blocked by MFA"** – the Outlook test accounts have two-step verification
-turned on. Sign in to each account at https://account.microsoft.com/security and disable
-"Two-step verification". The accounts are:
+The accounts are:
 - `agent.test1@outlook.com` / `QAtest@2026!`
 - `homeowner.test1@outlook.com`, `homeowner.test2@outlook.com` / `QAtest@2026!`
 - `contractor.test1@outlook.com` / `QAtest@2026!`
+
+**Step 4 – If Microsoft still blocks** – take manual screenshots of each inbox and put them in
+`qa/openclaw/output/screenshots/` named `email_001_agent_inbox.png`, etc.  The findings report
+will still be generated from the other 8 workflows.
+
+---
+
+## If Workflow 2 shows ❌ "Could not locate required form field"
+
+The signup page uses a form component the script can't detect automatically.
+
+**Step 1 – Pull the latest fixes (this PR adds broader selectors):**
+```bash
+cd ~/mrsurety-qagent-workflow-test && git pull
+```
+
+**Step 2 – Re-run just the signup workflow:**
+```bash
+qa/openclaw/.venv/bin/python3 qa/openclaw/workflows/mrsurety_qa.py --workflow agent-signup
+```
+
+**Step 3 – If still failing** – create the agent account manually in the app:
+1. Go to https://frontend-tan-five-46.vercel.app/signup  
+2. Sign up with email `agent.test1@outlook.com` / password `QAtest@2026!`
+3. Then run `--workflow all` — the script will log in with the existing account instead
+
+---
+
+## If Workflow 3 shows ❌ "service-request-form not visible"
+
+Same situation — the form uses custom components.  After the latest `git pull`, the script
+uses broader selectors (`form`, `main`, etc.) so it should find any visible form.
+
+If it still fails, confirm the service request page is accessible by visiting
+https://frontend-tan-five-46.vercel.app/service-request in your browser.
 
 ---
 
