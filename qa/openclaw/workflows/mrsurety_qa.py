@@ -330,8 +330,45 @@ def _get_email_domain(email: str) -> str:
     return email.split("@")[-1].lower() if "@" in email else ""
 
 
+def _convert_webm_to_mp4(src: Path, dest: Path) -> bool:
+    """Convert a WebM (VP8/VP9) file to H.264 MP4 using ffmpeg.
+
+    Playwright records videos in WebM format which is not compatible with
+    QuickTime Player on macOS.  This function re-encodes to H.264 in an
+    MP4 container so videos play natively on Mac/Windows/iPhone.
+
+    Returns True on success; False if ffmpeg is not installed or fails.
+    """
+    try:
+        import subprocess
+        result = subprocess.run(
+            [
+                "ffmpeg", "-y", "-i", str(src),
+                "-c:v", "libx264", "-preset", "fast", "-crf", "23",
+                "-c:a", "aac", "-movflags", "+faststart",
+                str(dest),
+            ],
+            capture_output=True,
+            timeout=180,
+        )
+        if result.returncode == 0 and dest.exists() and dest.stat().st_size > 0:
+            try:
+                src.unlink()
+            except Exception:
+                pass
+            return True
+        return False
+    except (FileNotFoundError, subprocess.TimeoutExpired, Exception):
+        return False
+
+
 def _save_video(ctx: BrowserContext, video_name: str) -> Optional[str]:
-    """Close *ctx* and move its recorded video to VIDEO_DIR/<video_name>.
+    """Close *ctx* and save its recorded video to VIDEO_DIR/<video_name>.
+
+    Playwright records in WebM (VP8/VP9).  This function tries to convert to
+    H.264 MP4 via ffmpeg so the file plays in QuickTime Player on macOS.
+    If ffmpeg is not installed, the video is saved as .webm instead (with
+    the correct extension so it opens in browsers / VLC).
 
     Returns the final path string, or None if no video was captured.
     The context must still be open when this is called (it is closed here).
@@ -344,11 +381,18 @@ def _save_video(ctx: BrowserContext, video_name: str) -> Optional[str]:
         pass
     _safe_close(ctx)
     if video_path:
-        dest = VIDEO_DIR / video_name
+        src = Path(video_path)
+        dest_mp4 = VIDEO_DIR / video_name
+        # Attempt ffmpeg conversion → true H.264 MP4 (QuickTime-compatible)
+        if _convert_webm_to_mp4(src, dest_mp4):
+            print(f"  🎥 video saved → {dest_mp4.name}")
+            return str(dest_mp4)
+        # ffmpeg not available – save with correct .webm extension
+        dest_webm = VIDEO_DIR / (Path(video_name).stem + ".webm")
         try:
-            Path(video_path).rename(dest)
-            print(f"  🎥 video saved → {dest.name}")
-            return str(dest)
+            src.rename(dest_webm)
+            print(f"  🎥 video saved → {dest_webm.name}  (WebM; install ffmpeg to get MP4)")
+            return str(dest_webm)
         except Exception as ve:
             print(f"  ⚠️  Could not save video: {ve}")
     return None
@@ -622,6 +666,15 @@ _LOGIN_SUBMIT_SELECTORS = [
 # Tried in priority order; the first visible selector on the page wins.
 
 _FIRST_NAME_SELECTORS = [
+    # ── Full-name single-field forms (e.g. MrSurety signup) ──────────────────
+    'input[placeholder*="Full Name" i]',
+    'input[placeholder*="John Doe" i]',
+    'input[name*="fullName" i]',
+    'input[name*="full_name" i]',
+    'input[id*="fullName" i]',
+    'input[id*="full_name" i]',
+    'input[aria-label*="full name" i]',
+    # ── Traditional split first-name fields ───────────────────────────────────
     '[data-testid="first-name"]',
     'input[name="firstName"]',
     'input[name="first_name"]',
@@ -638,6 +691,33 @@ _FIRST_NAME_SELECTORS = [
     'form input[type="text"]:first-of-type',
     'main input[type="text"]:first-of-type',
     'input[type="text"]:first-of-type',
+]
+
+# Phone number field selectors (required on MrSurety signup)
+_PHONE_SELECTORS = [
+    '[data-testid="phone"]',
+    'input[type="tel"]',
+    'input[name="phone"]',
+    'input[name="phoneNumber"]',
+    'input[name="phone_number"]',
+    'input[id="phone"]',
+    'input[id="phoneNumber"]',
+    'input[placeholder*="phone" i]',
+    'input[placeholder*="555" i]',
+    'input[placeholder*="(555)" i]',
+    'input[autocomplete="tel"]',
+    'input[aria-label*="phone" i]',
+]
+
+# Full-name single-field selectors used by _fill_name_fields()
+_FULL_NAME_SELECTORS = [
+    'input[placeholder*="Full Name" i]',
+    'input[placeholder*="John Doe" i]',
+    'input[name*="fullName" i]',
+    'input[name*="full_name" i]',
+    'input[id*="fullName" i]',
+    'input[id*="full_name" i]',
+    'input[aria-label*="full name" i]',
 ]
 
 _LAST_NAME_SELECTORS = [
@@ -690,19 +770,24 @@ _ROLE_SELECTORS = [
     'select[name="user_type"]',
     'select[id="userType"]',
     'select[name="accountType"]',
-    # Radio buttons (select by value attribute – handled via _click_role_option)
+    # Radio buttons (generic – value matched by _select_option_resilient)
     'input[type="radio"][value="agent"]',
     'input[type="radio"][value="Agent"]',
-    # Clickable tab/button role selectors (handled via _click_role_option)
-    '[role="tab"]:has-text("Agent")',
-    'button:has-text("Agent")',
-    'label:has-text("Agent")',
+    'input[type="radio"][value="insurance_agent"]',
+    'input[type="radio"][value="insuranceAgent"]',
+    'input[type="radio"][value="homeowner"]',
+    'input[type="radio"][value="Homeowner"]',
+    'input[type="radio"][value="contractor"]',
+    'input[type="radio"][value="Contractor"]',
 ]
+# NOTE: text-based card selectors ("Insurance Agent", "Homeowner", etc.) are
+# added dynamically in _select_option_resilient() based on the role value.
 
 _SIGNUP_SUBMIT_SELECTORS = [
     '[data-testid="signup-submit"]',
     'button[type="submit"]',
     'input[type="submit"]',
+    'button:has-text("Continue")',
     'button:has-text("Sign Up")',
     'button:has-text("Create Account")',
     'button:has-text("Register")',
@@ -839,10 +924,31 @@ def _select_option_resilient(
       • <select> dropdowns  – uses page.select_option()
       • Radio buttons       – uses page.click() on the matching input
       • Tabs / buttons / labels – uses page.click() on the matching element
+      • MrSurety card-style role pickers – dynamically matches display text
 
     Returns True on success; False if no selector matched (always non-fatal).
     """
-    for sel in selectors:
+    # MrSurety signup uses card-style labels with display names that differ
+    # from the role value strings ("agent" → "Insurance Agent", etc.).
+    _ROLE_DISPLAY_TEXT: dict[str, list[str]] = {
+        "agent":       ["Insurance Agent", "Agent"],
+        "homeowner":   ["Homeowner", "Home Owner"],
+        "contractor":  ["Contractor"],
+        "technician":  ["Technician", "Tech"],
+    }
+    # Build dynamic text-based selectors for the card UI
+    display_texts = _ROLE_DISPLAY_TEXT.get(value.lower(), [value.capitalize()])
+    dynamic_selectors: list[str] = []
+    for text in display_texts:
+        dynamic_selectors += [
+            f'label:has-text("{text}")',
+            f'[role="radio"]:has-text("{text}")',
+            f'div[role="option"]:has-text("{text}")',
+            f'button:has-text("{text}")',
+            f'[role="tab"]:has-text("{text}")',
+        ]
+
+    for sel in list(selectors) + dynamic_selectors:
         try:
             page.wait_for_selector(sel, timeout=probe_ms, state="visible")
             # Detect element type and act accordingly
@@ -858,7 +964,19 @@ def _select_option_resilient(
     return False
 
 
-def _login(page: "Page", email: str, password: str) -> None:
+def _fill_name_fields(page: "Page", first: str, last: str) -> None:
+    """Fill name field(s), handling both "Full Name" and separate first/last forms.
+
+    MrSurety's signup uses a single "Full Name" field (placeholder "John Doe").
+    This helper detects which form pattern is present and fills accordingly,
+    so the rest of the code can pass (first, last) without knowing the form layout.
+    """
+    # Try a single "Full Name" field first (MrSurety signup pattern)
+    if _fill_field(page, _FULL_NAME_SELECTORS, f"{first} {last}", required=False):
+        return
+    # Fall back to separate first + last fields
+    _fill_field(page, _FIRST_NAME_SELECTORS, first)
+    _fill_field(page, _LAST_NAME_SELECTORS, last, required=False)
     page.goto("/login")
     email_sel = _resolve_selector(page, _EMAIL_SELECTORS)
     page.fill(email_sel, email)
@@ -928,9 +1046,10 @@ def workflow_agent_signup(browser: Browser) -> str:
         # Brief pause so conditional form fields (if any) have time to render
         page.wait_for_timeout(1000)
 
-        _fill_field(page, _FIRST_NAME_SELECTORS, "Test")
-        _fill_field(page, _LAST_NAME_SELECTORS, "Agent")
+        # Fill name: handles both "Full Name" single-field and separate first/last
+        _fill_name_fields(page, "Test", "Agent")
         _fill_field(page, _EMAIL_SELECTORS, AGENT_EMAIL)
+        _fill_field(page, _PHONE_SELECTORS, "5551234567", required=False)
         _fill_field(page, _PASSWORD_SELECTORS, AGENT_PASSWORD)
         _fill_field(page, _CONFIRM_PASSWORD_SELECTORS, AGENT_PASSWORD, required=False)
         _fill_field(page, _COMPANY_SELECTORS, "Test Agency LLC", required=False)
@@ -1041,9 +1160,9 @@ def workflow_homeowner_service_request(browser: Browser, referral_link: str = ""
         # Use resilient selector list – the live app may not have data-testid attributes
         _resolve_selector(page_a, _SERVICE_REQUEST_FORM_SELECTORS, probe_ms=TIMEOUT)
 
-        _fill_field(page_a, _FIRST_NAME_SELECTORS, "Test")
-        _fill_field(page_a, _LAST_NAME_SELECTORS, "HomeownerA")
+        _fill_name_fields(page_a, "Test", "HomeownerA")
         _fill_field(page_a, _EMAIL_SELECTORS, HOMEOWNER_EMAIL_A)
+        _fill_field(page_a, _PHONE_SELECTORS, "5551234567", required=False)
         _fill_field(page_a, _PASSWORD_SELECTORS, HOMEOWNER_PASSWORD_A)
         _fill_field(
             page_a,
@@ -1120,9 +1239,9 @@ def workflow_homeowner_service_request(browser: Browser, referral_link: str = ""
         page_b.goto("/service-request")
         _resolve_selector(page_b, _SERVICE_REQUEST_FORM_SELECTORS, probe_ms=TIMEOUT)
 
-        _fill_field(page_b, _FIRST_NAME_SELECTORS, "Test")
-        _fill_field(page_b, _LAST_NAME_SELECTORS, "HomeownerB")
+        _fill_name_fields(page_b, "Test", "HomeownerB")
         _fill_field(page_b, _EMAIL_SELECTORS, HOMEOWNER_EMAIL_B)
+        _fill_field(page_b, _PHONE_SELECTORS, "5559876543", required=False)
         _fill_field(page_b, _PASSWORD_SELECTORS, HOMEOWNER_PASSWORD_B)
         _fill_field(
             page_b,
@@ -1521,9 +1640,10 @@ def workflow_create_accounts(browser: Browser) -> None:
             # Select role if dropdown exists (non-fatal if not present)
             _select_option_resilient(page, _ROLE_SELECTORS, role)
 
-            _fill_field(page, _FIRST_NAME_SELECTORS, first)
-            _fill_field(page, _LAST_NAME_SELECTORS, last)
+            # Fill name: handles "Full Name" single field or separate first/last
+            _fill_name_fields(page, first, last)
             _fill_field(page, _EMAIL_SELECTORS, email)
+            _fill_field(page, _PHONE_SELECTORS, "5551234567", required=False)
             _fill_field(page, _PASSWORD_SELECTORS, password)
             _fill_field(page, _CONFIRM_PASSWORD_SELECTORS, password, required=False)
 
@@ -1962,7 +2082,7 @@ def _generate_reports() -> None:
     medium = [f for f in _findings if f["severity"] == "medium"]
 
     screenshots = list(SCREENSHOT_DIR.glob("*.png"))
-    videos = list(VIDEO_DIR.glob("*.mp4"))
+    videos = list(VIDEO_DIR.glob("*.mp4")) + list(VIDEO_DIR.glob("*.webm"))
 
     md = f"""# MrSurety QA – Daily Findings Report
 **Date:** {today}  
@@ -2012,7 +2132,7 @@ def _generate_reports() -> None:
 ## Output Files
 
 - `output/screenshots/` – {len(screenshots)} PNG files
-- `output/videos/` – {len(videos)} MP4 files  
+- `output/videos/` – {len(videos)} video files (MP4 or WebM)
 - `output/data/test_accounts.csv` – share with Christopher so he can log in and verify
 - `output/data/findings.csv` – import into Excel/Sheets for tracking
 - `output/data/email_inventory.csv` – all email + DocuSign screenshots indexed
@@ -2287,7 +2407,7 @@ def main() -> None:
             _safe_close(browser)
 
     screenshots = list(SCREENSHOT_DIR.glob("*.png"))
-    videos = list(VIDEO_DIR.glob("*.mp4"))
+    videos = list(VIDEO_DIR.glob("*.mp4")) + list(VIDEO_DIR.glob("*.webm"))
     print(f"\n{'='*60}")
     print(f"  ✅ QA Suite complete — {len(screenshots)} screenshots, {len(videos)} videos")
     print(f"  📁 Output  → {_OUTPUT_BASE}")

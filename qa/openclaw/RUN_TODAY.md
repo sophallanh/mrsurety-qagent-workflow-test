@@ -57,8 +57,24 @@ echo "✅ Done!  Zip is at: $(pwd)/MrSurety_QA_$(date +%Y-%m-%d).zip"
 | `cp .env.example .env` | Copies the pre-filled credentials file (skip if exists) | 1 sec |
 | `--check-connection` | Verifies the live app is up | 30 sec |
 | `--workflow create-accounts` | Signs up all 8 QA test accounts on the live app | ~5 min |
-| `--workflow all` | Runs all 9 workflows + captures 50+ screenshots + 1 video | ~30–45 min |
+| `--workflow all` | Runs all 9 workflows + captures 50+ screenshots + videos | ~30–45 min |
 | `zip output/` | Packages everything into a single zip for Google Drive | 1 min |
+
+---
+
+## 🎬 Video files (MP4 / WebM)
+
+Videos are recorded by Playwright (WebM format).  The script automatically
+converts them to QuickTime-compatible H.264 MP4 **if `ffmpeg` is installed**.
+
+**Install ffmpeg on macOS (one time):**
+```bash
+brew install ffmpeg
+```
+
+> If ffmpeg is not installed, videos are saved as `.webm` instead, which can
+> be opened in **Chrome**, **Firefox**, or **VLC** — but not QuickTime Player.
+> Run `brew install ffmpeg` and re-run the workflow to get playable MP4 files.
 
 ---
 
