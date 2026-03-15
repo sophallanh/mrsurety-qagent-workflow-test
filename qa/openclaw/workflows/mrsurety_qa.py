@@ -214,7 +214,23 @@ MANIPULATED_UPLOAD_LINK = os.getenv("MANIPULATED_UPLOAD_LINK", "")
 
 # Findings accumulator (written to CSV and Markdown report at the end)
 _findings: list[dict] = []
-_test_accounts: list[dict] = []
+
+# Pre-seed test_accounts with ALL known QA credentials so the CSV is always
+# populated even when the create-accounts workflow has not been run yet or
+# some signups failed.  Individual workflows call _register_account() which
+# will add/update entries; the pre-seed ensures Christopher always receives
+# a usable credential sheet.
+_test_accounts: list[dict] = [
+    {"role": "admin",      "email": "admin@mrsurety.com",          "password": "MrSurety2026!",  "creation_date": "pre-existing", "screenshot_path": ""},
+    {"role": "agent",      "email": AGENT_EMAIL,                   "password": AGENT_PASSWORD,   "creation_date": "", "screenshot_path": ""},
+    {"role": "agent",      "email": AGENT2_EMAIL,                  "password": AGENT2_PASSWORD,  "creation_date": "", "screenshot_path": ""},
+    {"role": "homeowner",  "email": HOMEOWNER_EMAIL_A,             "password": HOMEOWNER_PASSWORD_A, "creation_date": "", "screenshot_path": ""},
+    {"role": "homeowner",  "email": HOMEOWNER_EMAIL_B,             "password": HOMEOWNER_PASSWORD_B, "creation_date": "", "screenshot_path": ""},
+    {"role": "homeowner",  "email": HOMEOWNER_EMAIL_C,             "password": HOMEOWNER_PASSWORD_C, "creation_date": "", "screenshot_path": ""},
+    {"role": "contractor", "email": CONTRACTOR_EMAIL,              "password": CONTRACTOR_PASSWORD,  "creation_date": "", "screenshot_path": ""},
+    {"role": "contractor", "email": CONTRACTOR2_EMAIL,             "password": CONTRACTOR2_PASSWORD, "creation_date": "", "screenshot_path": ""},
+    {"role": "technician", "email": TECH_EMAIL,                    "password": TECH_PASSWORD,        "creation_date": "", "screenshot_path": ""},
+]
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
@@ -259,11 +275,20 @@ def _register_account(
     password: str,
     screenshot: str = "",
 ) -> None:
+    """Update the pre-seeded account entry for *email*, or append if not found."""
+    ts = datetime.now().strftime("%Y-%m-%d %H:%M")
+    for entry in _test_accounts:
+        if entry["email"] == email:
+            entry["creation_date"] = ts
+            if screenshot:
+                entry["screenshot_path"] = screenshot
+            return
+    # Fallback: email not in pre-seed (shouldn't happen, but be safe)
     _test_accounts.append({
         "role": role,
         "email": email,
         "password": password,
-        "creation_date": datetime.now().strftime("%Y-%m-%d %H:%M"),
+        "creation_date": ts,
         "screenshot_path": screenshot,
     })
 
@@ -709,9 +734,18 @@ def workflow_email_docusign(browser: Browser) -> None:
     for label, email, password in inboxes:
         ctx, page = _new_page(browser)
         try:
-            # Sign in to Outlook
-            page.goto("https://outlook.com")
-            page.fill('[name="loginfmt"]', email)
+            # Sign in to Outlook (use the direct live-mail URL which redirects
+            # to login instead of the Microsoft marketing page)
+            page.goto("https://outlook.live.com/mail/0/")
+            page.wait_for_load_state("networkidle")
+            # Outlook live sometimes shows a "Sign in" button on the landing page
+            # before forwarding to the Microsoft login form.  Click it if visible.
+            try:
+                page.click('[data-task="signinv2"]', timeout=5000)
+                page.wait_for_load_state("networkidle")
+            except Exception:
+                pass  # Already on the login form
+            page.fill('[name="loginfmt"]', email, timeout=TIMEOUT)
             page.click('[type="submit"]')
             page.wait_for_selector('[name="passwd"]', timeout=TIMEOUT)
             page.fill('[name="passwd"]', password)
@@ -722,7 +756,10 @@ def workflow_email_docusign(browser: Browser) -> None:
             except Exception:
                 pass
 
-            page.wait_for_selector('[aria-label="Mail"]', timeout=TIMEOUT)
+            page.wait_for_selector(
+                '[aria-label="Mail"], [data-icon-name="Mail"], [role="navigation"]',
+                timeout=TIMEOUT,
+            )
             _shot(page, f"email_{seq:03d}_{label}_inbox.png")
             print(f"  ✅ {label} inbox opened")
 
