@@ -268,6 +268,22 @@ def _register_account(
     })
 
 
+def _safe_close(obj) -> None:
+    """Close a Playwright object, suppressing errors (including KeyboardInterrupt during teardown).
+
+    Playwright's sync API wraps async operations; if the user presses Ctrl+C
+    while a close() call is running the internal event-loop poll raises a
+    second KeyboardInterrupt that is otherwise unhandled and produces noisy
+    "Future exception was never retrieved" warnings.  This helper absorbs both
+    normal exceptions and keyboard interrupts so that all finally-blocks remain
+    clean regardless of how the script was stopped.
+    """
+    try:
+        obj.close()
+    except (KeyboardInterrupt, Exception):
+        pass
+
+
 def _new_page(browser: Browser, record_video: bool = False) -> tuple[BrowserContext, Page]:
     ctx_kwargs: dict = {
         "viewport": {"width": 1920, "height": 1080},
@@ -533,7 +549,7 @@ def workflow_admin_login(browser: Browser) -> None:
         _log_finding("admin-login", "login", "ERROR", str(exc), severity="critical")
         print(f"  ❌ {exc}")
     finally:
-        ctx.close()
+        _safe_close(ctx)
 
 
 # ── Workflow 2 – Agent Signup & Referral Code ────────────────────────────────
@@ -601,7 +617,7 @@ def workflow_agent_signup(browser: Browser) -> str:
         _log_finding("agent-signup", "signup", "ERROR", str(exc), severity="high")
         print(f"  ❌ {exc}")
     finally:
-        ctx.close()
+        _safe_close(ctx)
     return referral_link
 
 
@@ -644,7 +660,7 @@ def workflow_homeowner_service_request(browser: Browser, referral_link: str = ""
         _log_finding("homeowner-service-request", "method-a", "ERROR", str(exc), severity="high")
         print(f"  ❌ Method A: {exc}")
     finally:
-        ctx_a.close()
+        _safe_close(ctx_a)
 
     # Method B – Homeowner enters agent email
     print("  [Method B – Agent Email Entry]")
@@ -673,7 +689,7 @@ def workflow_homeowner_service_request(browser: Browser, referral_link: str = ""
         _log_finding("homeowner-service-request", "method-b", "ERROR", str(exc), severity="high")
         print(f"  ❌ Method B: {exc}")
     finally:
-        ctx_b.close()
+        _safe_close(ctx_b)
 
 
 # ── Workflow 4 – Email & DocuSign Screenshots ────────────────────────────────
@@ -770,7 +786,7 @@ def workflow_email_docusign(browser: Browser) -> None:
                             "text_preview": "",
                         })
                         seq += 1
-                        ds_page.close()
+                        _safe_close(ds_page)
                 except Exception:
                     pass
 
@@ -778,7 +794,7 @@ def workflow_email_docusign(browser: Browser) -> None:
             _log_finding("email-docusign", f"inbox-{label}", "ERROR", str(exc), severity="medium")
             print(f"  ⚠️  {label} inbox error: {exc}")
         finally:
-            ctx.close()
+            _safe_close(ctx)
 
     # Write email inventory CSV
     inv_path = DATA_DIR / "email_inventory.csv"
@@ -872,7 +888,7 @@ def workflow_contractor_upload_invite(browser: Browser) -> None:
                 _log_finding("contractor-upload-invite", "agent-upload", "ERROR", str(exc), severity="high")
                 print(f"  ⚠️  Agent upload error: {exc}")
             finally:
-                ctx_agent.close()
+                _safe_close(ctx_agent)
         else:
             print("  ⚠️  AGENT_UPLOAD_LINK not set – skipping agent-side upload tests")
 
@@ -904,7 +920,7 @@ def workflow_contractor_upload_invite(browser: Browser) -> None:
                 video_path = ctx.pages[0].video.path()
         except Exception:
             pass
-        ctx.close()
+        _safe_close(ctx)
         if video_path:
             dest = VIDEO_DIR / "contractor_invite_full.mp4"
             try:
@@ -943,7 +959,7 @@ def _test_security_link(
     except Exception as exc:
         print(f"  ⚠️  Security {label} test error: {exc}")
     finally:
-        ctx.close()
+        _safe_close(ctx)
 
 
 # ── Workflow 6 – Admin Verification & Daily Report ──────────────────────────
@@ -983,7 +999,7 @@ def workflow_admin_verification(browser: Browser) -> None:
         _log_finding("admin-verification", "dashboard", "ERROR", str(exc), severity="high")
         print(f"  ❌ {exc}")
     finally:
-        ctx.close()
+        _safe_close(ctx)
 
     _generate_reports()
 
@@ -1058,7 +1074,7 @@ def workflow_create_accounts(browser: Browser) -> None:
             _log_finding("create-accounts", f"signup-{role}", "ERROR", f"{email}: {exc}", severity="high")
             print(f"  ❌ {role} {email}: {exc}")
         finally:
-            ctx.close()
+            _safe_close(ctx)
 
     print(f"  ✅ Account creation complete — check output/data/test_accounts.csv")
 
@@ -1117,7 +1133,7 @@ def workflow_contractor_bidding(browser: Browser) -> None:
         _log_finding("contractor-bidding", "setup", "ERROR", str(exc), severity="high")
         print(f"  ❌ {exc}")
     finally:
-        ctx.close()
+        _safe_close(ctx)
 
 
 # ── Workflow 5 – Homeowner Estimate Selection & Deposit ─────────────────────
@@ -1204,7 +1220,7 @@ def workflow_homeowner_deposit(browser: Browser) -> None:
         _log_finding("homeowner-deposit", "setup", "ERROR", str(exc), severity="high")
         print(f"  ❌ {exc}")
     finally:
-        ctx.close()
+        _safe_close(ctx)
 
 
 # ── Workflow 6 – Work Order Generation & DocuSign ───────────────────────────
@@ -1259,7 +1275,7 @@ def workflow_work_order_docusign(browser: Browser) -> None:
         _log_finding("work-order-docusign", "setup", "ERROR", str(exc), severity="high")
         print(f"  ❌ {exc}")
     finally:
-        ctx.close()
+        _safe_close(ctx)
 
     # Contractor view: sign DocuSign
     ctx2, page2 = _new_page(browser)
@@ -1290,7 +1306,7 @@ def workflow_work_order_docusign(browser: Browser) -> None:
     except Exception as exc:
         print(f"  ⚠️  Contractor DocuSign view: {exc}")
     finally:
-        ctx2.close()
+        _safe_close(ctx2)
 
 
 # ── Workflow 8 – Technician Work Order Receipt ───────────────────────────────
@@ -1348,7 +1364,7 @@ def workflow_technician(browser: Browser) -> None:
         _log_finding("technician-workflow", "login", "ERROR", str(exc), severity="high")
         print(f"  ❌ {exc}")
     finally:
-        ctx.close()
+        _safe_close(ctx)
 
 
 # ── Report Generation ────────────────────────────────────────────────────────
@@ -1600,8 +1616,8 @@ def check_connection() -> None:
             print(f"  ❌ Connection check failed: {exc}")
             sys.exit(1)
         finally:
-            ctx.close()
-            browser.close()
+            _safe_close(ctx)
+            _safe_close(browser)
 
 
 # ── Main Entry Point ─────────────────────────────────────────────────────────
@@ -1656,7 +1672,7 @@ def main() -> None:
             if run == "create-accounts":
                 workflow_create_accounts(browser)
                 _generate_reports()
-                browser.close()
+                browser.close()  # normal happy-path close; not a finally/cleanup path
                 _package_and_upload()
                 return
 
@@ -1706,7 +1722,7 @@ def main() -> None:
             print("\n\n  ⚠️  Interrupted by user (Ctrl+C) — exiting cleanly.\n")
             sys.exit(0)
         finally:
-            browser.close()
+            _safe_close(browser)
 
     screenshots = list(SCREENSHOT_DIR.glob("*.png"))
     videos = list(VIDEO_DIR.glob("*.mp4"))
